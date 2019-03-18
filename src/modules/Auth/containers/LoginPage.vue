@@ -1,12 +1,13 @@
 <template>
-    <div class='container'>
-        <v-form  ref="form" @submit.prevent='submit' lazy-validation>
+    <v-layout justify-center column class='container'>
+        <v-form  ref="form" @submit.prevent='submit' align-center justify-center lazy-validation>
             <v-card class="login-form">
+                <v-toolbar class="headline justify-center" color="blue-grey">
+                    Log in
+                </v-toolbar>
                 <v-container
                         :class='{ "pt-4": $vuetify.breakpoint.xs }'>
-                    <v-card-title class="headline justify-center">
-                        Log in
-                    </v-card-title>
+
 
                     <v-card-text>
                         <v-container
@@ -26,7 +27,7 @@
                                 </v-flex>
                             </v-layout>
                             <v-layout row>
-                                <v-flex sm12 >
+                                <v-flex sm12>
                                     <v-text-field
                                             name='Password'
                                             label='Password'
@@ -52,14 +53,14 @@
                     <v-card-actions>
                         <v-layout align-center class="btns-wrapper">
                             <v-btn type='submit' color='info mb-2 mt-2' depressed>
-                                Войти
+                                Sign In
                             </v-btn>
                         </v-layout>
                     </v-card-actions>
                 </v-container>
             </v-card>
         </v-form>
-    </div>
+    </v-layout>
 </template>
 
 <script>
@@ -103,6 +104,9 @@
 </script>
 
 <style lang="scss" scoped>
+    .container {
+        height: 100%;
+    }
     .login-form {
         max-width: 600px;
         margin: 0 auto;
@@ -121,6 +125,7 @@
     .headline {
         text-align: center;
         text-transform: uppercase;
+        color: #fff;
 
         @media(max-width: 767px) {
             font-size: 18px !important;

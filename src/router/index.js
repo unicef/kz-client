@@ -14,10 +14,6 @@ const router = new Router({
             path: '/',
             redirect: '/auth',
         },
-        {
-            path: '*',
-            redirect: '/auth',
-        },
     ],
 });
 

@@ -1,4 +1,5 @@
 import 'vuetify/dist/vuetify.min.css';
+import 'material-design-icons-iconfont/dist/material-design-icons.css';
 
 import Vue from 'vue';
 
@@ -25,6 +26,8 @@ import VList from 'vuetify/es5/components/VList';
 import VPagination from 'vuetify/es5/components/VPagination';
 import VDivider from 'vuetify/es5/components/VDivider';
 import VFooter from 'vuetify/es5/components/VFooter';
+import VAvatar from 'vuetify/es5/components/VAvatar';
+import VChip from 'vuetify/es5/components/VChip';
 import transitions from 'vuetify/es5/components/transitions';
 
 // directives
@@ -40,6 +43,7 @@ Vue.use(Vuetify, {
         success: '#49bc78',
         info: '#3CA7E1',
     },
+    iconfont: 'md',
     components: {
         VApp,
         VGrid,
@@ -62,6 +66,8 @@ Vue.use(Vuetify, {
         VPagination,
         VDivider,
         VFooter,
+        VChip,
+        VAvatar,
         transitions,
     },
     directives: {

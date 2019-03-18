@@ -1,6 +1,6 @@
 <template>
     <v-layout class="m-container" column>
-
+        <header-component></header-component>
         <!-- Content -->
         <div
                 class="content"
@@ -12,10 +12,12 @@
 </template>
 
 <script>
+    import HeaderComponent from './HeaderComponent';
 
     export default {
         name: 'MainLayout',
         components: {
+            HeaderComponent,
         },
     };
 </script>
