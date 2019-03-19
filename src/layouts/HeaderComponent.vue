@@ -10,9 +10,7 @@
                 {{item}}
             </v-btn>
         </v-toolbar-items>
-
         <v-spacer></v-spacer>
-
         <v-toolbar-items class="right-nav">
             <v-chip color="grey" :small="true">
                 <v-avatar>
@@ -24,6 +22,7 @@
             <v-select
                     :items="languages"
                     label="Language"
+                    :value="en"
             ></v-select>
             <v-spacer></v-spacer>
             <v-btn flat>
@@ -45,7 +44,7 @@
             };
         },
         computed: {
-            isAutorised () {
+            isAutorised() {
                 return store.getters['auth/auth/isAuthenticated'];
             },
         },
