@@ -35,5 +35,10 @@
         components: {
             UnicefList,
         },
+        data() {
+            return {
+                profileTabs: ['Unicef', 'Partners', 'Donors'],
+            };
+        },
     };
 </script>

@@ -52,7 +52,7 @@
     export default {
         data() {
             return {
-                jobs: ['Architect', 'Brick Mason', 'Construction Laborer', 'Electrician','Environmental Engineer', 'Glazier'],
+                jobs: ['Architect', 'Brick Mason', 'Construction Laborer', 'Electrician', 'Environmental Engineer', 'Glazier'],
                 roles: ['Admin', 'user'],
             };
         },
