@@ -29,7 +29,7 @@
 </template>
 
 <script>
-    import UnicefList from '../components/unicef/UnicefList'
+    import UnicefList from '../components/unicef/UnicefList';
 
     export default {
         components: {

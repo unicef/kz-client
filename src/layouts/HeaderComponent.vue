@@ -1,13 +1,16 @@
 <template>
     <v-toolbar color="blue-grey" dark>
-        <div class="logo">
-            Logo
-        </div>
+        <router-link class="logo_w" to="/">
+            <img class="logo" src="../assets/unicef.png" alt="">
+        </router-link>
         <v-spacer></v-spacer>
 
         <v-toolbar-items>
-            <v-btn flat v-for="(item, key) in menu" :key="key">
-                {{item}}
+            <v-btn flat
+                   v-for="(item, key) in menu"
+                   :to="item.link"
+                   :key="key">
+                {{item.name}}
             </v-btn>
         </v-toolbar-items>
         <v-spacer></v-spacer>
@@ -39,7 +42,13 @@
     export default {
         data() {
             return {
-                menu: ['Users', 'Projects', 'Finance', 'Help', 'Settings'],
+                menu: [
+                    { name: 'Users', link: '/users' },
+                    { name: 'Projects', link: '/projects' },
+                    { name: 'Finance', link: '/finance' },
+                    { name: 'Help', link: '/help' },
+                    { name: 'Settings', link: '/settings' },
+                    ],
                 languages: ['en', 'ru'],
             };
         },
@@ -55,5 +64,14 @@
     .right-nav {
         display: flex;
         align-items: center;
+    }
+
+    .logo_w {
+        width: 200px;
+
+        .logo {
+            display: block;
+            width: 100%;
+        }
     }
 </style>

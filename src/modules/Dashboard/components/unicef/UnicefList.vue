@@ -7,14 +7,13 @@
             <v-btn color="primary">Search</v-btn>
             <v-spacer></v-spacer>
             <v-btn color="secondary" :to="{ name: 'unicef-create' }">Create User</v-btn>
-
         </v-toolbar>
+
         <v-data-table
                 :headers="headers"
                 :items="users"
-                class="elevation-2"
+                class="elevation-2">
 
-        >
             <template v-slot:items="props">
                 <td>{{ props.item.id }}</td>
                 <td class="text-xs-center"><router-link :to="'/user/'+props.item.id">{{ props.item.email }}</router-link></td>
