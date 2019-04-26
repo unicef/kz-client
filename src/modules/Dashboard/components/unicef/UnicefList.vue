@@ -16,7 +16,7 @@
 
             <template v-slot:items="props">
                 <td>{{ props.item.id }}</td>
-                <td class="text-xs-center"><router-link :to="'/user/'+props.item.id">{{ props.item.email }}</router-link></td>
+                <td class="text-xs-center"><router-link :to="'/dashboard/users/user/'+props.item.id">{{ props.item.email }}</router-link></td>
                 <td class="text-xs-center">{{ props.item.name }}</td>
                 <td class="text-xs-center">{{ props.item.last }}</td>
                 <td class="text-xs-center">{{ props.item.role }}</td>

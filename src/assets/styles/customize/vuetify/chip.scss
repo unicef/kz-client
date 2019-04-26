@@ -1,0 +1,10 @@
+.v-chip.user-name {
+  .v-chip__content {
+    text-overflow: ellipsis;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    line-height: 32px;
+    max-width: 160px;
+  }
+}

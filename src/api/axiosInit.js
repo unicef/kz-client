@@ -2,7 +2,8 @@ import axios from 'axios';
 import router from '@/router';
 
 const instance = axios.create({
-    baseURL: 'http://blockchain-api.iskytest.com/api',
+    /* eslint-disable */
+    baseURL: process.env.ROOT_API + '/api',
     headers: {
         'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json',

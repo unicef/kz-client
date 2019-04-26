@@ -2,7 +2,8 @@ import axios from '@/api/axiosInit';
 import router from '@/router';
 
 const initialState = {
-  isAuthenticated: !!localStorage.getItem('token') || false,
+  // isAuthenticated: !!localStorage.getItem('token') || false,
+  isAuthenticated: true,
 };
 const getters = {
   isAuthenticated: state => state.isAuthenticated,

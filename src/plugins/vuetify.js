@@ -22,12 +22,14 @@ import VIcon from 'vuetify/es5/components/VIcon';
 import VDatePicker from 'vuetify/es5/components/VDatePicker';
 import VTabs from 'vuetify/es5/components/VTabs';
 import VToolbar from 'vuetify/es5/components/VToolbar';
+import VNavigationDrawer from 'vuetify/es5/components/VNavigationDrawer';
 import VList from 'vuetify/es5/components/VList';
 import VPagination from 'vuetify/es5/components/VPagination';
 import VDivider from 'vuetify/es5/components/VDivider';
 import VFooter from 'vuetify/es5/components/VFooter';
 import VAvatar from 'vuetify/es5/components/VAvatar';
 import VChip from 'vuetify/es5/components/VChip';
+import VMenu from 'vuetify/es5/components/VMenu';
 import transitions from 'vuetify/es5/components/transitions';
 
 // directives
@@ -62,11 +64,13 @@ Vue.use(Vuetify, {
         VDatePicker,
         VTabs,
         VToolbar,
+        VNavigationDrawer,
         VList,
         VPagination,
         VDivider,
         VFooter,
         VChip,
+        VMenu,
         VAvatar,
         transitions,
     },

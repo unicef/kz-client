@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
+import { routes as Admin } from '@/modules/Admin';
 import { routes as Auth } from '@/modules/Auth';
 import { routes as Dashboard } from '@/modules/Dashboard';
 
@@ -14,10 +15,15 @@ const router = new Router({
             path: '/',
             redirect: '/auth',
         },
+        {
+            path: '*',
+            redirect: '/auth',
+          },
     ],
 });
 
 router.addRoutes([
+    Admin,
     Auth,
     Dashboard,
 ]);

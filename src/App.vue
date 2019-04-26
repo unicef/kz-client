@@ -6,6 +6,9 @@
 <script>
     export default {
         name: 'app',
+        created() {
+          this.$store.dispatch('global/fetchLanguagesData');
+        },
     };
 </script>
 <style lang="scss">

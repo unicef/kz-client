@@ -1,33 +1,24 @@
 <template>
-    <v-layout class="m-container" column>
-        <header-component></header-component>
-        <!-- Content -->
-        <div
-                class="content"
-                :class='{ "pt": $vuetify.breakpoint.smAndDown }'>
-            <slot />
-        </div>
-
-    </v-layout>
+  <v-layout class="m-container" column>
+    <!-- Content -->
+    <div class="content" :class='{ "pt": $vuetify.breakpoint.smAndDown }'>
+      <slot/>
+    </div>
+  </v-layout>
 </template>
 
 <script>
-    import HeaderComponent from './HeaderComponent';
-
     export default {
-        name: 'MainLayout',
-        components: {
-            HeaderComponent,
-        },
+      name: 'MainLayout',
     };
 </script>
 
 <style lang="scss" scoped>
-    .m-container {
-        height: 100%;
-    }
+.m-container {
+  height: 100%;
+}
 
-    .content {
-        flex: 1 0 auto;
-    }
+.content {
+  flex: 1 0 auto;
+}
 </style>
