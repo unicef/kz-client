@@ -3,6 +3,7 @@ const UsersPage = () => import(/* webpackChunkName: "dashboard" */'./containers/
 const CreateUnicef = () => import(/* webpackChunkName: "dashboard" */'./components/unicef/CreateUser');
 const EditUnicef = () => import(/* webpackChunkName: "dashboard" */'./components/unicef/EditUser');
 const UsersTabs = () => import(/* webpackChunkName: "dashboard" */'./containers/UsersTabs');
+const DocsPage = () => import(/* webpackChunkName: "dashboard" */'./containers/DocsPage');
 const NotFound = () => import(/* webpackChunkName: "admin" */'@/shared/components/NotFound');
 
 export default {
@@ -31,6 +32,11 @@ export default {
                 component: CreateUnicef,
             },
         ],
+      },
+      {
+        path: 'docs/:page',
+        name: 'docs',
+        component: DocsPage,
       },
       {
         path: '*',

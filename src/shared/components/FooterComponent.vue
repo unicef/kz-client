@@ -3,7 +3,7 @@
     <div class="container">
       <v-layout wrap>
           <v-flex class="xs-12 sm3 md3 lg2 py-2" v-if="isClientPath && isAuthenticated">
-              <router-link class='link' to='' >
+              <router-link class='link' to='/dashboard/docs/agreements' >
                 Terms of uses
               </router-link>
           </v-flex>
@@ -55,5 +55,8 @@
 <style lang="scss" scoped>
 .footer {
     border-top: 1px solid #03a9f4;
+    // position: absolute;
+    // bottom: 0;
+    width: 100%;
 }
 </style>

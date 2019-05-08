@@ -1,12 +1,14 @@
 <template>
     <main-layout>
+      <v-container fluid class='main-layout px-0 py-0'>
         <!-- Header -->
         <header-component></header-component>
         <router-view />
         <!-- Footer -->
         <footer-component />
         <!-- Nav menu for mobile -->
-        <nav-menu /> 
+        <nav-menu />
+      </v-container>
     </main-layout>
 </template>
 
@@ -28,4 +30,9 @@
 </script>
 
 <style lang="scss">
+.container.main-layout {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
 </style>

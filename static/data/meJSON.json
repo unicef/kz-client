@@ -1,0 +1,9 @@
+{
+    "data": {
+        "id": 12,
+        "email": "testmytest@test.test",
+        "role": ["U2FsdGVkX1+36ulHahmlRmEDyd92f0XDofZKCLiWNzg=", "U2FsdGVkX1/LtVijw0wvS6jP00K3ILcj/ObvxNEEMFA="],
+        "created_at": "2019-03-25 14:00:00"
+    },
+    "success": true
+}

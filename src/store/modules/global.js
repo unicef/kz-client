@@ -1,11 +1,12 @@
 import axios from '@/api/axiosInit';
+import CryptoJS from 'crypto-js';
 
 /* eslint-disable */
 const initialState = {
   navMenu: false,
   locale: {},
   languages: [],
-  roles: ['a', 'ro'],
+  roles: [],
 };
 
 const getters = {
@@ -25,8 +26,30 @@ const mutations = {
   setLanguages(state, data) {
     state.languages = data;
   },
-  setRoles(state, data) {
-    state.roles = data;
+  setRoles(state) {
+    const myInfo = localStorage.getItem('me');
+    // // Encrypt
+    // const arr = ['a', 'ro'];
+    // const cryptedArr = [];
+    // arr.forEach((role) => {
+    //   const ciphertext  = CryptoJS.AES.encrypt(role, 12 + 'testmytest@test.test');
+    //   cryptedArr.push(ciphertext.toString());
+    // });
+ 
+    if (myInfo) {
+      const myInfoData = JSON.parse(myInfo);
+      let rolesArr = [];
+      // Decrypt roles
+      myInfoData.role.forEach((role) => {
+        const bytes  = CryptoJS.AES.decrypt(role, myInfoData.id + myInfoData.email);
+        const plaintext = bytes.toString(CryptoJS.enc.Utf8);
+        rolesArr.push(plaintext);
+      });
+      // Store roles at state
+      state.roles = rolesArr;
+    } else {
+      state.roles = [];
+    }
   },
 };
 

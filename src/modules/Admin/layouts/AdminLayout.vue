@@ -1,6 +1,6 @@
 <template>
   <main-layout>
-    <v-container fluid class='px-0 py-0'>
+    <v-container fluid class='main-layout px-0 py-0'>
       <!-- Header -->
       <header-component></header-component>
       <v-layout align-content-space-between>
@@ -39,9 +39,14 @@
 </script>
 
 <style lang="scss">
-  .admin {
-    @media (max-width: 959px) {
-      padding-top: 4px !important;
-    }
+.container.main-layout {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+.admin {
+  @media (max-width: 959px) {
+    padding-top: 4px !important;
   }
+}
 </style>

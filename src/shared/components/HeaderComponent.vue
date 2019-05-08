@@ -176,6 +176,11 @@
       },
       logOut() {
         this.$store.dispatch('auth/auth/logOut');
+        if (this.isAdminPath) {
+          this.$router.push('/auth/login-admin');
+        } else {
+          this.$router.push('/auth/login');
+        }
       },
     },
   };

@@ -1,3 +1,4 @@
+import docs from './modules/docs';
 
 /* eslint-disable */
 const initialState = {
@@ -20,6 +21,7 @@ const mutations = {
 export default {
     namespaced: true,
     modules: {
+      docs,
     },
     state: initialState,
     getters,

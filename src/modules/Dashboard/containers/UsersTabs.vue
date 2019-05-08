@@ -38,6 +38,7 @@
         data() {
             return {
                 profileTabs: ['Unicef', 'Partners', 'Donors'],
+                active: 'Unicef',
             };
         },
     };
