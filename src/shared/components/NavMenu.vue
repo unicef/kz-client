@@ -88,7 +88,7 @@
         routesUnicefUser: [
           {
             title: 'Profile',
-            link: '',
+            link: '/dashboard/profile',
           },
           {
             title: 'Projects',
@@ -110,7 +110,7 @@
         routesPartner: [
           {
             title: 'Profile',
-            link: '',
+            link: '/dashboard/profile',
           },
           {
             title: 'Projects',
@@ -128,7 +128,7 @@
         routesDonor: [
           {
             title: 'Profile',
-            link: '',
+            link: '/dashboard/profile',
           },
           {
             title: 'My Projects',

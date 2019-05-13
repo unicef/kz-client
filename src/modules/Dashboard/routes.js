@@ -1,8 +1,9 @@
 const DashboardPage = () => import(/* webpackChunkName: "dashboard" */'./containers/DashboardPage');
-const UsersPage = () => import(/* webpackChunkName: "dashboard" */'./containers/UsersPage');
-const CreateUnicef = () => import(/* webpackChunkName: "dashboard" */'./components/unicef/CreateUser');
-const EditUnicef = () => import(/* webpackChunkName: "dashboard" */'./components/unicef/EditUser');
-const UsersTabs = () => import(/* webpackChunkName: "dashboard" */'./containers/UsersTabs');
+const ProfilePage = () => import(/* webpackChunkName: "dashboard" */'./containers/ProfilePage');
+const UserDetails = () => import(/* webpackChunkName: "dashboard" */'./components/profile/UserDetails');
+const CompanyDetails = () => import(/* webpackChunkName: "dashboard" */'./components/profile/CompanyDetails');
+const UserSettings = () => import(/* webpackChunkName: "dashboard" */'./components/profile/UserSettings');
+const PartnerCompanyDocuments = () => import(/* webpackChunkName: "dashboard" */'./components/profile/PartnerCompanyDocuments');
 const DocsPage = () => import(/* webpackChunkName: "dashboard" */'./containers/DocsPage');
 const NotFound = () => import(/* webpackChunkName: "admin" */'@/shared/components/NotFound');
 
@@ -10,26 +11,32 @@ export default {
     path: '/dashboard',
     name: 'dashboard',
     component: DashboardPage,
-    redirect: { name: 'users-tabs' },
+    redirect: { name: 'user-details' },
     children: [
       {
-        path: 'users',
-        component: UsersPage,
+        path: 'profile',
+        component: ProfilePage,
+        redirect: { name: 'user-details' },
         children: [
             {
-                path: '',
-                name: 'users-tabs',
-                component: UsersTabs,
+                path: 'user-details',
+                name: 'user-details',
+                component: UserDetails,
             },
             {
-                path: 'user/:id',
-                props: true,
-                component: EditUnicef,
+              path: 'company-details',
+              name: 'company-details',
+              component: CompanyDetails,
             },
             {
-                path: 'unicef-create',
-                name: 'unicef-create',
-                component: CreateUnicef,
+                path: 'settings',
+                name: 'user-settings',
+                component: UserSettings,
+            },
+            {
+                path: 'documents',
+                name: 'documents',
+                component: PartnerCompanyDocuments,
             },
         ],
       },
