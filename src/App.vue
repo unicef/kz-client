@@ -9,7 +9,6 @@
         created() {
           this.$store.dispatch('global/fetchLanguagesData');
           this.$store.dispatch('auth/auth/getMyInfo');
-          this.$store.commit('global/setRoles', { root: true });
         },
     };
 </script>

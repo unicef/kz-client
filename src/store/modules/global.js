@@ -28,14 +28,6 @@ const mutations = {
   },
   setRoles(state) {
     const myInfo = localStorage.getItem('me');
-    // // Encrypt
-    // const arr = ['a', 'ro'];
-    // const cryptedArr = [];
-    // arr.forEach((role) => {
-    //   const ciphertext  = CryptoJS.AES.encrypt(role, 12 + 'testmytest@test.test');
-    //   cryptedArr.push(ciphertext.toString());
-    // });
- 
     if (myInfo) {
       const myInfoData = JSON.parse(myInfo);
       let rolesArr = [];

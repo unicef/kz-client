@@ -5,12 +5,25 @@
 </template>
 
 <script>
+  import store from '@/store';
   import DashboardLayout from './../layouts/DashboardLayout';
 
   export default {
     name: 'DashboardPage',
     components: {
       DashboardLayout,
+    },
+    async beforeRouteEnter(to, from, next) {
+      if (!localStorage.getItem('token')) {
+        store.commit('auth/auth/setAuthenticated', false);
+        localStorage.removeItem('me');
+        store.commit('global/setRoles', null, { root: true });
+      }
+      if (store.getters['auth/auth/isAuthenticated']) {
+        next();
+      } else {
+        next('/auth/login');
+      }
     },
   };
 </script>

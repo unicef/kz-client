@@ -14,17 +14,16 @@
       LoginForm,
     },
     async beforeRouteEnter(to, from, next) {
-      // console.log(to);
-      // console.log(from);
-        if (!localStorage.getItem('token')) {
-            store.commit('auth/auth/setAuthenticated', false);
-        }
-        next();
-        // if (store.getters['auth/auth/isAuthenticated']) {
-        //     next('/reports');
-        // } else {
-        //     next();
-        // }
+      if (!localStorage.getItem('token')) {
+        store.commit('auth/auth/setAuthenticated', false);
+        localStorage.removeItem('me');
+        store.commit('global/setRoles', null, { root: true });
+      }
+      if (store.getters['auth/auth/isAuthenticated']) {
+          next('/admin');
+      } else {
+          next();
+      }
     },
   };
 </script>

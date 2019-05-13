@@ -1,6 +1,6 @@
 <template>
   <v-toolbar color="light-blue" dark>
-    <router-link class="logo_w" to="/">
+    <router-link class="logo_w" :to="homePath">
       <img class="logo" src="@/assets/unicef.png" alt="logo">
     </router-link>
     <v-spacer></v-spacer>
@@ -168,6 +168,15 @@
       },
       isDonor() {
         return this.roles.indexOf('d') !== -1;
+      },
+      homePath() {
+        if (this.isAdminPath) {
+          return '/admin';
+        }
+        if (this.isClientPath) {
+          return '/dashboard';
+        }
+        return '/';
       },
     },
     methods: {
