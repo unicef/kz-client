@@ -1,0 +1,8 @@
+.v-toolbar.headline {
+  text-align: center;
+  color: #fff;
+
+  @media (max-width: 960px) {
+    font-size: 18px !important;
+  }
+}

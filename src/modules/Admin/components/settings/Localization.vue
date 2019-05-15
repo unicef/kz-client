@@ -1,11 +1,10 @@
 <template>
   <v-layout wrap>
     <v-flex xs12>
-      <v-form ref="form" class="mt-4" lazy-validation>
+      <v-toolbar class="headline justify-center mt-4" color="light-blue">Manage translations</v-toolbar>
+      <v-form ref="form" lazy-validation>
         <v-card class="translation-form">
           <v-container :class='{ "pt-4": $vuetify.breakpoint.xs }'>
-            <v-card-title class="headline">Manage translations</v-card-title>
-
             <v-card-text>
               <v-container
                 grid-list-md

@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import UsersNavigation from '../components/UsersNavigation';
+import UsersNavigation from '../components/users/UsersNavigation';
 
 export default {
 name: 'UsersPage',

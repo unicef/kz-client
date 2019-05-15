@@ -4,13 +4,17 @@
   </v-app>
 </template>
 <script>
-    export default {
-        name: 'app',
-        created() {
-          this.$store.dispatch('global/fetchLanguagesData');
+  import store from '@/store';
+  
+  export default {
+      name: 'app',
+      created() {
+        this.$store.dispatch('global/fetchLanguagesData');
+        if (store.getters['auth/auth/isAuthenticated']) {
           this.$store.dispatch('auth/auth/getMyInfo');
-        },
-    };
+        }
+      },
+  };
 </script>
 <style lang="scss">
   @import 'vuetify/dist/vuetify.min.css';

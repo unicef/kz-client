@@ -134,7 +134,7 @@
             if(this.isLoginAdmin) {
               this.$router.push({ name: 'unicef-users-list' });
             } else {
-              this.$router.push({ name: 'users-tabs' });
+              this.$router.push({ name: 'user-details' });
             }
           } else {
             this.errorAlert.state = true;
@@ -180,15 +180,6 @@
         text-decoration: none;
       }
     }
-  }
-}
-.headline {
-  text-align: center;
-  text-transform: uppercase;
-  color: #fff;
-
-  @media (max-width: 960px) {
-    font-size: 18px !important;
   }
 }
 </style>

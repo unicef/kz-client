@@ -42,7 +42,7 @@
       <language-picker/>
       <v-spacer></v-spacer>
       <v-btn class="hidden-sm-and-down" @click="logOut" flat v-if="isAuthenticated">Log out</v-btn>
-      <v-btn class="hidden-sm-and-down" flat v-if="!isAuthenticated">Log in</v-btn>
+      <v-btn class="hidden-sm-and-down" @click="logIn" flat v-if="!isAuthenticated">Log in</v-btn>
       <v-btn class="hidden-md-and-up mobile-menu-btn" flat icon @click="toggleNavMenu">
         <svgicon class="svg-icon ml-1 mr-1" width="24" height="24" name="menu" color="#fff"/>
       </v-btn>
@@ -190,6 +190,9 @@
         } else {
           this.$router.push('/auth/login');
         }
+      },
+      logIn() {
+        this.$router.push('/auth/login');
       },
     },
   };

@@ -67,6 +67,9 @@
                 roles: ['Admin', 'user'],
             };
         },
+        created() {
+          // console.log(this.$route);
+        },
     };
 </script>
 

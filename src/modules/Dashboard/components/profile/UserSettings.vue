@@ -1,6 +1,7 @@
 <template>
   <v-layout wrap>
     <v-flex xs12>
+      <v-toolbar class="headline justify-center mt-4" color="light-blue">User Settings</v-toolbar>
       <v-card class="user-settings">
         <v-container :class="{ 'pt-4': $vuetify.breakpoint.xs }">
           <v-card-title class="headline">User Settings</v-card-title>

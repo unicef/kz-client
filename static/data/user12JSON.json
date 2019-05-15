@@ -1,0 +1,23 @@
+{
+    "data": {
+        "id": 12,
+        "email": "testmytest@test.test",
+        "firstNameRu": "Пупкин",
+        "firstNameEn": "Pupkin",
+        "lastNameRu": "Василий",
+        "lastNameEn": "Vasilii",
+        "occupationRu": "Big Boss",
+        "occupationEn": "Boss",
+        "role": {
+            "title": "Responsible assistant",
+            "id": 0
+        },
+        "tel": "3723927293",
+        "mobile": "",
+        "company": 1,
+        "createdAt": "2019-03-25 14:00:00",
+        "lastLogin": "2019-04-25 10:00:00",
+        "status": "active"
+    },
+    "success": true
+}
