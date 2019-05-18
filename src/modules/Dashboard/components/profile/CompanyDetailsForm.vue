@@ -1,25 +1,16 @@
 <template>
   <v-layout wrap>
-    <v-flex xs12 mt-4>
-      <v-toolbar class="headline justify-center" color="light-blue">{{ title }}</v-toolbar>
-      <v-form ref="partnerFullForm" lazy-validation>
-        <v-card class="partner-form">
-          <v-container :class="{ 'pt-4': $vuetify.breakpoint.xs }">
+    <v-flex xs12>
+      <v-toolbar class="headline justify-center mt-4" color="light-blue">Company Details</v-toolbar>
+      <v-form ref="companyDetailsForm" lazy-validation>
+        <v-card class="company-details">
+          <v-container :class='{ "pt-4": $vuetify.breakpoint.xs }'>
             <v-card-text>
               <v-container
                 grid-list-md
                 class="px-0 pb-0"
-                :class="{ 'px-0': $vuetify.breakpoint.xs }"
+                :class='{ "px-0": $vuetify.breakpoint.xs }'
               >
-                <!-- User details -->
-                <user-details
-                  ref="userDetails"
-                  :companies="companies"
-                  :partnerRoles="partnerRoles"
-                  :userData="userData"
-                  @getUserDetails="getUserDetails"
-                />
-
                 <!-- Company details -->
                 <company-details
                   ref="companyDetails"
@@ -29,8 +20,10 @@
                   :partnerTypes="partnerTypes"
                   :csoTypes="csoTypes"
                   :companyData="companyData"
+                  :authorisedPersonData="authorisedPersonData"
                   @getCompanyDetails="getCompanyDetails"
                 />
+                
 
                 <!-- Alert -->
                 <v-layout row v-if="errorAlert.state">
@@ -49,7 +42,7 @@
 
             <v-card-actions>
               <v-layout align-center class="btns-wrapper">
-                <v-btn type="button" @click="createPartner" color="info mb-2 mt-2" depressed>Create</v-btn>
+                <v-btn type="button" @click="saveCompany" color="info mb-2 mt-2" depressed>Save</v-btn>
                 <v-btn type="button" color="error mb-2 mt-2" depressed>Cancel</v-btn>
               </v-layout>
             </v-card-actions>
@@ -61,14 +54,20 @@
 </template>
 
 <script>
-  import UserDetails from '@/shared/components/UserDetails';
+  import store from '@/store';
   import CompanyDetails from '@/shared/components/CompanyDetails';
 
   export default {
-    name: 'PartnerFullForm',
+    name: 'CompanyDetailsForm',
     components: {
-      UserDetails,
       CompanyDetails,
+    },
+    beforeRouteEnter(to, from, next) {
+      if (store.getters['global/getRoles'].indexOf('ra') !== -1 || store.getters['global/getRoles'].indexOf('ap') !== -1) {
+        next();
+      } else {
+        next('/dashboard/profile');
+      }
     },
     data() {
       return {
@@ -89,14 +88,8 @@
       companyData() {
         return this.$store.getters['users/getCompanyData'];
       },
-      title() {
-        return this.$route.path.indexOf('partner-create') !== -1 ? 'Create Partner' : 'Edit Partner';
-      },
-      partnerRoles() {
-        return this.$store.getters['users/getPartnerCompanyProperties'].roles;
-      },
-      companies() {
-        return this.$store.getters['users/getPartnerCompanyProperties'].companies;
+      authorisedPersonData() {
+        return this.$store.getters['users/getAuthorisedPersonData'];
       },
       countries() {
         return this.$store.getters['users/getPartnerCompanyProperties'].countries;
@@ -114,40 +107,19 @@
         return this.$store.getters['users/getPartnerCompanyProperties'].csoTypes;
       },
     },
-    async created() {
-      await this.$store.dispatch('users/getPartnerCompanyProperties');
-      if (this.$route.params.id) {
-        const user = await this.$store.dispatch('users/getUserInfo', this.$route.params.id);
-        if (user.company) {
-          await this.$store.dispatch('users/getCompanyInfo', user.company);
-        }
-      }
-    },
-    destroyed() {
-      this.$store.commit('users/setUserData', null);
-      this.$store.commit('users/setCompanyData', null);
-      this.$store.commit('users/setPartnerCompanyProperties', {});
-      this.$store.commit('users/toggleCompanyFieldsDisabled', false);
-    },
     methods: {
-      async createPartner() {
-        if (this.$refs.partnerFullForm.validate()) {
-          this.$refs.userDetails.getUserDetails();
+      async saveCompany() {
+        if (this.$refs.companyDetailsForm.validate()) {
           this.$refs.companyDetails.getCompanyDetails();
         }
       },
-      getUserDetails(userData) {
-        console.log('in parent user data: ', userData);
-      },
       getCompanyDetails(companyData) {
-        console.log('in parent company data: ', companyData);
+        console.log('dashbord in parent company data: ', companyData);
       },
     },
+
   };
 </script>
 
 <style lang="scss" scoped>
-.search {
-  max-width: 250px;
-}
 </style>

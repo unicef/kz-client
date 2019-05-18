@@ -32,7 +32,7 @@
 
             <v-card-actions>
               <v-layout align-center class="btns-wrapper">
-                <v-btn type="button" @click="createPartner" color="info mb-2 mt-2" depressed>Create</v-btn>
+                <v-btn type="button" @click="saveUser" color="info mb-2 mt-2" depressed>Save</v-btn>
                 <v-btn type="button" color="error mb-2 mt-2" depressed>Cancel</v-btn>
               </v-layout>
             </v-card-actions>
@@ -68,15 +68,11 @@
         return this.$store.getters['users/getUserData'];
       },
     },
-    async created() {
-      const me = JSON.parse(localStorage.getItem('me')).id;
-      await this.$store.dispatch('users/getUserInfo', me);
-    },
-    destroyed() {
-      this.$store.commit('users/setUserData', { root: true }, {});
+    created() {
+      console.log('created form');
     },
     methods: {
-      async createPartner() {
+      async saveUser() {
         if (this.$refs.userDetailsForm.validate()) {
           this.$refs.userDetails.getUserDetails();
         }

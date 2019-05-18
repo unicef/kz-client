@@ -2,8 +2,12 @@
     "data": {
         "id": 12,
         "email": "testmytest@test.test",
-        "role": ["U2FsdGVkX1+36ulHahmlRmEDyd92f0XDofZKCLiWNzg=", "U2FsdGVkX1/LtVijw0wvS6jP00K3ILcj/ObvxNEEMFA="],
-        "created_at": "2019-03-25 14:00:00"
+        "role": ["U2FsdGVkX1/CH2wpsi4lsBQ0q4Mm6+gpSh+A8iHY+jU=", "U2FsdGVkX19EgeGjKuq+MRTWqAmiXyO2DbQlPU8+kLQ="],
+        "role-a-ro": ["U2FsdGVkX1/CH2wpsi4lsBQ0q4Mm6+gpSh+A8iHY+jU=", "U2FsdGVkX1+Xl+WAOAZITbDIYA9BW9ime72f65LRlmw="],
+        "role-ra": ["U2FsdGVkX19EgeGjKuq+MRTWqAmiXyO2DbQlPU8+kLQ="],
+        "role-ap": ["U2FsdGVkX1+46A/TzPuw8X9DfVeNlOnj5hCQA9fiZyA="],
+        "role-a-ra": ["U2FsdGVkX1/CH2wpsi4lsBQ0q4Mm6+gpSh+A8iHY+jU=", "U2FsdGVkX19EgeGjKuq+MRTWqAmiXyO2DbQlPU8+kLQ="],
+        "createdAt": "2019-03-25 14:00:00"
     },
     "success": true
 }

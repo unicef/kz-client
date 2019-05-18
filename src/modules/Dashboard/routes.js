@@ -1,7 +1,7 @@
 const DashboardPage = () => import(/* webpackChunkName: "dashboard" */'./containers/DashboardPage');
 const ProfilePage = () => import(/* webpackChunkName: "dashboard" */'./containers/ProfilePage');
 const UserDetailsForm = () => import(/* webpackChunkName: "dashboard" */'./components/profile/UserDetailsForm');
-const CompanyDetails = () => import(/* webpackChunkName: "dashboard" */'./components/profile/CompanyDetails');
+const CompanyDetailsForm = () => import(/* webpackChunkName: "dashboard" */'./components/profile/CompanyDetailsForm');
 const UserSettings = () => import(/* webpackChunkName: "dashboard" */'./components/profile/UserSettings');
 const PartnerCompanyDocuments = () => import(/* webpackChunkName: "dashboard" */'./components/profile/PartnerCompanyDocuments');
 const DocsPage = () => import(/* webpackChunkName: "dashboard" */'./containers/DocsPage');
@@ -26,7 +26,7 @@ export default {
             {
               path: 'company-details',
               name: 'company-details',
-              component: CompanyDetails,
+              component: CompanyDetailsForm,
             },
             {
                 path: 'settings',

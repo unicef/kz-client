@@ -1,5 +1,5 @@
 <template>
-  <v-layout wrap>
+  <v-layout wrap mb-4>
     <v-flex xs12>
       <h3 class="title mb-2" v-if="isAdminPath">User Details</h3>
     </v-flex>
@@ -9,7 +9,6 @@
       <v-layout row>
         <v-flex sm12>
           <v-text-field
-            name="Email"
             label="Email"
             id="email"
             v-model="credentials.email"
@@ -24,7 +23,6 @@
       <v-layout row>
         <v-flex sm12>
           <v-text-field
-            name="First Name"
             label="First Name RU"
             id="firstNameRu"
             v-model="credentials.firstNameRu"
@@ -38,7 +36,6 @@
       <v-layout row>
         <v-flex sm12>
           <v-text-field
-            name="First Name"
             label="First Name EN"
             id="firstNameEn"
             v-model="credentials.firstNameEn"
@@ -52,7 +49,6 @@
       <v-layout row>
         <v-flex sm12>
           <v-text-field
-            name="Last Name"
             label="Last Name RU"
             id="lastNameRu"
             v-model="credentials.lastNameRu"
@@ -66,7 +62,6 @@
       <v-layout row>
         <v-flex sm12>
           <v-text-field
-            name="Last Name"
             label="Last Name EN"
             id="lastNameEn"
             v-model="credentials.lastNameEn"
@@ -80,7 +75,6 @@
       <v-layout row>
         <v-flex sm12>
           <v-text-field
-            name="Occupation"
             label="Occupation/Job title RU"
             id="occupationRu"
             v-model="credentials.occupationRu"
@@ -94,7 +88,6 @@
       <v-layout row>
         <v-flex sm12>
           <v-text-field
-            name="Occupation"
             label="Occupation/Job title EN"
             id="occupationEn"
             v-model="credentials.occupationEn"
@@ -108,7 +101,6 @@
       <v-layout row>
         <v-flex sm12>
           <v-text-field
-            name="Telephone"
             label="Telephone number"
             id="tel"
             v-model="credentials.tel"
@@ -122,7 +114,6 @@
       <v-layout row>
         <v-flex sm12>
           <v-text-field
-            name="Mobile"
             label="Mobile number"
             id="mobile"
             v-model="credentials.mobile"
@@ -136,24 +127,24 @@
     <v-flex xs12 sm6 :class="{ 'pl-4': $vuetify.breakpoint.smAndUp }">
       <!-- USER INFO -->
       <v-card v-if="userData.id" class="mb-4">
-          <v-list dense>
-              <v-list-tile>
-                <v-list-tile-content>System ID:</v-list-tile-content>
-                <v-list-tile-content class="align-end">{{ userData.id }}</v-list-tile-content>
-              </v-list-tile>
-              <v-list-tile v-if="userData.createdAt">
-                <v-list-tile-content>Registration date:</v-list-tile-content>
-                <v-list-tile-content class="align-end">{{ userData.createdAt }}</v-list-tile-content>
-              </v-list-tile>
-              <v-list-tile v-if="userData.lastLogin">
-                <v-list-tile-content>Last login:</v-list-tile-content>
-                <v-list-tile-content class="align-end">{{ userData.lastLogin }}</v-list-tile-content>
-              </v-list-tile>
-              <v-list-tile v-if="userData.status">
-                <v-list-tile-content>Status:</v-list-tile-content>
-                <v-list-tile-content class="align-end">{{ userData.status }}</v-list-tile-content>
-              </v-list-tile>
-          </v-list>
+        <v-list dense>
+          <v-list-tile>
+            <v-list-tile-content>System ID:</v-list-tile-content>
+            <v-list-tile-content class="align-end">{{ userData.id }}</v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile v-if="userData.createdAt">
+            <v-list-tile-content>Registration date:</v-list-tile-content>
+            <v-list-tile-content class="align-end">{{ userData.createdAt }}</v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile v-if="userData.lastLogin">
+            <v-list-tile-content>Last login:</v-list-tile-content>
+            <v-list-tile-content class="align-end">{{ userData.lastLogin }}</v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile v-if="userData.status">
+            <v-list-tile-content>Status:</v-list-tile-content>
+            <v-list-tile-content class="align-end">{{ userData.status }}</v-list-tile-content>
+          </v-list-tile>
+        </v-list>
       </v-card>
       <!-- FIELDS FOR ADMIN -->
       <!-- Partner roles -->
@@ -167,13 +158,17 @@
             item-value="id"
             return-object
             :rules="rules.role"
+            @change="setRole"
             required
             :disabled="userData.role && !!userData.role.title"
           ></v-select>
         </v-flex>
       </v-layout>
-      <!-- Companies (shown only for partner creation page when Authorized Person role is choosen) -->
-      <v-layout row v-if="isAdminPath && isPartnerCreationPath && credentials.role.title === 'Authorised person'">
+      <!-- Companies (shown only for Partner creation page when Authorized Person role is choosen) -->
+      <v-layout
+        row
+        v-if="isAdminPath && isPartnerCreationPath && credentials.role.title === 'Authorised person'"
+      >
         <v-flex sm12>
           <v-select
             :items="companies"
@@ -181,11 +176,11 @@
             label="Company"
             item-text="title"
             item-value="id"
+            @change="setCompany"
             return-object
           ></v-select>
         </v-flex>
       </v-layout>
-
     </v-flex>
   </v-layout>
 </template>
@@ -213,6 +208,12 @@
           that.credentials[key] = that.userData[key];
         });
       },
+    },
+    created() {
+      const that = this;
+        Object.keys(this.userData).forEach((key) => {
+          that.credentials[key] = that.userData[key];
+        });
     },
     data() {
       return {
@@ -291,8 +292,18 @@
       getUserDetails() {
         this.$emit('getUserDetails', this.credentials);
       },
-      checkRequired() {
-
+      setRole() {
+        if (this.credentials.role.title === 'Authorised person') {
+          this.$store.commit('users/toggleCompanyFieldsDisabled', true);
+        } else {
+          this.$store.commit('users/toggleCompanyFieldsDisabled', false);
+          this.credentials.company = {};
+          this.$store.commit('users/setCompanyData', null);
+        }
+      },
+      setCompany() {
+        this.$store.dispatch('users/getCompanyInfo', this.credentials.company.id);
+        this.$store.commit('users/toggleCompanyFieldsDisabled', false);
       },
     },
   };

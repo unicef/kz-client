@@ -1,16 +1,16 @@
 {
     "data": {
-        "id": 12,
-        "email": "testmytest@test.test",
+        "id": 14,
+        "email": "ziharevmihail@gmail.com",
         "firstNameRu": "Пупкин",
-        "firstNameEn": "Pupkin",
+        "firstNameEn": "Mihail",
         "lastNameRu": "Василий",
-        "lastNameEn": "Vasilii",
-        "occupationRu": "Big Boss",
-        "occupationEn": "Boss",
+        "lastNameEn": "Zhikharev",
+        "occupationRu": "Teach",
+        "occupationEn": "Teacher",
         "role": {
-            "title": "Authorised person",
-            "id": 1
+            "title": "Responsible assistant",
+            "id": 0
         },
         "tel": "3723927293",
         "mobile": "",

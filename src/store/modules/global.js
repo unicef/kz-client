@@ -33,7 +33,7 @@ const mutations = {
       let rolesArr = [];
       // Decrypt roles
       myInfoData.role.forEach((role) => {
-        const bytes  = CryptoJS.AES.decrypt(role, myInfoData.id + myInfoData.email);
+        const bytes  = CryptoJS.AES.decrypt(role, myInfoData.id + myInfoData.createdAt);
         const plaintext = bytes.toString(CryptoJS.enc.Utf8);
         rolesArr.push(plaintext);
       });

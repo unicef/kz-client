@@ -14,7 +14,6 @@ const mutations = {
     state.keyTranslations = data;
   },
   setKeyTranslation(state, data) {
-      console.log(data);
     state.keyTranslations[data.key] = data.value;
   },
   clearKeyTranslations(state) {
