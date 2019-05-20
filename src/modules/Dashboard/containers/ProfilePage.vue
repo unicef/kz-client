@@ -6,12 +6,20 @@
 </template>
 
 <script>
+  import store from '@/store';
   import ProfileNavigation from '../components/profile/ProfileNavigation';
 
   export default {
     name: 'ProfilePage',
     components: {
       ProfileNavigation,
+    },
+    async beforeRouteEnter(to, from, next) {
+      if (store.getters['auth/auth/isAuthenticated']) {
+        next();
+      } else {
+        next('/auth/login');
+      }
     },
     async created() {
       const myId = JSON.parse(localStorage.getItem('me')).id;

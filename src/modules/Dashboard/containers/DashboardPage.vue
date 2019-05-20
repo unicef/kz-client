@@ -19,7 +19,7 @@
         localStorage.removeItem('me');
         store.commit('global/setRoles', null, { root: true });
       }
-      if (store.getters['auth/auth/isAuthenticated']) {
+      if (store.getters['auth/auth/isAuthenticated'] || !store.getters['auth/auth/isAuthenticated'] && to.path.includes('agreements')) {
         next();
       } else {
         next('/auth/login');
