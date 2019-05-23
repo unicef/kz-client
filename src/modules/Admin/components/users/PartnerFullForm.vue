@@ -32,6 +32,13 @@
                   @getCompanyDetails="getCompanyDetails"
                 />
 
+                <!-- Company documents -->
+                <company-documents
+                  ref="companyDocuments"
+                  :companyDocumentsData="companyDocumentsData"
+                  @getCompanyDocuments="getCompanyDocuments"
+                />
+
                 <!-- Alert -->
                 <v-layout row v-if="errorAlert.state">
                   <v-flex sm12>
@@ -63,12 +70,14 @@
 <script>
   import UserDetails from '@/shared/components/UserDetails';
   import CompanyDetails from '@/shared/components/CompanyDetails';
+  import CompanyDocuments from '@/shared/components/CompanyDocuments';
 
   export default {
     name: 'PartnerFullForm',
     components: {
       UserDetails,
       CompanyDetails,
+      CompanyDocuments,
     },
     data() {
       return {
@@ -88,6 +97,9 @@
       },
       companyData() {
         return this.$store.getters['users/getCompanyData'];
+      },
+      companyDocumentsData() {
+        return this.$store.getters['users/getCompanyDocumentsData'];
       },
       title() {
         return this.$route.path.indexOf('partner-create') !== -1 ? 'Create Partner' : 'Edit Partner';
@@ -120,20 +132,23 @@
         const user = await this.$store.dispatch('users/getUserInfo', this.$route.params.id);
         if (user.company) {
           await this.$store.dispatch('users/getCompanyInfo', user.company);
+          await this.$store.dispatch('users/getCompanyDocuments', user.company);
         }
       }
     },
     destroyed() {
       this.$store.commit('users/setUserData', null);
       this.$store.commit('users/setCompanyData', null);
+      this.$store.commit('users/setCompanyDocumentsData', []);
       this.$store.commit('users/setPartnerCompanyProperties', {});
       this.$store.commit('users/toggleCompanyFieldsDisabled', false);
     },
     methods: {
       async createPartner() {
-        if (this.$refs.partnerFullForm.validate()) {
+        if (this.$refs.partnerFullForm.validate() && this.$refs.companyDocuments.getCompanyDocuments()) {
           this.$refs.userDetails.getUserDetails();
           this.$refs.companyDetails.getCompanyDetails();
+          this.$refs.companyDocuments.getCompanyDocuments();
         }
       },
       getUserDetails(userData) {
@@ -141,6 +156,9 @@
       },
       getCompanyDetails(companyData) {
         console.log('in parent company data: ', companyData);
+      },
+      getCompanyDocuments(companyDocumetsData) {
+        console.log('in parent company docs: ', companyDocumetsData);
       },
     },
   };

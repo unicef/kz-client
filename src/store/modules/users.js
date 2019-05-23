@@ -53,6 +53,9 @@ const initialState = {
     status: '',
   },
   companyFieldsDisabled: false,
+  companyDocumentsData: [],
+  deleteDocumentDialogState: false,
+  deleteDocumentId: null,
 };
 
 const getters = {
@@ -61,6 +64,9 @@ const getters = {
   getCompanyData: state => state.companyData,
   getPartnerCompanyProperties: state => state.partnerCompanyProperties,
   getCompanyFieldsDisabled: state => state.companyFieldsDisabled,
+  getCompanyDocumentsData: state => state.companyDocumentsData,
+  getDeleteDocumentDialogState: state => state.deleteDocumentDialogState,
+  getDeleteDocumentId: state => state.deleteDocumentId,
 };
 
 const mutations = {
@@ -87,7 +93,7 @@ const mutations = {
         status: '',
       };
     }
-    
+
   },
   setAuthorisedPersonData(state, data) {
     state.authorisedPersonData = data;
@@ -127,13 +133,28 @@ const mutations = {
         status: '',
       };
     }
-    
+
   },
   setPartnerCompanyProperties(state, data) {
     state.partnerCompanyProperties = data;
   },
   toggleCompanyFieldsDisabled(state, data) {
     state.companyFieldsDisabled = data;
+  },
+  setCompanyDocumentsData(state, data) {
+    state.companyDocumentsData = data;
+  },
+  toggleDeleteDocumentDialogState(state, data) {
+    state.deleteDocumentDialogState = data;
+  },
+  setDeleteDocumentId(state, data) {
+    state.deleteDocumentId = data;
+  },
+  deleteCompanyDocument(state, id) {
+    let newCompanyDocumentsData = state.companyDocumentsData.filter((doc) => {
+      return doc.id !== id;
+    });
+    state.companyDocumentsData = newCompanyDocumentsData;
   },
 };
 
@@ -190,6 +211,67 @@ const actions = {
       commit('setCompanyData', data.data.data);
 
       return data.data.data;
+    } catch (error) {
+      return error.response;
+    }
+  },
+  async getCompanyDocuments({ commit }, credentials) {
+    try {
+      // const token = localStorage.getItem('token') || '';
+      //   const lang = localStorage.getItem('language') || '';
+      // const data = await axios.get(`/company/documents?id=${credentials}`, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
+
+      const data = await axios.get(`${JSONpath()}/company${credentials}documentsJSON.json`);
+      commit('setCompanyDocumentsData', data.data.data);
+
+      return data.data.data;
+    } catch (error) {
+      return error.response;
+    }
+  },
+  deleteCompanyDocument({ commit }, id) {
+    try {
+      // const token = localStorage.getItem('token') || '';
+      // const lang = localStorage.getItem('language') || '';
+      // const data = await axios.post(`/company/documents?id=${id}`, { id }, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
+
+
+      // return data;
+      return {
+        data: {
+          success: true,
+        }
+      }
+      // return {
+      //   data: {
+      //     err: "something went wrong",
+      //   }
+      // }
+    } catch (error) {
+      return error.response;
+    }
+  },
+  async uploadDocument({ commit }, document) {
+    try {
+      // const token = localStorage.getItem('token') || '';
+      // const lang = localStorage.getItem('language') || '';
+      // const data = await axios.post(`/company/upload`, document, { headers: { Authorization: `Bearer ${token}`, Lang: lang, 'Content-Type': 'multipart/form-data' } });
+
+
+      // return data;
+      return {
+        data: {
+          success: true,
+          data: {
+            id: '1',
+          }
+        }
+      }
+      // return {
+      //   data: {
+      //     err: "something went wrong",
+      //   }
+      // }
     } catch (error) {
       return error.response;
     }

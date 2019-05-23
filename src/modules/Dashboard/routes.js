@@ -3,7 +3,7 @@ const ProfilePage = () => import(/* webpackChunkName: "dashboard" */'./container
 const UserDetailsForm = () => import(/* webpackChunkName: "dashboard" */'./components/profile/UserDetailsForm');
 const CompanyDetailsForm = () => import(/* webpackChunkName: "dashboard" */'./components/profile/CompanyDetailsForm');
 const UserSettings = () => import(/* webpackChunkName: "dashboard" */'./components/profile/UserSettings');
-const PartnerCompanyDocuments = () => import(/* webpackChunkName: "dashboard" */'./components/profile/PartnerCompanyDocuments');
+const CompanyDocumentsForm = () => import(/* webpackChunkName: "dashboard" */'./components/profile/CompanyDocumentsForm');
 const DocsPage = () => import(/* webpackChunkName: "dashboard" */'./containers/DocsPage');
 const NotFound = () => import(/* webpackChunkName: "admin" */'@/shared/components/NotFound');
 
@@ -36,7 +36,7 @@ export default {
             {
                 path: 'documents',
                 name: 'documents',
-                component: PartnerCompanyDocuments,
+                component: CompanyDocumentsForm,
             },
         ],
       },

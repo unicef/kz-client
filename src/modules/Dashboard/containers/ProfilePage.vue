@@ -26,6 +26,7 @@
       const myUser = await this.$store.dispatch('users/getUserInfo', myId);
       if (myUser.company) {
         await this.$store.dispatch('users/getPartnerCompanyProperties');
+        await this.$store.dispatch('users/getCompanyDocuments', myUser.company);
         const companyInfo = await this.$store.dispatch('users/getCompanyInfo', myUser.company);
         if (companyInfo.authorisedId) {
           await this.$store.dispatch('users/getAuthorisedPersonInfo', companyInfo.authorisedId);
@@ -35,6 +36,7 @@
     destroyed() {
       this.$store.commit('users/setUserData', null);
       this.$store.commit('users/setCompanyData', null);
+      this.$store.commit('users/setCompanyDocumentsData', []);
       this.$store.commit('users/setPartnerCompanyProperties', {});
     },
   };

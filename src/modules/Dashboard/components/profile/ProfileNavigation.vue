@@ -56,6 +56,10 @@
         .profile-nav-list {
             display: flex;
             background: transparent;
+
+            @media (max-width: (350px)) {
+              display: block;
+            }
         }
     }
 }

@@ -1,0 +1,290 @@
+<template>
+  <v-layout wrap mb-4>
+    <v-flex xs12 sm6 :class="{ 'pr-4': $vuetify.breakpoint.smAndUp }">
+      <h3 class="title mb-2">Declaration of eligibility</h3>
+    </v-flex>
+    <v-flex xs12 sm6 :class="{ 'pl-4': $vuetify.breakpoint.smAndUp }">
+      <v-alert
+        value="true"
+        type="info"
+      >Note that combined size of each your document must not exceed 5Mb in format pdf, doc, docx</v-alert>
+    </v-flex>
+    <v-flex xs12 v-if="companyDocumentsData.length">
+      <!-- Company already loaded documents -->
+      <v-layout wrap mb-2 v-for="(doc, index) in companyDocumentsData" :key="index">
+        <v-flex xs12 sm6 md6>{{ doc.name }}</v-flex>
+        <v-flex xs12 sm6 md6>
+          <v-layout wrap align-content-start>
+            <v-flex xs9>
+              <a :href="doc.href">{{doc.name}}</a>
+            </v-flex>
+            <v-flex xs3>
+              <v-btn class="my-0" flat icon @click="deleteDocument(doc.id)">
+                <svgicon class="svg-icon" width="10" height="10" color="red" name="close"/>
+              </v-btn>
+            </v-flex>
+          </v-layout>
+        </v-flex>
+      </v-layout>
+    </v-flex>
+    <v-flex xs12>
+      <v-layout justify-end wrap>
+        <v-flex xs12 v-for="(row, index) in docsInputRows" :key="index">
+          <v-layout wrap>
+            <v-flex xs12 sm6 :class="{ 'pr-4': $vuetify.breakpoint.smAndUp }">
+              <v-text-field
+                label="File name"
+                :id="'fileName' + index"
+                v-model="credentials.files[index].name"
+                :ref="'fileName' + index"
+                type="text"
+                :disabled="credentials.files[index].name==='Partner Declaration Profile and due Diligence Verification Form'"
+                @input="checkFileInputError(index)"
+                :rules="(credentials.files[index].id) ? rules.fieldRequired : []"
+              />
+            </v-flex>
+            <v-flex xs12 sm6 :class="{ 'pl-4': $vuetify.breakpoint.smAndUp }">
+              <span><v-btn
+                class="load-document-btn"
+                color="info"
+                :ref="'loadDocBtn' + index"
+                :loading="credentials.files[index] ? credentials.files[index].loading : false"
+                @click="clickLoadDocument(index)"
+              >Upload</v-btn></span>
+              <v-btn
+                class="my-0"
+                flat
+                icon
+                v-if="credentials.files[index] && credentials.files[index].id"
+                @click="deleteTempDocument(index)"
+              >
+                <svgicon class="svg-icon" width="10" height="10" color="red" name="close"/>
+              </v-btn>
+              <input
+                v-show="false"
+                type="file"
+                :ref="'docInput' + index"
+                :error-messages="'This is error'"
+                :rules="(credentials.files[index].name) ? rules.fieldRequired : []"
+                @change="loadDocument($event, index)"
+              >
+              <p
+                class="red--text document-error"
+                v-if="credentials.files[index] && credentials.files[index].fileError"
+              >{{ credentials.files[index].fileError }}</p>
+            </v-flex>
+          </v-layout>
+        </v-flex>
+        <v-btn color="info" @click="addRow">Add file</v-btn>
+      </v-layout>
+    </v-flex>
+    <delete-document-dialog/>
+  </v-layout>
+</template>
+
+<script>
+  import '@/../static/icons/compiled-svg/close';
+  import DeleteDocumentDialog from '@/shared/components/DeleteDocumentDialog';
+
+  export default {
+    name: 'CompanyDocuments',
+    components: {
+      DeleteDocumentDialog,
+    },
+    props: {
+      companyDocumentsData: {
+        type: Array,
+      },
+    },
+    watch: {
+      companyDocumentsData() {
+        // add a required load doc row if Anexg not loaded (for client side)
+        /* eslint-disable */
+        const isAnexgLoaded = !!this.companyDocumentsData.filter((item) => {
+          return item.name === 'Partner Declaration Profile and due Diligence Verification Form';
+        }).length;
+        if (!isAnexgLoaded && this.isClientPath) {
+          const fileObj = {
+            id: '',
+            name: 'Partner Declaration Profile and due Diligence Verification Form',
+            loading: false,
+            fileError: '',
+          };
+          this.docsInputRows++;
+          this.credentials.files.push(fileObj);
+        }
+      },
+    },
+    data() {
+      return {
+        docsInputRows: 0,
+        credentials: {
+            files: [],
+        },
+        rules: {
+          fieldRequired: [
+            /* eslint-disable no-new */
+            v => !!v.trim() || this.$t('common.fields.validation.field.required'),
+          ],
+        },
+      };
+    },
+    computed: {
+      isAdminPath() {
+        return this.$route.path.indexOf('admin') !== -1;
+      },
+      isPartnerPath() {
+        return this.$route.path.indexOf('partner') !== -1;
+      },
+      isClientPath() {
+        return this.$route.path.indexOf('dashboard') !== -1;
+      },
+      isPartnerCreationPath() {
+        return this.$route.path.indexOf('partner-create') !== -1;
+      },
+    },
+    methods: {
+      getCompanyDocuments() {
+        if (this.validateData()) {
+          const loadedFiles = this.credentials.files.filter((item) => {
+            return item.id && item.name;
+          }).map((item) => {
+            return {
+              id: item.id,
+              name: item.name,
+            };
+          });
+          this.$emit('getCompanyDocuments', loadedFiles);
+          return true;
+        }
+        return false;
+      },
+      deleteDocument(id) {
+        console.log('delete document with id: ', id);
+        this.$store.commit('users/setDeleteDocumentId', id);
+        this.$store.commit('users/toggleDeleteDocumentDialogState', true);
+      },
+      deleteTempDocument(index) {
+        const btnRef = `loadDocBtn${index}`;
+        const docInput = `docInput${index}`;
+
+        this.credentials.files[index].id = '';
+        this.$refs[docInput][0].value = '';
+        this.$refs[btnRef][0].$el.innerText = 'Upload';
+        if (this.credentials.files[index].name) {
+          this.credentials.files[index].fileError = 'File is required';
+        }
+      },
+      async loadDocument($event, index) {
+        const btnRef = `loadDocBtn${index}`;
+        const docInput = `docInput${index}`;
+        const that = this;
+        const file = $event.target.files[0] || $event.dataTransfer.files[0];
+
+        this.credentials.files[index].loading = true;
+        this.$refs[btnRef][0].$el.innerText = '';
+
+        if (!this.validateFile(file, index)) {
+          return;
+        }
+
+        const fileFormData = new FormData();
+        fileFormData.append('file', file);
+
+        const data = await this.$store.dispatch('users/uploadDocument', fileFormData);
+
+        if (data.data.success) {
+          this.credentials.files[index].loading = false;
+          this.$refs[btnRef][0].$el.innerText = file.name;
+          this.$refs[btnRef][0].$el.style.display = 'inherit'; // style is needed for correct display of ellipsis in load btn
+          this.credentials.files[index].fileError = '';
+          this.credentials.files[index].id = data.data.data.id;
+        } else {
+          this.$refs[docInput][0].value = '';
+          this.credentials.files[index].fileError = data.data.err;
+          setTimeout(() => {
+            that.credentials.files[index].loading = false;
+            that.credentials.files[index].fileError = '';
+            that.$refs[btnRef][0].$el.innerText = 'Upload';
+          }, 3000);
+        }
+      },
+      clickLoadDocument(index) {
+        const docRef = `docInput${index}`;
+        this.$refs[docRef][0].click();
+      },
+      addRow() {
+        const fileObj = {
+          id: '',
+          name: '',
+          loading: false,
+          fileError: '',
+        };
+        this.docsInputRows++;
+        this.credentials.files.push(fileObj);
+      },
+      validateData() {
+        let isDataValid = true;
+        this.credentials.files.forEach((item) => {
+          if (item.name && !item.id) {
+            isDataValid = false;
+            item.fileError = 'File is required';
+          }
+        });
+        return isDataValid;
+      },
+      checkFileInputError(index) {
+        if (!this.credentials.files[index].name) {
+          this.credentials.files[index].fileError = '';
+        }
+      },
+      validateFile(file, rowIndex) {
+        // check that files are pdf, doc or docx and each is not bigger than 5Mb
+        const allowedExtensions = ['pdf', 'doc', 'docx'];
+        const maxAllowedSize = 5;
+        const btnRef = `loadDocBtn${rowIndex}`;
+        const docInput = `docInput${rowIndex}`;
+        const that = this;
+
+        const extension = (/[.]/.exec(file.name)) ? /[^.]+$/.exec(file.name)[0] : '';
+
+        if ((allowedExtensions.includes(extension)) && ((+file.size / 1024 / 1024) < maxAllowedSize)) {
+          return true;
+        }
+
+        if (!allowedExtensions.includes(extension)) {
+          this.credentials.files[rowIndex].fileError = 'File should be only pdf, doc or docx.';
+        }
+        if (!((+file.size / 1024 / 1024) < maxAllowedSize)) {
+          this.credentials.files[rowIndex].fileError = 'File shouldn\'t be bigger than 5Mb';
+        }
+
+        this.$refs[docInput][0].value = '';
+        setTimeout(() => {
+          that.credentials.files[rowIndex].loading = false;
+          that.credentials.files[rowIndex].fileError = '';
+          that.$refs[btnRef][0].$el.innerText = 'Upload';
+        }, 3000);
+        return false;
+      },
+    },
+  };
+</script>
+
+<style lang="scss" scoped>
+.load-document-btn {
+  overflow: hidden;
+  max-width: 210px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex-basis: auto;
+
+  @media(max-width: 400px) {
+      max-width: 150px;
+  }
+}
+.document-error {
+  font-size: 12px;
+  margin: 0;
+}
+</style>
