@@ -85,7 +85,7 @@
             link: '/admin/settings',
           },
         ],
-        routesUnicefUser: [
+        routesUnicefUserAll: [
           {
             title: 'Profile',
             link: '/dashboard/profile',
@@ -107,7 +107,7 @@
             link: '',
           },
         ],
-        routesPartner: [
+        routesPartnerAll: [
           {
             title: 'Profile',
             link: '/dashboard/profile',
@@ -125,7 +125,7 @@
             link: '',
           },
         ],
-        routesDonor: [
+        routesDonorAll: [
           {
             title: 'Profile',
             link: '/dashboard/profile',
@@ -181,6 +181,34 @@
       },
       isDonor() {
         return this.roles.indexOf('d') !== -1;
+      },
+      showStepByStepForm() {
+        return this.$store.getters['auth/auth/showForm'];
+      },
+      routesPartner() {
+        /* eslint-disable */
+        if (this.showStepByStepForm) {
+          return this.routesPartnerAll.filter((item) => {
+            return item.title === 'Profile';
+          });
+        }
+        return this.routesPartnerAll;
+      },
+      routesUnicefUser() {
+        if (this.showStepByStepForm) {
+          return this.routesUnicefUserAll.filter((item) => {
+            return item.title === 'Profile';
+          });
+        }
+        return this.routesUnicefUserAll;
+      },
+      routesDonor() {
+        if (this.showStepByStepForm) {
+          return this.routesDonorAll.filter((item) => {
+            return item.title === 'Profile';
+          });
+        }
+        return this.routesDonorAll;
       },
     },
     methods: {

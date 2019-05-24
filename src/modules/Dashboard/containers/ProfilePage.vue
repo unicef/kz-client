@@ -1,6 +1,6 @@
 <template>
   <v-layout wrap class="container">
-    <profile-navigation />
+    <profile-navigation v-if="!showStepByStepForm" />
     <router-view/>
   </v-layout>
 </template>
@@ -32,6 +32,11 @@
           await this.$store.dispatch('users/getAuthorisedPersonInfo', companyInfo.authorisedId);
         }
       }
+    },
+    computed: {
+      showStepByStepForm() {
+        return this.$store.getters['auth/auth/showForm'];
+      },
     },
     destroyed() {
       this.$store.commit('users/setUserData', null);

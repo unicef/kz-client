@@ -1,11 +1,10 @@
 <template>
   <v-toolbar color="light-blue" dark>
-    <router-link class="logo_w" :to="homePath">
+    <router-link class="logo_w mr-4" :to="homePath">
       <img class="logo" src="@/assets/unicef.png" alt="logo">
     </router-link>
-    <v-spacer></v-spacer>
 
-    <v-toolbar-items class="hidden-sm-and-down">
+    <v-toolbar-items class="hidden-sm-and-down pl-4">
       <v-btn
         flat
         v-if="isAuthenticated && isAdmin && isAdminPath"
@@ -84,7 +83,7 @@
             link: '/admin/settings',
           },
         ],
-        routesUnicefUser: [
+        routesUnicefUserAll: [
           {
             title: 'Profile',
             link: '/dashboard/profile',
@@ -106,7 +105,7 @@
             link: '',
           },
         ],
-        routesPartner: [
+        routesPartnerAll: [
           {
             title: 'Profile',
             link: '/dashboard/profile',
@@ -124,7 +123,7 @@
             link: '',
           },
         ],
-        routesDonor: [
+        routesDonorAll: [
           {
             title: 'Profile',
             link: '/dashboard/profile',
@@ -177,6 +176,34 @@
           return '/dashboard';
         }
         return '/';
+      },
+      showStepByStepForm() {
+        return this.$store.getters['auth/auth/showForm'];
+      },
+      routesPartner() {
+        /* eslint-disable */
+        if (this.showStepByStepForm) {
+          return this.routesPartnerAll.filter((item) => {
+            return item.title === 'Profile';
+          });
+        }
+        return this.routesPartnerAll;
+      },
+      routesUnicefUser() {
+        if (this.showStepByStepForm) {
+          return this.routesUnicefUserAll.filter((item) => {
+            return item.title === 'Profile';
+          });
+        }
+        return this.routesUnicefUserAll;
+      },
+      routesDonor() {
+        if (this.showStepByStepForm) {
+          return this.routesDonorAll.filter((item) => {
+            return item.title === 'Profile';
+          });
+        }
+        return this.routesDonorAll;
       },
     },
     methods: {

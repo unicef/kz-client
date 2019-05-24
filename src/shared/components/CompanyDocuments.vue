@@ -9,7 +9,7 @@
         type="info"
       >Note that combined size of each your document must not exceed 5Mb in format pdf, doc, docx</v-alert>
     </v-flex>
-    <v-flex xs12 v-if="companyDocumentsData.length">
+    <v-flex mt-4 xs12 v-if="companyDocumentsData.length">
       <!-- Company already loaded documents -->
       <v-layout wrap mb-2 v-for="(doc, index) in companyDocumentsData" :key="index">
         <v-flex xs12 sm6 md6>{{ doc.name }}</v-flex>

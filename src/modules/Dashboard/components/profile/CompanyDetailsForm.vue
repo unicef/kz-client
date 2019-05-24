@@ -63,8 +63,10 @@
       CompanyDetails,
     },
     beforeRouteEnter(to, from, next) {
-      if (store.getters['global/getRoles'].indexOf('ra') !== -1 || store.getters['global/getRoles'].indexOf('ap') !== -1) {
+      if ((store.getters['global/getRoles'].indexOf('ra') !== -1 && !store.getters['auth/auth/showForm']) || (store.getters['global/getRoles'].indexOf('ap') !== -1 && !store.getters['auth/auth/showForm'])) {
         next();
+      } else if ((store.getters['global/getRoles'].indexOf('ra') !== -1 && store.getters['auth/auth/showForm']) || (store.getters['global/getRoles'].indexOf('ap') !== -1 && store.getters['auth/auth/showForm'])) {
+        next('/dashboard/profile/user-form');
       } else {
         next('/dashboard/profile');
       }

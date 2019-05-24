@@ -584,9 +584,6 @@
       getCompanyDetails() {
         this.$emit('getCompanyDetails', { company: this.credentials, authorisedPerson: this.authorisedPerson });
       },
-      // toggleDisableFieldsState() {
-      //   this.fieldsDisabled = !this.fieldsDisabled;
-      // },
     },
   };
 </script>

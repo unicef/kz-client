@@ -14,9 +14,18 @@
 </template>
 
 <script>
+  import store from '@/store';
+
   export default {
     name: 'UserSettings',
     components: {
+    },
+    async beforeRouteEnter(to, from, next) {
+      if (!store.getters['auth/auth/showForm']) {
+        next();
+      } else {
+        next('/dashboard/profile/user-form');
+      }
     },
   };
 </script>

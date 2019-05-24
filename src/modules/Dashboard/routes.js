@@ -4,6 +4,7 @@ const UserDetailsForm = () => import(/* webpackChunkName: "dashboard" */'./compo
 const CompanyDetailsForm = () => import(/* webpackChunkName: "dashboard" */'./components/profile/CompanyDetailsForm');
 const UserSettings = () => import(/* webpackChunkName: "dashboard" */'./components/profile/UserSettings');
 const CompanyDocumentsForm = () => import(/* webpackChunkName: "dashboard" */'./components/profile/CompanyDocumentsForm');
+const UserForm = () => import(/* webpackChunkName: "dashboard" */'./components/profile/UserForm');
 const DocsPage = () => import(/* webpackChunkName: "dashboard" */'./containers/DocsPage');
 const NotFound = () => import(/* webpackChunkName: "admin" */'@/shared/components/NotFound');
 
@@ -37,6 +38,11 @@ export default {
                 path: 'documents',
                 name: 'documents',
                 component: CompanyDocumentsForm,
+            },
+            {
+              path: 'user-form',
+              name: 'user-form',
+              component: UserForm,
             },
         ],
       },

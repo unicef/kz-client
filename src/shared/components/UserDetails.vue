@@ -1,7 +1,7 @@
 <template>
   <v-layout wrap mb-4>
     <v-flex xs12>
-      <h3 class="title mb-2" v-if="isAdminPath">User Details</h3>
+      <h3 class="title mb-2" v-if="isAdminPath || isUserFormPath">User Details</h3>
     </v-flex>
     <v-flex xs12 sm6 :class="{ 'pr-4': $vuetify.breakpoint.smAndUp }">
       <!-- FIELDS FOR ALL USERS -->
@@ -286,6 +286,9 @@
       },
       isPartnerCreationPath() {
         return this.$route.path.indexOf('partner-create') !== -1;
+      },
+      isUserFormPath() {
+        return this.$route.path.indexOf('user-form') !== -1;
       },
     },
     methods: {

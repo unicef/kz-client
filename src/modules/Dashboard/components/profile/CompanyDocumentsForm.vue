@@ -35,7 +35,7 @@
 
             <v-card-actions>
               <v-layout align-center class="btns-wrapper">
-                <v-btn type="button" @click="saveUser" color="info mb-2 mt-2" depressed>Save</v-btn>
+                <v-btn type="button" @click="saveDocuments" color="info mb-2 mt-2" depressed>Save</v-btn>
                 <v-btn type="button" color="error mb-2 mt-2" depressed>Cancel</v-btn>
               </v-layout>
             </v-card-actions>
@@ -56,8 +56,10 @@
       CompanyDocuments,
     },
     beforeRouteEnter(to, from, next) {
-      if (store.getters['global/getRoles'].indexOf('ra') !== -1 || store.getters['global/getRoles'].indexOf('ap') !== -1) {
+      if ((store.getters['global/getRoles'].indexOf('ra') !== -1 && !store.getters['auth/auth/showForm']) || (store.getters['global/getRoles'].indexOf('ap') !== -1 && !store.getters['auth/auth/showForm'])) {
         next();
+      } else if ((store.getters['global/getRoles'].indexOf('ra') !== -1 && store.getters['auth/auth/showForm']) || (store.getters['global/getRoles'].indexOf('ap') !== -1 && store.getters['auth/auth/showForm'])) {
+        next('/dashboard/profile/user-form');
       } else {
         next('/dashboard/profile');
       }
@@ -79,11 +81,8 @@
         return this.$store.getters['users/getCompanyDocumentsData'];
       },
     },
-    created() {
-      console.log('created form');
-    },
     methods: {
-      async saveUser() {
+      async saveDocuments() {
         if (this.$refs.companyDocumentsForm.validate()) {
           this.$refs.companyDocuments.getCompanyDocuments();
         }

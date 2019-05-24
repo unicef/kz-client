@@ -44,12 +44,20 @@
 </template>
 
 <script>
+  import store from '@/store';
   import UserDetails from '@/shared/components/UserDetails';
 
   export default {
     name: 'UserDetailsForm',
     components: {
       UserDetails,
+    },
+    async beforeRouteEnter(to, from, next) {
+      if (!store.getters['auth/auth/showForm']) {
+        next();
+      } else {
+        next('/dashboard/profile/user-form');
+      }
     },
     data() {
       return {
@@ -67,9 +75,6 @@
       userData() {
         return this.$store.getters['users/getUserData'];
       },
-    },
-    created() {
-      console.log('created form');
     },
     methods: {
       async saveUser() {

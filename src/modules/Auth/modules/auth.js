@@ -3,15 +3,24 @@ import { JSONpath } from '@/shared/helpers/JSONpath';
 
 const initialState = {
   isAuthenticated: !!localStorage.getItem('token') || false,
+  showSeed: false,
+  showForm: false,
 };
 const getters = {
   isAuthenticated: state => state.isAuthenticated,
-
+  showSeed: state => state.ishowSeed,
+  showForm: state => state.showForm,
 };
 
 const mutations = {
   setAuthenticated(state, data) {
     state.isAuthenticated = data;
+  },
+  setShowSeed(state, data) {
+    state.showSeed = data;
+  },
+  setShowForm(state, data) {
+    state.showForm = data;
   },
 };
 
@@ -42,6 +51,8 @@ const actions = {
         const data = await axios.get(`${JSONpath()}/meJSON.json`);
         localStorage.setItem('me', JSON.stringify(data.data.data));
         commit('global/setRoles', null, { root: true });
+        commit('setShowSeed', data.data.data.showSeed);
+        commit('setShowForm', data.data.data.showForm);
 
         return data;
       } catch (error) {
