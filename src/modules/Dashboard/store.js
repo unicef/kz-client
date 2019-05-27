@@ -1,4 +1,5 @@
 import docs from './modules/docs';
+import profile from './modules/profile';
 
 /* eslint-disable */
 const initialState = {
@@ -22,6 +23,7 @@ export default {
     namespaced: true,
     modules: {
       docs,
+      profile,
     },
     state: initialState,
     getters,

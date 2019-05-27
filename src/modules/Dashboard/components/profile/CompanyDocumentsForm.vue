@@ -56,9 +56,9 @@
       CompanyDocuments,
     },
     beforeRouteEnter(to, from, next) {
-      if ((store.getters['global/getRoles'].indexOf('ra') !== -1 && !store.getters['auth/auth/showForm']) || (store.getters['global/getRoles'].indexOf('ap') !== -1 && !store.getters['auth/auth/showForm'])) {
+      if ((store.getters['global/getRoles'].indexOf('ra') !== -1 && !store.getters['dashboard/profile/showForm']) || (store.getters['global/getRoles'].indexOf('ap') !== -1 && !store.getters['dashboard/profile/showForm'])) {
         next();
-      } else if ((store.getters['global/getRoles'].indexOf('ra') !== -1 && store.getters['auth/auth/showForm']) || (store.getters['global/getRoles'].indexOf('ap') !== -1 && store.getters['auth/auth/showForm'])) {
+      } else if ((store.getters['global/getRoles'].indexOf('ra') !== -1 && store.getters['dashboard/profile/showForm']) || (store.getters['global/getRoles'].indexOf('ap') !== -1 && store.getters['dashboard/profile/showForm'])) {
         next('/dashboard/profile/user-form');
       } else {
         next('/dashboard/profile');

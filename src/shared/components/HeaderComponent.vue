@@ -178,7 +178,7 @@
         return '/';
       },
       showStepByStepForm() {
-        return this.$store.getters['auth/auth/showForm'];
+        return this.$store.getters['dashboard/profile/showForm'];
       },
       routesPartner() {
         /* eslint-disable */

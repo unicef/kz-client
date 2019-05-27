@@ -83,6 +83,7 @@
           </v-card-actions>
         </v-container>
       </v-card>
+      <show-seed-dialog v-if="showSeed" />
     </v-flex>
   </v-layout>
 </template>
@@ -92,6 +93,7 @@
   import UserDetails from '@/shared/components/UserDetails';
   import CompanyDetails from '@/shared/components/CompanyDetails';
   import CompanyDocuments from '@/shared/components/CompanyDocuments';
+  import ShowSeedDialog from './ShowSeedDialog';
 
   export default {
     name: 'UserForm',
@@ -99,9 +101,10 @@
       UserDetails,
       CompanyDetails,
       CompanyDocuments,
+      ShowSeedDialog,
     },
     async beforeRouteEnter(to, from, next) {
-      if (store.getters['auth/auth/showForm']) {
+      if (store.getters['dashboard/profile/showForm']) {
         next();
       } else {
         next('/dashboard/profile');
@@ -160,6 +163,9 @@
       },
       isPartner() {
         return this.$store.getters['global/getRoles'].includes('ra') || this.$store.getters['global/getRoles'].includes('ap');
+      },
+      showSeed() {
+        return this.$store.getters['dashboard/profile/showSeed'];
       },
     },
     created() {

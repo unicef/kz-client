@@ -53,7 +53,7 @@
       UserDetails,
     },
     async beforeRouteEnter(to, from, next) {
-      if (!store.getters['auth/auth/showForm']) {
+      if (!store.getters['dashboard/profile/showForm']) {
         next();
       } else {
         next('/dashboard/profile/user-form');

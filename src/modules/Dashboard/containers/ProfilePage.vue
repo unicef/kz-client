@@ -35,7 +35,7 @@
     },
     computed: {
       showStepByStepForm() {
-        return this.$store.getters['auth/auth/showForm'];
+        return this.$store.getters['dashboard/profile/showForm'];
       },
     },
     destroyed() {
