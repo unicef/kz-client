@@ -7,6 +7,8 @@ package-lock.json
 # local env files
 .env.local
 .env.*.local
+Dockerfile
+.dockerSettings
 
 # Log files
 npm-debug.log*
