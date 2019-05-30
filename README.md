@@ -1,3 +1,4 @@
+For test build on kubernetus
 # blockchain-client
 
 ## Project setup
