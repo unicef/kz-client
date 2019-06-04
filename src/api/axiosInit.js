@@ -3,10 +3,11 @@ import axios from 'axios';
 
 const instance = axios.create({
     /* eslint-disable */
-    baseURL: process.env.ROOT_API + '/api',
+    baseURL: process.env.ROOT_API,
     headers: {
         'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json',
+        'Lang': localStorage.getItem('language') || 'en',
     },
 });
 

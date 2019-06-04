@@ -44,7 +44,7 @@
                   <v-text-field
                     name="repeatPassword"
                     :label='$t("common.fields.password.repeat")'
-                    v-model="credentials.password_confirmation"
+                    v-model="credentials.passwordConfirmation"
                     type="password"
                     :rules="rules.password_confirmation"
                     required
@@ -74,7 +74,7 @@
                     class="recaptcha-modal"
                     ref="recaptcha"
                     @verify="verify"
-                    sitekey="6LdpFhITAAAAABR7WnW0Y6OAExfC9xW0xxFcJsDF"
+                    sitekey="6Lem0KYUAAAAAPmN2LyGYEhbWeni_CzNjFVDXHG5"
                   ></vue-recaptcha>
                   <captcha-error v-if="recaptchaVerified"/>
                 </v-flex>
@@ -121,19 +121,19 @@
         credentials: {
           email: '',
           password: '',
-          password_confirmation: '',
+          passwordConfirmation: '',
           agree: false,
           'g-recaptcha-response': '',
         },
         rules: {
           login: [
             /* eslint-disable no-new */
-            v => !!v || this.$t('common.fields.validation.email.required'),
+            v => !!v || this.$t('common.fields.validation.field.required'),
             v => /^\w+([+.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/.test(v) || this.$t('common.fields.validation.email.invalid'),
           ],
           password: [
             /* eslint-disable*/
-            v => !!v || this.$t('common.fields.validation.password.required'),
+            v => !!v || this.$t('common.fields.validation.field.required'),
             v => /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*~^()_+`\-={}\[\]:;<>\\\/?])[A-Za-z\d#$@!%&*~^()_+`\-={}\[\]:;<>.\\\/?]{10,}$/.test(v) || 'Password must be at least 10 characters and contain at least 1 number, 1 special sign and 1 capital letter.',
           ],
           password_confirmation: [val => val === this.credentials.password || this.$t('common.fields.validation.password.dontMatch')],
@@ -163,10 +163,6 @@
             return;
           }
 
-          this.credentials.lang = localStorage.getItem('language');
-          this.credentials.name = 'testmytest';
-          this.credentials.not_usa_citizen = true;
-          this.credentials.base_url = "http://bitok.iskytest.com/auth/activate-account";
           const data = await this.$store.dispatch('auth/auth/register', this.credentials);
 
           if (data.data.success) {
@@ -177,7 +173,7 @@
             this.errorAlert.state = false;
             this.errorAlert.msg = '';
             this.successAlert.state = true;
-            this.successAlert.msg = data.data.message;
+            this.successAlert.msg = data.data.data.message;
             
             setTimeout(() => {
               this.successAlert.state = false;
@@ -186,7 +182,7 @@
             }, 3000);
           } else {
             this.errorAlert.state = true;
-            this.errorAlert.msg = data.data.err;
+            this.errorAlert.msg = data.data.error.message;
             this.$refs.recaptcha.reset();
             this.credentials['g-recaptcha-response'] = '';
           }

@@ -64,21 +64,21 @@
                 v-if="step > 1"
                 color="error mb-2 mt-2"
                 depressed
-              >Back</v-btn>
+              >{{ $t('common.btns.back') }}</v-btn>
               <v-btn
                 type="button"
                 @click="submitForm"
                 v-if="!isPartner || (isPartner && (step === 3))"
                 color="info mb-2 mt-2"
                 depressed
-              >Save</v-btn>
+              >{{ $t('common.btns.save') }}</v-btn>
               <v-btn
                 type="button"
                 @click="submitForm"
                 v-if="(step < 3) && isPartner"
                 color="info mb-2 mt-2"
                 depressed
-              >Next</v-btn>
+              >{{ $t('common.btns.next') }}</v-btn>
             </v-layout>
           </v-card-actions>
         </v-container>

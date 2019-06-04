@@ -38,7 +38,7 @@
                     class='recaptcha-modal'
                     ref="recaptcha"
                     @verify="verify"
-                    sitekey="6LdpFhITAAAAABR7WnW0Y6OAExfC9xW0xxFcJsDF"></vue-recaptcha>
+                    sitekey="6Lem0KYUAAAAAPmN2LyGYEhbWeni_CzNjFVDXHG5"></vue-recaptcha>
                     <captcha-error v-if='recaptchaVerified' />
                 </v-flex>
               </v-layout>
@@ -117,11 +117,10 @@
             return;
           }
 
-          this.credentials.lang = localStorage.getItem('language');
           const data = await this.$store.dispatch('auth/auth/login', this.credentials);
 
           if (data.data.success) {
-            localStorage.setItem('token', data.data.accessToken);
+            localStorage.setItem('token', data.data.data.token);
             this.$store.commit('auth/auth/setAuthenticated', true);
             await this.$store.dispatch('auth/auth/getMyInfo');
             this.$store.commit('global/setRoles', { root: true });
@@ -138,7 +137,7 @@
             }
           } else {
             this.errorAlert.state = true;
-            this.errorAlert.msg = data.data.err;
+            this.errorAlert.msg = data.data.error.message;
             this.$refs.recaptcha.reset();
             this.credentials['g-recaptcha-response'] = '';
           }

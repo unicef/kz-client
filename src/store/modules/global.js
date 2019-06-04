@@ -32,7 +32,7 @@ const mutations = {
       const myInfoData = JSON.parse(myInfo);
       let rolesArr = [];
       // Decrypt roles
-      myInfoData.role.forEach((role) => {
+      myInfoData.roles.forEach((role) => {
         const bytes  = CryptoJS.AES.decrypt(role, myInfoData.id + myInfoData.createdAt);
         const plaintext = bytes.toString(CryptoJS.enc.Utf8);
         rolesArr.push(plaintext);
@@ -47,9 +47,10 @@ const mutations = {
 
 const actions = {
   async fetchLocaleData({ commit }, credentials) {
+    const lang = credentials.lang ? credentials.lang : 'en';
     try {
-      const data = await axios.post('/translate', JSON.stringify({ lang: credentials.lang }));
-      const localeData = data.data.trans_data;
+      const data = await axios.get(`/localization?code=${lang}`);
+      const localeData = data.data.data;
 
       commit('setLocale', { lang: credentials.lang, data: localeData});
       return localeData;
@@ -59,7 +60,7 @@ const actions = {
   },
   async fetchLanguagesData({ commit }) {
     try {
-      const data = await axios.get('/languages');
+      const data = await axios.get('/localization/locales');
       const languagesData = data.data.data;
 
       commit('setLanguages', languagesData);

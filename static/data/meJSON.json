@@ -8,8 +8,8 @@
         "role-ap": ["U2FsdGVkX1+46A/TzPuw8X9DfVeNlOnj5hCQA9fiZyA="],
         "role-a-ra": ["U2FsdGVkX1/CH2wpsi4lsBQ0q4Mm6+gpSh+A8iHY+jU=", "U2FsdGVkX19EgeGjKuq+MRTWqAmiXyO2DbQlPU8+kLQ="],
         "createdAt": "2019-03-25 14:00:00",
-        "showSeed": true,
-        "showForm": true,
+        "showSeed": false,
+        "showForm": false,
         "seed": {
             "phrase": "word1 word2 word3 word4 word5 word6 word7 word8 word9 word10 word11 word12",
             "link": ""

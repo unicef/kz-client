@@ -4,8 +4,8 @@ import axios from '@/api/axiosInit';
 const initialState = {
   showSeedDialogState: false,
   seed: {},
-  showSeed: false,
-  showForm: false,
+  showSeed: localStorage.getItem('me') ? JSON.parse(localStorage.getItem('me')).showSeed : false,
+  showForm: localStorage.getItem('me') ? JSON.parse(localStorage.getItem('me')).showForm : false,
 };
 
 const getters = {

@@ -8,7 +8,7 @@
       <v-layout row>
         <v-flex sm12>
           <v-text-field
-            label="Company Name RU"
+            label="Company Name RU*"
             id="nameRu"
             v-model="credentials.nameRu"
             type="text"
@@ -22,7 +22,7 @@
       <v-layout row>
         <v-flex sm12>
           <v-text-field
-            label="Company name EN"
+            label="Company name EN*"
             id="nameEn"
             v-model="credentials.nameEn"
             type="text"

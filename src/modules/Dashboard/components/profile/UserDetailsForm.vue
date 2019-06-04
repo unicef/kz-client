@@ -32,8 +32,8 @@
 
             <v-card-actions>
               <v-layout align-center class="btns-wrapper">
-                <v-btn type="button" @click="saveUser" color="info mb-2 mt-2" depressed>Save</v-btn>
-                <v-btn type="button" color="error mb-2 mt-2" depressed>Cancel</v-btn>
+                <v-btn type="button" @click="saveUser" color="info mb-2 mt-2" depressed>{{ $t('common.btns.save') }}</v-btn>
+                <v-btn type="button" color="error mb-2 mt-2" depressed>{{ $t('common.btns.cancel') }}</v-btn>
               </v-layout>
             </v-card-actions>
           </v-container>
@@ -74,6 +74,9 @@
     computed: {
       userData() {
         return this.$store.getters['users/getUserData'];
+      },
+      userDetailsForm() {
+        return this.$store.getters['dashboard/profile/showForm'];
       },
     },
     methods: {

@@ -14,11 +14,14 @@
       AdminLayout,
     },
     async beforeRouteEnter(to, from, next) {
+      await store.commit('global/setRoles', null, { root: true });
+
       if (!localStorage.getItem('token')) {
-        store.commit('auth/auth/setAuthenticated', false);
+        await store.commit('auth/auth/setAuthenticated', false);
         localStorage.removeItem('me');
-        store.commit('global/setRoles', null, { root: true });
+        await store.commit('global/setRoles', null, { root: true });
       }
+      
       if (store.getters['auth/auth/isAuthenticated'] && store.getters['global/getRoles'].indexOf('a') !== -1) {
         next();
       } else if (store.getters['auth/auth/isAuthenticated'] && store.getters['global/getRoles'].indexOf('a') === -1) {

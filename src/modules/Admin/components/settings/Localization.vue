@@ -1,7 +1,7 @@
 <template>
   <v-layout wrap>
     <v-flex xs12>
-      <v-toolbar class="headline justify-center mt-4" color="light-blue">Manage translations</v-toolbar>
+      <v-toolbar class="headline justify-center mt-4" color="light-blue">{{ $t('translations.title') }}</v-toolbar>
       <v-form ref="form" lazy-validation>
         <v-card class="translation-form">
           <v-container :class='{ "pt-4": $vuetify.breakpoint.xs }'>
@@ -12,13 +12,13 @@
                 :class='{ "px-0": $vuetify.breakpoint.xs }'
               >
                 <v-layout row>
-                    <p class="title">Key of the phrase:</p>
+                    <p class="title">{{ $t('translations.keyOfThePhrase') }}:</p>
                 </v-layout>
                 <v-layout row>
                   <v-flex sm12>
                     <v-text-field
                       name="phraseKey"
-                      label="Key of the phrase"
+                      :label="$t('translations.keyOfThePhrase')"
                       outline
                       id="phraseKey"
                       v-model="credentials.key"
@@ -30,7 +30,7 @@
                   </v-flex>
                 </v-layout>
                 <v-layout row>
-                    <p class="title">Translations:</p>
+                    <p class="title">{{ $t('translations.translations') }}:</p>
                 </v-layout>
                 <v-layout v-for="language of languages" :key="language.code" row v-if="language.code === 'ru' || language.code === 'en'">
                   <v-flex sm12>
@@ -65,7 +65,7 @@
 
             <v-card-actions>
               <v-layout align-center class="btns-wrapper">
-                <v-btn type="button" @click="saveTranslations" color="info mb-2 mt-2" depressed>Save</v-btn>
+                <v-btn type="button" @click="saveTranslations" color="info mb-2 mt-2" depressed>{{ $t('common.btns.save') }}</v-btn>
               </v-layout>
             </v-card-actions>
           </v-container>
@@ -86,11 +86,11 @@
         rules: {
           key: [
             /* eslint-disable no-new */
-            v => !!v || 'Field is required',
+            v => !!v || this.$t('common.fields.validation.field.required'),
           ],
           lang: [
             /* eslint-disable no-new */
-            v => !!v || 'Field is required',
+            v => !!v || this.$t('common.fields.validation.field.required'),
           ],
         },
         errorAlert: {
@@ -119,7 +119,9 @@
         if (this.$refs.form.validate()) {
           const that = this;
           Object.keys(this.keyTranslations).forEach((key) => {
-            that.credentials[key] = that.keyTranslations[key];
+            if (key !== 'key') {
+              that.credentials[key] = that.keyTranslations[key];
+            }
           });
           const data = await this.$store.dispatch('admin/settings/saveTranslations', this.credentials);
           if (data.data.success) {
@@ -128,7 +130,7 @@
               this.errorAlert.state = false;
               this.errorAlert.msg = '';
               this.successAlert.state = true;
-              this.successAlert.msg = data.data.message;
+              this.successAlert.msg = data.data.data.message;
               setTimeout(() => {
                 this.successAlert.state = false;
                 this.successAlert.msg = '';
@@ -145,10 +147,13 @@
         }
         const data = await this.$store.dispatch('admin/settings/getTranslations', this.credentials.key);
         const that = this;
-        if (data.data.sucess && data.data.data) {
-          Object.keys(data.data).forEach((key) => {
-            that.$store.commit('admin/settings/setKeyTranslation', { key, value: data.data[key].value });
+        
+        if (data.data.success && data.data.data) {
+          Object.keys(data.data.data).forEach((key) => {
+            that.$store.commit('admin/settings/setKeyTranslation', { key, value: data.data.data[key] });
           });
+        } else {
+          this.$store.commit('admin/settings/clearKeyTranslations');
         }
       },
       changeKeyTranslation(code) {

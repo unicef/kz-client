@@ -27,7 +27,7 @@ const actions = {
   async saveTranslations({ commit }, credentials) {
     try {
       const token = localStorage.getItem('token') || '';
-      const data = await axios.post('/phrase', JSON.stringify(credentials), { headers: { Authorization: `Bearer ${token}` } });
+      const data = await axios.post('/localization/phrase', JSON.stringify(credentials), { headers: { Authorization: `Bearer ${token}` } });
 
       return data;
     } catch (error) {
@@ -37,7 +37,7 @@ const actions = {
   async getTranslations({ commit }, credentials) {
     try {
       const token = localStorage.getItem('token') || '';
-      const data = await axios.get(`/phrase?key=${credentials}`, { headers: { Authorization: `Bearer ${token}` } });
+      const data = await axios.get(`/localization/phrase?key=${credentials}`, { headers: { Authorization: `Bearer ${token}` } });
 
        return data;
     } catch (error) {

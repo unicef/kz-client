@@ -100,7 +100,7 @@
         }, 3000);
       } else {
         this.errorAlert.state = true;
-        this.errorAlert.msg = data.data.err;
+        this.errorAlert.msg = data.data.error.message;
       }
     },
   };

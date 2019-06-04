@@ -17,7 +17,7 @@ const mutations = {
 const actions = {
     async login({ commit, dispatch }, credentials) {
         try {
-            const data = await axios.post('/user/auth', JSON.stringify(credentials));
+            const data = await axios.post('/user/login', JSON.stringify(credentials));
 
             return data;
         } catch (error) {
@@ -26,8 +26,8 @@ const actions = {
     },
     async register({ commit, dispatch }, credentials) {
       try {
-        const data = await axios.post('/user/register', JSON.stringify(credentials));
-        // const data = await axios.post('/register/partner', JSON.stringify(credentials));
+        const data = await axios.post('/user/partner', JSON.stringify(credentials));
+
         return data;
       } catch (error) {
         return error.response;
@@ -35,12 +35,11 @@ const actions = {
     },
     async getMyInfo({ commit }) {
       try {
-        // const token = localStorage.getItem('token') || '';
-        // const data = await axios.get('/me', { headers: { Authorization: `Bearer ${token}` } });
+        const token = localStorage.getItem('token') || '';
+        const data = await axios.get('/me', { headers: { Authorization: `Bearer ${token}` } });
 
-        const data = await axios.get(`${JSONpath()}/meJSON.json`);
         localStorage.setItem('me', JSON.stringify(data.data.data));
-        commit('global/setRoles', null, { root: true });
+        await commit('global/setRoles', null, { root: true });
         commit('dashboard/profile/setShowSeed', data.data.data.showSeed, { root: true });
         commit('dashboard/profile/toggleShowSeedDialogState', data.data.data.showSeed, { root: true });
         commit('dashboard/profile/setShowForm', data.data.data.showForm, { root: true });
@@ -58,7 +57,7 @@ const actions = {
     async activate({ commit }, activation) {
       try {
         const lang = localStorage.getItem('language') || '';
-        const data = await axios.post('/user/activate', JSON.stringify(activation), { headers: { Lang: lang } });
+        const data = await axios.post('/user/activation', JSON.stringify({ hash: activation.activation }), { headers: { Lang: lang } });
 
         return data;
       } catch (error) {

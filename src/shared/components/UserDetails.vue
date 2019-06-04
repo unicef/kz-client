@@ -1,7 +1,7 @@
 <template>
   <v-layout wrap mb-4>
     <v-flex xs12>
-      <h3 class="title mb-2" v-if="isAdminPath || isUserFormPath">User Details</h3>
+      <h3 class="title mb-2" v-if="isAdminPath || isUserFormPath">{{ $t('userDetails.title') }}</h3>
     </v-flex>
     <v-flex xs12 sm6 :class="{ 'pr-4': $vuetify.breakpoint.smAndUp }">
       <!-- FIELDS FOR ALL USERS -->
@@ -9,7 +9,7 @@
       <v-layout row>
         <v-flex sm12>
           <v-text-field
-            label="Email"
+            :label="$t('common.fields.email') + '*'"
             id="email"
             v-model="credentials.email"
             type="email"
@@ -153,7 +153,7 @@
           <v-select
             :items="partnerRoles"
             v-model="credentials.role"
-            label="Role"
+            label="Role*"
             item-text="title"
             item-value="id"
             return-object
