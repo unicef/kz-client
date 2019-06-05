@@ -549,7 +549,7 @@
           ],
           numberRequired: [
             /* eslint-disable no-new */
-            v => !!v.trim() || this.$t('common.fields.validation.field.required'),
+            v => !!v || this.$t('common.fields.validation.field.required'),
             v => /^\d+$/.test(v) || this.$t('common.fields.validation.field.onlyDigits'),
           ],
           email: [

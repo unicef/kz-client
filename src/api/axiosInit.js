@@ -1,5 +1,5 @@
 import axios from 'axios';
-// import router from '@/router';
+import store from '@/store';
 
 const instance = axios.create({
     /* eslint-disable */
@@ -11,13 +11,12 @@ const instance = axios.create({
     },
 });
 
-// instance.interceptors.response.use(null, (error) => {
-//     if (error.response.status === 401) {
-//         localStorage.removeItem('token');
-//         router.push('/auth');
-//     }
-//     return Promise.reject(error);
-// });
+instance.interceptors.response.use(null, (error) => {
+    if ((error.response.data.error.status === 401 && error.response.data.error.errorCode === 214) || (error.response.data.error.status === 401 && error.response.data.error.errorCode === 215)) {
+        store.dispatch('auth/auth/logOut', true);
+    }
+    return Promise.reject(error);
+});
 
 export default instance;
 

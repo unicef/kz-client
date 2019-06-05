@@ -174,11 +174,11 @@ const actions = {
   },
   async getAuthorisedPersonInfo({ commit }, credentials) {
     try {
-      // const token = localStorage.getItem('token') || '';
-      //   const lang = localStorage.getItem('language') || '';
-      // const data = await axios.get(`/user?id=${credentials}`, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+      const data = await axios.get(`/user?id=${credentials}`, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
 
-      const data = await axios.get(`${JSONpath()}/user${credentials}JSON.json`);
+      // const data = await axios.get(`${JSONpath()}/user${credentials}JSON.json`);
       commit('setAuthorisedPersonData', data.data.data);
 
       return data.data.data;
@@ -188,11 +188,10 @@ const actions = {
   },
   async getPartnerCompanyProperties({ commit }, credentials) {
     try {
-      // const token = localStorage.getItem('token') || '';
-      //   const lang = localStorage.getItem('language') || '';
-      // const data = await axios.get('/partner/properties', { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+      const data = await axios.get('/partner/properties', { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
 
-      const data = await axios.get(`${JSONpath()}/partnerCompanyInfoJSON.json`);
       commit('setPartnerCompanyProperties', data.data.data);
 
       return data;

@@ -117,7 +117,7 @@
         return this.$store.getters['users/getPartnerCompanyProperties'].areasOfWork;
       },
       ownership() {
-        return this.$store.getters['users/getPartnerCompanyProperties'].ownership;
+        return this.$store.getters['users/getPartnerCompanyProperties'].ownerships;
       },
       partnerTypes() {
         return this.$store.getters['users/getPartnerCompanyProperties'].partnerTypes;

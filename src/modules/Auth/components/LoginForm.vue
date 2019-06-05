@@ -89,12 +89,12 @@
         rules: {
           login: [
             /* eslint-disable no-new */
-            v => !!v || this.$t('common.fields.validation.email.required'),
+            v => !!v || this.$t('common.fields.validation.field.required'),
             v => /^\w+([+.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/.test(v) || this.$t('common.fields.validation.email.invalid'),
           ],
           password: [
             /* eslint-disable*/
-            v => !!v || this.$t('common.fields.validation.password.required'),
+            v => !!v || this.$t('common.fields.validation.field.required'),
           ],
         },
         errorAlert: {
