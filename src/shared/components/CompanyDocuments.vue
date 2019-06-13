@@ -201,7 +201,7 @@
           this.credentials.files[index].id = data.data.data.id;
         } else {
           this.$refs[docInput][0].value = '';
-          this.credentials.files[index].fileError = data.data.err;
+          this.credentials.files[index].fileError = data.data.data.error.message;
           setTimeout(() => {
             that.credentials.files[index].loading = false;
             that.credentials.files[index].fileError = '';

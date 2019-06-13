@@ -251,20 +251,19 @@ const actions = {
   },
   async uploadDocument({ commit }, document) {
     try {
-      // const token = localStorage.getItem('token') || '';
-      // const lang = localStorage.getItem('language') || '';
-      // const data = await axios.post(`/company/upload`, document, { headers: { Authorization: `Bearer ${token}`, Lang: lang, 'Content-Type': 'multipart/form-data' } });
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+      const data = await axios.post(`/partner/document`, document, { headers: { Authorization: `Bearer ${token}`, Lang: lang, 'Content-Type': 'multipart/form-data' } });
 
-
-      // return data;
-      return {
-        data: {
-          success: true,
-          data: {
-            id: '1',
-          }
-        }
-      }
+      return data;
+      // return {
+      //   data: {
+      //     success: true,
+      //     data: {
+      //       id: '1',
+      //     }
+      //   }
+      // }
       // return {
       //   data: {
       //     err: "something went wrong",
