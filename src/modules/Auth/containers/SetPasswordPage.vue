@@ -31,7 +31,7 @@
                   <v-text-field
                     name='repeatPassword'
                     :label='$t("common.fields.password.repeat")'
-                    v-model='setData.password_confirmation'
+                    v-model='setData.passwordConfirmation'
                     type='password'
                     :rules='rules.repeatPassword'
                     required />
@@ -53,7 +53,7 @@
           <v-card-actions>
             <v-layout align-center class="btns-wrapper">
               <v-btn type='submit' depressed color='info'>
-              {{ $t('common.labels.setPassword') }}
+              {{ $t('common.btns.setPassword') }}
             </v-btn>
             </v-layout>
           </v-card-actions>
@@ -70,17 +70,17 @@
     data() {
       return {
         setData: {
-          token: null,
+          hash: null,
           password: '',
-          password_confirmation: '',
+          passwordConfirmation: '',
         },
         rules: {
           password: [
             /* eslint-disable*/
-            v => !!v || this.$t('common.fields.validation.password.required'),
-            v => /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*~^()_+`\-={}\[\]:;<>\\\/?])[A-Za-z\d#$@!%&*~^()_+`\-={}\[\]:;<>.\\\/?]{10,}$/.test(v) || 'Password must be at least 10 characters and contain at least 1 number, 1 special sign and 1 capital letter.',
+            v => !!v || this.$t('common.fields.validation.field.required'),
+            v => /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*~^()_+`\-={}\[\]:;<>\\\/?])[A-Za-z\d#$@!%&*~^()_+`\-={}\[\]:;<>.\\\/?]{10,}$/.test(v) || this.$t('common.fields.validation.password'),
           ],
-          password_confirmation: [val => val === this.credentials.password || this.$t('common.fields.validation.password.dontMatch')],
+          repeatPassword: [val => val === this.setData.password || this.$t('common.fields.validation.password.dontMatch')],
         },
         errorAlert: {
           state: false,
@@ -103,22 +103,22 @@
             this.errorAlert.state = false;
             this.errorAlert.msg = '';
             this.successAlert.state = true;
-            this.successAlert.msg = response.data.message;
+            this.successAlert.msg = response.data.data.message;
 
             setTimeout(() => {
-              this.$router.push({ name: 'dashboard' });
+              this.$router.push({ name: 'login' });
             }, 2000);
           } else {
             this.successAlert.state = false;
             this.successAlert.msg = '';
             this.errorAlert.state = true;
-            this.errorAlert.msg = response.data.err;
+            this.errorAlert.msg = response.data.error.message;
           }
         }
       },
     },
     created() {
-      this.setData.token = this.$route.query['user_token'];
+      this.setData.hash = this.$route.query['user_token'];
     },
   };
 </script>

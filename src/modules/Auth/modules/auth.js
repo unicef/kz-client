@@ -67,7 +67,7 @@ const actions = {
     async setPassword({ commit }, setData) {
       try {
         const lang = localStorage.getItem('language') || '';
-        const data = await axios.post('/user/set-password', JSON.stringify(setData), { headers: { Lang: lang } });
+        const data = await axios.put('/user/password', JSON.stringify(setData), { headers: { Lang: lang } });
 
         return data;
       } catch (error) {
