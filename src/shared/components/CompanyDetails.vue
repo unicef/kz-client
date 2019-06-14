@@ -95,8 +95,8 @@
         <v-flex sm12>
           <v-text-field
             label="Company CEO's Name RU"
-            id="ceoNameRu"
-            v-model="credentials.ceoNameRu"
+            id="ceoFirstNameRu"
+            v-model="credentials.ceoFirstNameRu"
             type="text"
             :rules="isAdminPath ? rules.letter : rules.letterRequired"
             :disabled="fieldsDisabled"
@@ -109,8 +109,8 @@
         <v-flex sm12>
           <v-text-field
             label="Company CEO's Name EN"
-            id="ceoNameEn"
-            v-model="credentials.ceoNameEn"
+            id="ceoFirstNameEn"
+            v-model="credentials.ceoFirstNameEn"
             type="text"
             :rules="isAdminPath ? rules.letter : rules.letterRequired"
             :disabled="fieldsDisabled"
@@ -154,7 +154,7 @@
           <v-text-field
             label="Year established"
             id="establishmentYear"
-            v-model="credentials.establishmentYear"
+            v-model="credentials.year"
             type="text"
             :rules="isAdminPath ? rules.number : rules.numberRequired"
             :disabled="fieldsDisabled"
@@ -167,7 +167,7 @@
         <v-flex sm12>
           <v-text-field
             label="Number of employees"
-            id="employers"
+            id="employersCount"
             v-model="credentials.employers"
             type="text"
             :rules="isAdminPath ? rules.number : rules.numberRequired"
@@ -330,11 +330,11 @@
         </v-flex>
       </v-layout>
     </v-flex>
-    <!-- AUTHORISED PERSON BLOCK (only for client) -->
-    <v-flex xs12 pt-4 v-if="isClientPath">
+    <!-- AUTHORISED PERSON BLOCK (only for client and partner role Responsible Assistant) -->
+    <v-flex xs12 pt-4 v-if="isClientPath&&isResponsibleAssistant">
       <h3 class="title mb-2" v-if="isClientPath">Authorised Person's Information</h3>
     </v-flex>
-    <v-flex xs12 sm6 :class="{ 'pr-4': $vuetify.breakpoint.smAndUp }" v-if="isClientPath">
+    <v-flex xs12 sm6 :class="{ 'pr-4': $vuetify.breakpoint.smAndUp }" v-if="isClientPath&&isResponsibleAssistant">
       <!-- Authorised Person's First name Ru -->
       <v-layout row>
         <v-flex sm12>
@@ -388,7 +388,7 @@
         </v-flex>
       </v-layout>
     </v-flex>
-    <v-flex xs12 sm6 :class="{ 'pl-4': $vuetify.breakpoint.smAndUp }" v-if="isClientPath">
+    <v-flex xs12 sm6 :class="{ 'pl-4': $vuetify.breakpoint.smAndUp }" v-if="isClientPath&&isResponsibleAssistant">
       <!-- Authorised Person's Occupation Ru -->
       <v-layout row>
         <v-flex sm12>
@@ -494,12 +494,12 @@
             tradeNameEn: '',
             tradeNameRu: '',
             license: '',
-            ceoNameRu: '',
-            ceoNameEn: '',
+            ceoFirstNameRu: '',
+            ceoFirstNameEn: '',
             ceoLastNameRu: '',
             ceoLastNameEn: '',
             country: {},
-            establishmentYear: '',
+            year: '',
             employers: '',
             areaOfWork: {},
             ownership: {},
@@ -579,9 +579,14 @@
       fieldsDisabled() {
         return this.$store.getters['users/getCompanyFieldsDisabled'];
       },
+      isResponsibleAssistant() {
+        return this.roles.indexOf('ra') !== -1;
+      },
     },
     methods: {
       getCompanyDetails() {
+        this.credentials.establishmentYear = (this.credentials.year.length) ? +this.credentials.year : null;
+        this.credentials.employersCount = (this.credentials.employers.length) ? +this.credentials.employers : null;
         this.$emit('getCompanyDetails', { company: this.credentials, authorisedPerson: this.authorisedPerson });
       },
     },

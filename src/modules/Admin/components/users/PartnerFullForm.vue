@@ -81,6 +81,11 @@
     },
     data() {
       return {
+        credentials: {
+          user: null,
+          company: null,
+          documents: null,
+        },
         errorAlert: {
           state: false,
           msg: '',
@@ -125,6 +130,15 @@
       csoTypes() {
         return this.$store.getters['users/getPartnerCompanyProperties'].csoTypes;
       },
+      isAdminPath() {
+        return this.$route.path.indexOf('admin') !== -1;
+      },
+      isPartnerPath() {
+        return this.$route.path.indexOf('partner') !== -1;
+      },
+      isPartnerCreationPath() {
+        return this.$route.path.indexOf('partner-create') !== -1;
+      },
     },
     async created() {
       await this.$store.dispatch('users/getPartnerCompanyProperties');
@@ -149,16 +163,44 @@
           this.$refs.userDetails.getUserDetails();
           this.$refs.companyDetails.getCompanyDetails();
           this.$refs.companyDocuments.getCompanyDocuments();
+
+          let response;
+          if (this.isPartnerCreationPath) {
+            response = await this.$store.dispatch('users/createPartnerByAdmin', this.credentials);
+          } else {
+            response = await this.$store.dispatch('users/editPartnerByAdmin', this.credentials);
+          }
+
+          console.log(response);
+          if (response.data.success) {
+            this.errorAlert.state = false;
+            this.errorAlert.msg = '';
+            this.successAlert.state = true;
+            this.successAlert.msg = response.data.data.message;
+
+            setTimeout(() => {
+              this.successAlert.state = false;
+              this.successAlert.msg = '';
+            }, 2000);
+          } else {
+            this.successAlert.state = false;
+            this.successAlert.msg = '';
+            this.errorAlert.state = true;
+            this.errorAlert.msg = response.data.error.message;
+          }
         }
       },
       getUserDetails(userData) {
         console.log('in parent user data: ', userData);
+        this.credentials.user = userData;
       },
       getCompanyDetails(companyData) {
         console.log('in parent company data: ', companyData);
+        this.credentials.company = companyData.company;
       },
       getCompanyDocuments(companyDocumetsData) {
         console.log('in parent company docs: ', companyDocumetsData);
+        this.credentials.documents = companyDocumetsData;
       },
     },
   };

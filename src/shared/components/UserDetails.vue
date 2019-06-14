@@ -160,7 +160,7 @@
             :rules="rules.role"
             @change="setRole"
             required
-            :disabled="userData.role && !!userData.role.title"
+            :disabled="userData.roles && !!userData.roles[0].title"
           ></v-select>
         </v-flex>
       </v-layout>
@@ -205,14 +205,22 @@
       userData() {
         const that = this;
         Object.keys(this.userData).forEach((key) => {
-          that.credentials[key] = that.userData[key];
+          if (key === 'roles') {
+            that.credentials.role = that.userData.roles[0];
+          } else {
+            that.credentials[key] = that.userData[key];
+          }
         });
       },
     },
     created() {
       const that = this;
         Object.keys(this.userData).forEach((key) => {
-          that.credentials[key] = that.userData[key];
+          if (key === 'roles') {
+            that.credentials.role = that.userData.roles[0];
+          } else {
+            that.credentials[key] = that.userData[key];
+          }
         });
     },
     data() {

@@ -256,19 +256,28 @@ const actions = {
       const data = await axios.post(`/partner/document`, document, { headers: { Authorization: `Bearer ${token}`, Lang: lang, 'Content-Type': 'multipart/form-data' } });
 
       return data;
-      // return {
-      //   data: {
-      //     success: true,
-      //     data: {
-      //       id: '1',
-      //     }
-      //   }
-      // }
-      // return {
-      //   data: {
-      //     err: "something went wrong",
-      //   }
-      // }
+    } catch (error) {
+      return error.response;
+    }
+  },
+  async createPartnerByAdmin({ commit }, partner) {
+    try {
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+      const data = await axios.post('/admin/partner', partner, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
+
+      return data;
+    } catch (error) {
+      return error.response;
+    }
+  },
+  async editPartnerByAdmin({ commit }, partner) {
+    try {
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+      const data = await axios.put('/admin/partner', partner, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
+
+      return data;
     } catch (error) {
       return error.response;
     }
