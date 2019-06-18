@@ -19,7 +19,7 @@
                 <v-flex sm12 >
                   <v-text-field
                     name='password'
-                    :label='$t("common.fields.password")'
+                    :label='$t("common.fields.password") + "*"'
                     v-model='setData.password'
                     type='password'
                     :rules='rules.password'
@@ -30,7 +30,7 @@
                 <v-flex sm12 >
                   <v-text-field
                     name='repeatPassword'
-                    :label='$t("common.fields.password.repeat")'
+                    :label='$t("common.fields.password.repeat") + "*"'
                     v-model='setData.passwordConfirmation'
                     type='password'
                     :rules='rules.repeatPassword'

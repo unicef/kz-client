@@ -17,7 +17,7 @@
                 <v-flex sm12>
                   <v-text-field
                     name="Email"
-                    :label='$t("common.fields.login")'
+                    :label='$t("common.fields.login") + "*"'
                     id="login"
                     v-model="credentials.email"
                     type="email"
@@ -30,7 +30,7 @@
                 <v-flex sm12>
                   <v-text-field
                     name="Password"
-                    :label='$t("common.fields.password")'
+                    :label='$t("common.fields.password") + "*"'
                     id="password"
                     v-model="credentials.password"
                     type="password"
@@ -43,7 +43,7 @@
                 <v-flex sm12>
                   <v-text-field
                     name="repeatPassword"
-                    :label='$t("common.fields.password.repeat")'
+                    :label='$t("common.fields.password.repeat") + "*"'
                     v-model="credentials.passwordConfirmation"
                     type="password"
                     :rules="rules.password_confirmation"
@@ -58,7 +58,7 @@
                     color="info"
                     v-model="credentials.agree"
                     :rules="rules.agree"
-                    :label='$t("common.fields.agreement")'
+                    :label='$t("common.fields.agreement") + "*"'
                     required
                   ></v-checkbox>
                   <router-link

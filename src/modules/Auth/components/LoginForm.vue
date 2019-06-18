@@ -9,7 +9,7 @@
                 <v-flex sm12>
                   <v-text-field
                     name="Email"
-                    :label='$t("common.fields.login")'
+                    :label='$t("common.fields.login") + "*"'
                     id="login"
                     v-model="credentials.email"
                     type="email"
@@ -22,7 +22,7 @@
                 <v-flex sm12>
                   <v-text-field
                     name="Password"
-                    :label='$t("common.fields.password")'
+                    :label='$t("common.fields.password") + "*"'
                     id="password"
                     v-model="credentials.password"
                     type="password"

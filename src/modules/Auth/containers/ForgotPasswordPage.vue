@@ -19,7 +19,7 @@
                 <v-flex sm12 >
                   <v-text-field
                     name='email'
-                    :label='$t("common.fields.email")'
+                    :label='$t("common.fields.email") + "*"'
                     v-model='credentials.email'
                     type='text'
                     :rules='rules.email'
