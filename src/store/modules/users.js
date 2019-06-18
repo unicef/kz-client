@@ -215,12 +215,22 @@ const actions = {
   },
   async getCompanyDocuments({ commit }, credentials) {
     try {
-      // const token = localStorage.getItem('token') || '';
-      //   const lang = localStorage.getItem('language') || '';
-      // const data = await axios.get(`/company/documents?id=${credentials}`, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+      const data = await axios.get(`/partner/documents?id=${credentials}`, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
 
-      const data = await axios.get(`${JSONpath()}/company${credentials}documentsJSON.json`);
       commit('setCompanyDocumentsData', data.data.data);
+
+      return data.data.data;
+    } catch (error) {
+      return error.response;
+    }
+  },
+  async getCompanyDocument({ commit }, credentials) {
+    try {
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+      const data = await axios.get(`/partner/document?id=${credentials}`, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
 
       return data.data.data;
     } catch (error) {
@@ -276,6 +286,17 @@ const actions = {
       const token = localStorage.getItem('token') || '';
       const lang = localStorage.getItem('language') || '';
       const data = await axios.put('/admin/partner', partner, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
+
+      return data;
+    } catch (error) {
+      return error.response;
+    }
+  },
+  async saveUserStepByStep({ commit }, userInfo) {
+    try {
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+      const data = await axios.put('/user/info/step', userInfo, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
 
       return data;
     } catch (error) {

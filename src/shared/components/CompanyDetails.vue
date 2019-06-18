@@ -464,7 +464,13 @@
       companyData() {
         const that = this;
         Object.keys(this.companyData).forEach((key) => {
-          that.credentials[key] = that.companyData[key];
+          if (key === 'employersCount') {
+            that.credentials.employers = that.companyData['employersCount'] ? that.companyData['employersCount'].toString() : '';
+          } else if (key === 'establishmentYear') {
+            that.credentials.year = that.companyData['establishmentYear'] ? that.companyData['establishmentYear'].toString() : '';
+          } else {
+            that.credentials[key] = that.companyData[key];
+          }
         });
       },
       authorisedPersonData() {
@@ -477,7 +483,13 @@
     created() {
       const that = this;
       Object.keys(this.companyData).forEach((key) => {
-        that.credentials[key] = that.companyData[key];
+        if (key === 'employersCount') {
+          that.credentials.employers = that.companyData['employersCount'] ? that.companyData['employersCount'].toString() : '';
+        } else if (key === 'establishmentYear') {
+          that.credentials.year = that.companyData['establishmentYear'] ? that.companyData['establishmentYear'].toString() : '';
+        } else {
+          that.credentials[key] = that.companyData[key];
+        }
       });
       if (this.authorisedPersonData) {
         Object.keys(this.authorisedPersonData).forEach((key) => {

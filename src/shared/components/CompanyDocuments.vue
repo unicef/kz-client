@@ -12,11 +12,11 @@
     <v-flex mt-4 xs12 v-if="companyDocumentsData.length">
       <!-- Company already loaded documents -->
       <v-layout wrap mb-2 v-for="(doc, index) in companyDocumentsData" :key="index">
-        <v-flex xs12 sm6 md6>{{ doc.name }}</v-flex>
+        <v-flex xs12 sm6 md6>{{ doc.title }}</v-flex>
         <v-flex xs12 sm6 md6>
           <v-layout wrap align-content-start>
             <v-flex xs9>
-              <a :href="doc.href">{{doc.name}}</a>
+              <a @click="downloadDocument(doc.id)">{{doc.title}}</a>
             </v-flex>
             <v-flex xs3>
               <v-btn class="my-0" flat icon @click="deleteDocument(doc.id)">
@@ -35,10 +35,10 @@
               <v-text-field
                 label="File name"
                 :id="'fileName' + index"
-                v-model="credentials.files[index].name"
+                v-model="credentials.files[index].title"
                 :ref="'fileName' + index"
                 type="text"
-                :disabled="credentials.files[index].name==='Partner Declaration Profile and due Diligence Verification Form'"
+                :disabled="credentials.files[index].title==='Partner Declaration Profile and due Diligence Verification Form'"
                 @input="checkFileInputError(index)"
                 :rules="(credentials.files[index].id) ? rules.fieldRequired : []"
               />
@@ -65,7 +65,7 @@
                 type="file"
                 :ref="'docInput' + index"
                 :error-messages="'This is error'"
-                :rules="(credentials.files[index].name) ? rules.fieldRequired : []"
+                :rules="(credentials.files[index].title) ? rules.fieldRequired : []"
                 @change="loadDocument($event, index)"
               >
               <p
@@ -101,12 +101,12 @@
         // add a required load doc row if Anexg not loaded (for client side)
         /* eslint-disable */
         const isAnexgLoaded = !!this.companyDocumentsData.filter((item) => {
-          return item.name === 'Partner Declaration Profile and due Diligence Verification Form';
+          return item.title === 'Partner Declaration Profile and due Diligence Verification Form';
         }).length;
         if (!isAnexgLoaded && this.isClientPath) {
           const fileObj = {
             id: '',
-            name: 'Partner Declaration Profile and due Diligence Verification Form',
+            title: 'Partner Declaration Profile and due Diligence Verification Form',
             loading: false,
             fileError: '',
           };
@@ -147,17 +147,22 @@
       getCompanyDocuments() {
         if (this.validateData()) {
           const loadedFiles = this.credentials.files.filter((item) => {
-            return item.id && item.name;
+            return item.id && item.title;
           }).map((item) => {
             return {
               id: item.id,
-              name: item.name,
+              title: item.title,
             };
           });
           this.$emit('getCompanyDocuments', loadedFiles);
           return true;
         }
         return false;
+      },
+      async downloadDocument(docId) {
+        console.log(docId);
+        const data = await this.$store.dispatch('users/getCompanyDocument', docId);
+        console.log(data);
       },
       deleteDocument(id) {
         console.log('delete document with id: ', id);
@@ -171,7 +176,7 @@
         this.credentials.files[index].id = '';
         this.$refs[docInput][0].value = '';
         this.$refs[btnRef][0].$el.innerText = 'Upload';
-        if (this.credentials.files[index].name) {
+        if (this.credentials.files[index].title) {
           this.credentials.files[index].fileError = 'File is required';
         }
       },
@@ -216,7 +221,7 @@
       addRow() {
         const fileObj = {
           id: '',
-          name: '',
+          title: '',
           loading: false,
           fileError: '',
         };
@@ -226,7 +231,7 @@
       validateData() {
         let isDataValid = true;
         this.credentials.files.forEach((item) => {
-          if (item.name && !item.id) {
+          if (item.title && !item.id) {
             isDataValid = false;
             item.fileError = 'File is required';
           }
@@ -234,7 +239,7 @@
         return isDataValid;
       },
       checkFileInputError(index) {
-        if (!this.credentials.files[index].name) {
+        if (!this.credentials.files[index].title) {
           this.credentials.files[index].fileError = '';
         }
       },

@@ -168,7 +168,17 @@
         return this.$store.getters['dashboard/profile/showSeed'];
       },
     },
-    created() {
+    async created() {
+      const myId = JSON.parse(localStorage.getItem('me')).id;
+      const myUser = await this.$store.dispatch('users/getUserInfo', myId);
+      if (myUser.company) {
+        await this.$store.dispatch('users/getPartnerCompanyProperties');
+        await this.$store.dispatch('users/getCompanyDocuments', myUser.company);
+        const companyInfo = await this.$store.dispatch('users/getCompanyInfo', myUser.company);
+        if (companyInfo.authorisedId) {
+          await this.$store.dispatch('users/getAuthorisedPersonInfo', companyInfo.authorisedId);
+        }
+      }
     },
     destroyed() {
       this.$store.commit('users/setUserData', null);
@@ -178,8 +188,30 @@
       this.$store.commit('users/toggleCompanyFieldsDisabled', false);
     },
     methods: {
-      saveProfile() {
+      async saveProfile() {
         console.log('save profile', this.credentials);
+        let response = await this.$store.dispatch('users/saveUserStepByStep', this.credentials);
+        console.log(response);
+        const that = this;
+        if (response.data.success) {
+          this.errorAlert.state = false;
+          this.errorAlert.msg = '';
+          this.successAlert.state = true;
+          this.successAlert.msg = response.data.data.message;
+
+          setTimeout(async () => {
+            this.successAlert.state = false;
+            this.successAlert.msg = '';
+            await that.$store.dispatch('auth/auth/getMyInfo');
+            
+            that.$router.push({ name: 'user-details' });
+          }, 2000);
+        } else {
+          this.successAlert.state = false;
+          this.successAlert.msg = '';
+          this.errorAlert.state = true;
+          this.errorAlert.msg = response.data.error.message;
+        }
       },
       submitForm() {
           switch (this.step) {
@@ -217,9 +249,9 @@
         console.log('in parent company data: ', companyData);
         this.credentials.company = companyData;
       },
-      getCompanyDocuments(companyDocumetsData) {
-        console.log('in parent company docs: ', companyDocumetsData);
-        this.credentials.documents = companyDocumetsData;
+      getCompanyDocuments(companyDocumentsData) {
+        console.log('in parent company docs: ', companyDocumentsData);
+        this.credentials.documents = companyDocumentsData;
       },
     },
   };
