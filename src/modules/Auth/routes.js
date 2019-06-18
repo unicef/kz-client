@@ -4,6 +4,7 @@ const LoginAdminPage = () => import(/* webpackChunkName: "auth" */'./containers/
 const RegisterPage = () => import(/* webpackChunkName: "auth" */'./containers/RegisterPage');
 const ActivateAccountPage = () => import(/* webpackChunkName: "auth" */'./containers/ActivateAccountPage');
 const SetPasswordPage = () => import(/* webpackChunkName: "auth" */'./containers/SetPasswordPage');
+const ForgotPasswordPage = () => import(/* webpackChunkName: "auth" */'./containers/ForgotPasswordPage');
 
 /* eslint-disable */
 export default {
@@ -36,6 +37,11 @@ export default {
             path: 'set-password',
             name: 'set-password',
             component: SetPasswordPage,
+        },
+        {
+            path: 'forgot-password',
+            name: 'forgot-password',
+            component: ForgotPasswordPage,
         },
     ],
 

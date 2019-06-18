@@ -144,8 +144,7 @@
         }
       },
       forgotPassword() {
-        console.log("forgot password clicked");
-        // this.$router.push({ name: 'forgotPassword' });
+        this.$router.push({ name: 'forgot-password' });
       },
       verify(response) {
         this.credentials['g-recaptcha-response'] = response;

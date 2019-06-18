@@ -74,6 +74,16 @@ const actions = {
         return error.response;
       }
     },
+    async forgotPassword({ commit }, credentials) {
+      try {
+        const lang = localStorage.getItem('language') || '';
+        const data = await axios.post('/user/forgotPassword', JSON.stringify(credentials), { headers: { Lang: lang } });
+
+        return data;
+      } catch (error) {
+        return error.response;
+      }
+    },
     logOut({ commit }) {
         localStorage.removeItem('token');
         commit('setAuthenticated', false);
