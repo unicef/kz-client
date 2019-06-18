@@ -1,7 +1,7 @@
 <template>
     <v-form ref="form" @submit.prevent="submit" align-center justify-center lazy-validation class="mt-4 pb-4">
       <v-card class="login-form">
-        <v-toolbar class="headline justify-center" color="light-blue">Sign in</v-toolbar>
+        <v-toolbar class="headline justify-center" color="light-blue">{{ $t('signIn.title') }}</v-toolbar>
         <v-container :class='{ "pt-4": $vuetify.breakpoint.xs }'>
           <v-card-text>
             <v-container grid-list-md class="px-0 pb-0" :class='{ "px-0": $vuetify.breakpoint.xs }'>
@@ -9,7 +9,7 @@
                 <v-flex sm12>
                   <v-text-field
                     name="Email"
-                    label="Login"
+                    :label='$t("common.fields.login")'
                     id="login"
                     v-model="credentials.email"
                     type="email"
@@ -22,7 +22,7 @@
                 <v-flex sm12>
                   <v-text-field
                     name="Password"
-                    label="Password"
+                    :label='$t("common.fields.password")'
                     id="password"
                     v-model="credentials.password"
                     type="password"
@@ -57,9 +57,9 @@
                   v-if="!isLoginAdmin"
                   class='text-xs-center' 
                   @click='forgotPassword'>
-                  Forgot password
+                  {{ $t('common.btns.forgotPassword') }}
                 </a>
-              <v-btn type="submit" color="info mb-2 mt-2" depressed>Sign In</v-btn>
+              <v-btn type="submit" color="info mb-2 mt-2" depressed>{{ $t('common.btns.signIn') }}</v-btn>
             </v-layout>
           </v-card-actions>
         </v-container>
@@ -90,7 +90,7 @@
           login: [
             /* eslint-disable no-new */
             v => !!v || this.$t('common.fields.validation.field.required'),
-            v => /^\w+([+.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/.test(v) || this.$t('common.fields.validation.email.invalid'),
+            v => /^\w+([+.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/.test(v) || this.$t('common.fields.validation.email'),
           ],
           password: [
             /* eslint-disable*/

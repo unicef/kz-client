@@ -9,7 +9,7 @@
       class="mt-4 pb-4"
     >
       <v-card class="register-form">
-        <v-toolbar class="headline justify-center" color="light-blue">Create account</v-toolbar>
+        <v-toolbar class="headline justify-center" color="light-blue">{{ $t('createAccount.title') }}</v-toolbar>
         <v-container :class='{ "pt-4": $vuetify.breakpoint.xs }'>
           <v-card-text>
             <v-container grid-list-md class="px-0 pb-0" :class='{ "px-0": $vuetify.breakpoint.xs }'>
@@ -17,7 +17,7 @@
                 <v-flex sm12>
                   <v-text-field
                     name="Email"
-                    label="Login"
+                    :label='$t("common.fields.login")'
                     id="login"
                     v-model="credentials.email"
                     type="email"
@@ -30,7 +30,7 @@
                 <v-flex sm12>
                   <v-text-field
                     name="Password"
-                    label="Password"
+                    :label='$t("common.fields.password")'
                     id="password"
                     v-model="credentials.password"
                     type="password"
@@ -64,7 +64,7 @@
                   <router-link
                     to="/dashboard/docs/agreements"
                     target="_blank"
-                  >{{ $t('common.labels.agreemtns') }}</router-link>
+                  >{{ $t('common.btns.agreements') }}</router-link>
                 </v-flex>
               </v-layout>
               <v-layout row>
@@ -94,8 +94,8 @@
 
           <v-card-actions>
             <v-layout align-center class="btns-wrapper">
-              <a class="text-xs-center" @click="goToLogin">I already have account</a>
-              <v-btn type="submit" color="info mb-2 mt-2" depressed>Create</v-btn>
+              <a class="text-xs-center" @click="goToLogin">{{ $t('common.btns.alreadyHaveAnAccount') }}</a>
+              <v-btn type="submit" color="info mb-2 mt-2" depressed>{{ $t('common.btns.create') }}</v-btn>
             </v-layout>
           </v-card-actions>
         </v-container>
@@ -129,15 +129,15 @@
           login: [
             /* eslint-disable no-new */
             v => !!v || this.$t('common.fields.validation.field.required'),
-            v => /^\w+([+.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/.test(v) || this.$t('common.fields.validation.email.invalid'),
+            v => /^\w+([+.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/.test(v) || this.$t('common.fields.validation.email'),
           ],
           password: [
             /* eslint-disable*/
             v => !!v || this.$t('common.fields.validation.field.required'),
-            v => /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*~^()_+`\-={}\[\]:;<>\\\/?])[A-Za-z\d#$@!%&*~^()_+`\-={}\[\]:;<>.\\\/?]{10,}$/.test(v) || 'Password must be at least 10 characters and contain at least 1 number, 1 special sign and 1 capital letter.',
+            v => /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*~^()_+`\-={}\[\]:;<>\\\/?])[A-Za-z\d#$@!%&*~^()_+`\-={}\[\]:;<>.\\\/?]{10,}$/.test(v) || this.$t('common.fields.validation.password'),
           ],
           password_confirmation: [val => val === this.credentials.password || this.$t('common.fields.validation.password.dontMatch')],
-          agree: [v => !!v || this.$t('common.fields.validation.agreement')],
+          agree: [v => !!v || this.$t('common.fields.validation.field.required')],
         },
         errorAlert: {
           state: false,

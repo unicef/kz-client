@@ -6,11 +6,11 @@
        </v-flex>
        <v-flex xs12 sm12 md6 lg6>
          <v-card class="mt-4 create-account">
-          <v-toolbar class="headline justify-center" color="light-blue">No account yet?</v-toolbar>
+          <v-toolbar class="headline justify-center" color="light-blue">{{ $t('noAccount.title') }}</v-toolbar>
             <v-container :class='{ "pt-4": $vuetify.breakpoint.xs }'>
               <v-card-text class="justify-center">
-                <p>Manage projects and recieve latest news</p>
-                <v-btn type="btn" @click="createAccount" color="info mb-2 mt-2 mx-0" depressed>Create an account</v-btn>
+                <p>{{ $t('noAccount.text') }}</p>
+                <v-btn type="btn" @click="createAccount" color="info mb-2 mt-2 mx-0" depressed>{{ $t('common.btns.createAccount') }}</v-btn>
               </v-card-text>
             </v-container>
          </v-card>
