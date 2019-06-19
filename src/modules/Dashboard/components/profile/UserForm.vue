@@ -1,7 +1,7 @@
 <template>
   <v-layout wrap>
     <v-flex xs12>
-      <v-toolbar class="headline justify-center mt-4" color="light-blue">User Profile</v-toolbar>
+      <v-toolbar class="headline justify-center mt-4" color="light-blue">{{ $t('userProfile.title') }}</v-toolbar>
       <v-card class="user-step-by-step">
         <v-container :class="{ 'pt-4': $vuetify.breakpoint.xs }">
           <v-card-text>

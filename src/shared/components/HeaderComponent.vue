@@ -36,12 +36,12 @@
     </v-toolbar-items>
     <v-spacer></v-spacer>
     <v-toolbar-items class="right-nav">
-      <v-chip class="hidden-sm-and-down user-name" v-if="isAuthenticated" color="blue" :small="true">{{ email }}</v-chip>
+      <v-chip class="hidden-sm-and-down user-name" v-if="isAuthenticated&&email" color="blue" :small="true">{{ email }}</v-chip>
       <v-spacer></v-spacer>
       <language-picker/>
       <v-spacer></v-spacer>
-      <v-btn class="hidden-sm-and-down" @click="logOut" flat v-if="isAuthenticated">Log out</v-btn>
-      <v-btn class="hidden-sm-and-down" @click="logIn" flat v-if="!isAuthenticated">Log in</v-btn>
+      <v-btn class="hidden-sm-and-down" @click="logOut" flat v-if="isAuthenticated">{{ $t('common.btns.logOut') }}</v-btn>
+      <v-btn class="hidden-sm-and-down" @click="logIn" flat v-if="!isAuthenticated">{{ $t('common.btns.logIn') }}</v-btn>
       <v-btn class="hidden-md-and-up mobile-menu-btn" flat icon @click="toggleNavMenu">
         <svgicon class="svg-icon ml-1 mr-1" width="24" height="24" name="menu" color="#fff"/>
       </v-btn>
@@ -62,86 +62,6 @@
     data() {
       return {
         email: localStorage.getItem('me') ? JSON.parse(localStorage.getItem('me')).email : '',
-        routesAdmin: [
-          {
-            title: 'Users',
-            link: '/admin/users',
-          },
-          {
-            title: 'Projects',
-            link: '',
-          },
-          {
-            title: 'Finance',
-            link: '',
-          },
-          {
-            title: 'Help',
-            link: '',
-          },
-          {
-            title: 'Settings',
-            link: '/admin/settings',
-          },
-        ],
-        routesUnicefUserAll: [
-          {
-            title: 'Profile',
-            link: '/dashboard/profile',
-          },
-          {
-            title: 'Projects',
-            link: '',
-          },
-          {
-            title: 'Finance',
-            link: '',
-          },
-          {
-            title: 'Help',
-            link: '',
-          },
-          {
-            title: 'Parners',
-            link: '',
-          },
-        ],
-        routesPartnerAll: [
-          {
-            title: 'Profile',
-            link: '/dashboard/profile',
-          },
-          {
-            title: 'Projects',
-            link: '',
-          },
-          {
-            title: 'Finance',
-            link: '',
-          },
-          {
-            title: 'Help',
-            link: '',
-          },
-        ],
-        routesDonorAll: [
-          {
-            title: 'Profile',
-            link: '/dashboard/profile',
-          },
-          {
-            title: 'My Projects',
-            link: '',
-          },
-          {
-            title: 'Finance',
-            link: '',
-          },
-          {
-            title: 'Help',
-            link: '',
-          },
-        ],
       };
     },
     computed: {
@@ -181,11 +101,103 @@
       showStepByStepForm() {
         return this.$store.getters['dashboard/profile/showForm'];
       },
+      routesAdmin() {
+        const routes = [
+          {
+            title: this.$t('header.users'),
+            link: '/admin/users',
+          },
+          {
+            title: this.$t('header.projects'),
+            link: '',
+          },
+          {
+            title: this.$t('header.finance'),
+            link: '',
+          },
+          {
+            title: this.$t('header.help'),
+            link: '',
+          },
+          {
+            title: this.$t('header.settings'),
+            link: '/admin/settings',
+          },
+        ];
+        return routes;
+      },
+      routesUnicefUserAll() {
+        const routes = [
+          {
+            title: this.$t('header.profile'),
+            link: '/dashboard/profile',
+          },
+          {
+            title: this.$t('header.projects'),
+            link: '',
+          },
+          {
+            title: this.$t('header.finance'),
+            link: '',
+          },
+          {
+            title: this.$t('header.help'),
+            link: '',
+          },
+          {
+            title: this.$t('header.partners'),
+            link: '',
+          },
+        ];
+        return routes;
+      },
+      routesPartnerAll() {
+        const routes = [
+          {
+            title: this.$t('header.profile'),
+            link: '/dashboard/profile',
+          },
+          {
+            title: this.$t('header.projects'),
+            link: '',
+          },
+          {
+            title: this.$t('header.finance'),
+            link: '',
+          },
+          {
+            title: this.$t('header.help'),
+            link: '',
+          },
+        ];
+        return routes;
+      },
+      routesDonorAll() {
+        const routes = [
+          {
+            title: this.$t('header.profile'),
+            link: '/dashboard/profile',
+          },
+          {
+            title: this.$t('header.myProjects'),
+            link: '',
+          },
+          {
+            title: this.$t('header.finance'),
+            link: '',
+          },
+          {
+            title: this.$t('header.help'),
+            link: '',
+          },
+        ];
+        return routes;
+      },
       routesPartner() {
         /* eslint-disable */
         if (this.showStepByStepForm) {
           return this.routesPartnerAll.filter((item) => {
-            return item.title === 'Profile';
+            return item.title === this.$t('header.profile');
           });
         }
         return this.routesPartnerAll;
@@ -193,7 +205,7 @@
       routesUnicefUser() {
         if (this.showStepByStepForm) {
           return this.routesUnicefUserAll.filter((item) => {
-            return item.title === 'Profile';
+            return item.title === this.$t('header.profile');
           });
         }
         return this.routesUnicefUserAll;
@@ -201,7 +213,7 @@
       routesDonor() {
         if (this.showStepByStepForm) {
           return this.routesDonorAll.filter((item) => {
-            return item.title === 'Profile';
+            return item.title === this.$t('header.profile');
           });
         }
         return this.routesDonorAll;

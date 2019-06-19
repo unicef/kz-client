@@ -5,7 +5,7 @@
           <v-list-tile-content>
             <v-layout row align-center>
               <!-- Name -->
-              <div class="navigation-name">UNICEF</div>
+              <div class="navigation-name">{{ $t('header.navigation.unicef') }}</div>
             </v-layout>
           </v-list-tile-content>
         </v-list-tile>
@@ -13,7 +13,7 @@
           <v-list-tile-content>
             <v-layout row align-center>
               <!-- Name -->
-              <div class="navigation-name">Partners</div>
+              <div class="navigation-name">{{ $t('header.navigation.partners') }}</div>
             </v-layout>
           </v-list-tile-content>
         </v-list-tile>
@@ -21,7 +21,7 @@
           <v-list-tile-content>
             <v-layout row align-center>
               <!-- Name -->
-              <div class="navigation-name">Donors</div>
+              <div class="navigation-name">{{ $t('header.navigation.donors') }}</div>
             </v-layout>
           </v-list-tile-content>
         </v-list-tile>

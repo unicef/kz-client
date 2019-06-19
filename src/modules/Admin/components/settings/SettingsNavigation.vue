@@ -5,7 +5,7 @@
           <v-list-tile-content>
             <v-layout row align-center>
               <!-- Name -->
-              <div class="navigation-name">Password settings</div>
+              <div class="navigation-name">{{ $t('header.navigation.passwordSettings') }}</div>
             </v-layout>
           </v-list-tile-content>
         </v-list-tile>
@@ -13,7 +13,7 @@
           <v-list-tile-content>
             <v-layout row align-center>
               <!-- Name -->
-              <div class="navigation-name">Localization</div>
+              <div class="navigation-name">{{ $t('header.navigation.localization') }}</div>
             </v-layout>
           </v-list-tile-content>
         </v-list-tile>

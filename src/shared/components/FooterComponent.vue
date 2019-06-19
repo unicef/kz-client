@@ -4,7 +4,7 @@
       <v-layout wrap>
           <v-flex class="xs-12 sm3 md3 lg2 py-2" v-if="isClientPath && isAuthenticated">
               <router-link class='link' to='/dashboard/docs/agreements' >
-                Terms of uses
+                {{ $t('common.btns.agreements') }}
               </router-link>
           </v-flex>
           <v-flex class="xs-12 sm9 md9 lg10 py-2">

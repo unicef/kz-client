@@ -4,28 +4,28 @@
         <v-list-tile to="/dashboard/profile/user-details" active-class="active">
           <v-list-tile-content>
             <v-layout row align-center>
-              <div class="navigation-name">User Details</div>
+              <div class="navigation-name">{{ $t('header.navigation.userDetails') }}</div>
             </v-layout>
           </v-list-tile-content>
         </v-list-tile>
         <v-list-tile to="/dashboard/profile/company-details" v-if="isPartner" active-class="active">
           <v-list-tile-content>
             <v-layout row align-center>
-              <div class="navigation-name">Company details</div>
+              <div class="navigation-name">{{ $t('header.navigation.companyDetails') }}</div>
             </v-layout>
           </v-list-tile-content>
         </v-list-tile>
         <v-list-tile to="/dashboard/profile/documents" v-if="isPartner" active-class="active">
           <v-list-tile-content>
             <v-layout row align-center>
-              <div class="navigation-name">Docs</div>
+              <div class="navigation-name">{{ $t('header.navigation.documents') }}</div>
             </v-layout>
           </v-list-tile-content>
         </v-list-tile>
         <v-list-tile to="/dashboard/profile/settings" active-class="active">
           <v-list-tile-content>
             <v-layout row align-center>
-              <div class="navigation-name">Settings</div>
+              <div class="navigation-name">{{ $t('header.navigation.settings') }}</div>
             </v-layout>
           </v-list-tile-content>
         </v-list-tile>
