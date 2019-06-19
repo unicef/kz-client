@@ -36,7 +36,7 @@
     </v-toolbar-items>
     <v-spacer></v-spacer>
     <v-toolbar-items class="right-nav">
-      <v-chip class="hidden-sm-and-down user-name" v-if="isAuthenticated" color="blue" :small="true">testtesttest@test.test</v-chip>
+      <v-chip class="hidden-sm-and-down user-name" v-if="isAuthenticated" color="blue" :small="true">{{ email }}</v-chip>
       <v-spacer></v-spacer>
       <language-picker/>
       <v-spacer></v-spacer>
@@ -61,6 +61,7 @@
     },
     data() {
       return {
+        email: localStorage.getItem('me') ? JSON.parse(localStorage.getItem('me')).email : '',
         routesAdmin: [
           {
             title: 'Users',

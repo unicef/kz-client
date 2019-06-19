@@ -77,7 +77,7 @@ const actions = {
     async forgotPassword({ commit }, credentials) {
       try {
         const lang = localStorage.getItem('language') || '';
-        const data = await axios.post('/user/forgotPassword', JSON.stringify(credentials), { headers: { Lang: lang } });
+        const data = await axios.post('/user/forgot', JSON.stringify(credentials), { headers: { Lang: lang } });
 
         return data;
       } catch (error) {
