@@ -1,13 +1,13 @@
 <template>
   <v-layout wrap mb-4>
     <v-flex xs12 sm6 :class="{ 'pr-4': $vuetify.breakpoint.smAndUp }">
-      <h3 class="title mb-2">Declaration of eligibility</h3>
+      <h3 class="title mb-2">{{ $t('documents.title') }}</h3>
     </v-flex>
     <v-flex xs12 sm6 :class="{ 'pl-4': $vuetify.breakpoint.smAndUp }">
       <v-alert
         value="true"
         type="info"
-      >Note that combined size of each your document must not exceed 5Mb in format pdf, doc, docx</v-alert>
+      >{{ $t('companyDocuments.info') }}</v-alert>
     </v-flex>
     <v-flex mt-4 xs12 v-if="companyDocumentsData.length">
       <!-- Company already loaded documents -->
@@ -33,7 +33,7 @@
           <v-layout wrap>
             <v-flex xs12 sm6 :class="{ 'pr-4': $vuetify.breakpoint.smAndUp }">
               <v-text-field
-                label="File name"
+                :label="$t('common.fields.fileName')"
                 :id="'fileName' + index"
                 v-model="credentials.files[index].title"
                 :ref="'fileName' + index"
@@ -50,7 +50,7 @@
                 :ref="'loadDocBtn' + index"
                 :loading="credentials.files[index] ? credentials.files[index].loading : false"
                 @click="clickLoadDocument(index)"
-              >Upload</v-btn></span>
+              >{{ $t('common.btns.upload') }}</v-btn></span>
               <v-btn
                 class="my-0"
                 flat
@@ -75,7 +75,7 @@
             </v-flex>
           </v-layout>
         </v-flex>
-        <v-btn color="info" @click="addRow">Add file</v-btn>
+        <v-btn color="info" @click="addRow">{{ $t('common.btns.addFile') }}</v-btn>
       </v-layout>
     </v-flex>
     <delete-document-dialog/>
@@ -175,9 +175,9 @@
 
         this.credentials.files[index].id = '';
         this.$refs[docInput][0].value = '';
-        this.$refs[btnRef][0].$el.innerText = 'Upload';
+        this.$refs[btnRef][0].$el.innerText = this.$t('common.btns.upload');
         if (this.credentials.files[index].title) {
-          this.credentials.files[index].fileError = 'File is required';
+          this.credentials.files[index].fileError = this.$t('common.fields.validation.file');
         }
       },
       async loadDocument($event, index) {
@@ -210,7 +210,7 @@
           setTimeout(() => {
             that.credentials.files[index].loading = false;
             that.credentials.files[index].fileError = '';
-            that.$refs[btnRef][0].$el.innerText = 'Upload';
+            that.$refs[btnRef][0].$el.innerText = that.$t('common.btns.upload');
           }, 3000);
         }
       },
@@ -233,7 +233,7 @@
         this.credentials.files.forEach((item) => {
           if (item.title && !item.id) {
             isDataValid = false;
-            item.fileError = 'File is required';
+            item.fileError = this.$t('common.fields.validation.file');
           }
         });
         return isDataValid;
@@ -258,17 +258,17 @@
         }
 
         if (!allowedExtensions.includes(extension)) {
-          this.credentials.files[rowIndex].fileError = 'File should be only pdf, doc or docx.';
+          this.credentials.files[rowIndex].fileError = this.$t('common.fields.validation.fileFormat');
         }
         if (!((+file.size / 1024 / 1024) < maxAllowedSize)) {
-          this.credentials.files[rowIndex].fileError = 'File shouldn\'t be bigger than 5Mb';
+          this.credentials.files[rowIndex].fileError = this.$t('common.fields.validation.fileSize');
         }
 
         this.$refs[docInput][0].value = '';
         setTimeout(() => {
           that.credentials.files[rowIndex].loading = false;
           that.credentials.files[rowIndex].fileError = '';
-          that.$refs[btnRef][0].$el.innerText = 'Upload';
+          that.$refs[btnRef][0].$el.innerText = that.$t('common.btns.upload');
         }, 3000);
         return false;
       },

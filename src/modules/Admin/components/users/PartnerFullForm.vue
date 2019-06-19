@@ -56,8 +56,7 @@
 
             <v-card-actions>
               <v-layout align-center class="btns-wrapper">
-                <v-btn type="button" @click="createPartner" color="info mb-2 mt-2" depressed>Create</v-btn>
-                <v-btn type="button" color="error mb-2 mt-2" depressed>Cancel</v-btn>
+                <v-btn type="button" @click="createPartner" color="info mb-2 mt-2" depressed>{{ $t('common.btns.save') }}</v-btn>
               </v-layout>
             </v-card-actions>
           </v-container>
@@ -107,7 +106,7 @@
         return this.$store.getters['users/getCompanyDocumentsData'];
       },
       title() {
-        return this.$route.path.indexOf('partner-create') !== -1 ? 'Create Partner' : 'Edit Partner';
+        return this.$route.path.indexOf('partner-create') !== -1 ? this.$t('createPartner.title') : this.$t('editPartner.title');
       },
       partnerRoles() {
         return this.$store.getters['users/getPartnerCompanyProperties'].roles;

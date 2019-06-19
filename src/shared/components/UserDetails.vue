@@ -23,7 +23,7 @@
       <v-layout row>
         <v-flex sm12>
           <v-text-field
-            label="First Name RU"
+            :label="isAdminPath ? $t('common.fields.firstNameRu') : $t('common.fields.firstNameRu') + '*'"
             id="firstNameRu"
             v-model="credentials.firstNameRu"
             type="text"
@@ -36,7 +36,7 @@
       <v-layout row>
         <v-flex sm12>
           <v-text-field
-            label="First Name EN"
+            :label="isAdminPath ? $t('common.fields.firstNameEn') : $t('common.fields.firstNameEn') + '*'"
             id="firstNameEn"
             v-model="credentials.firstNameEn"
             type="text"
@@ -49,7 +49,7 @@
       <v-layout row>
         <v-flex sm12>
           <v-text-field
-            label="Last Name RU"
+            :label="isAdminPath ? $t('common.fields.lastNameRu') : $t('common.fields.lastNameRu') + '*'"
             id="lastNameRu"
             v-model="credentials.lastNameRu"
             type="text"
@@ -62,7 +62,7 @@
       <v-layout row>
         <v-flex sm12>
           <v-text-field
-            label="Last Name EN"
+            :label="isAdminPath ? $t('common.fields.lastNameEn') : $t('common.fields.lastNameEn') + '*'"
             id="lastNameEn"
             v-model="credentials.lastNameEn"
             type="text"
@@ -75,7 +75,7 @@
       <v-layout row>
         <v-flex sm12>
           <v-text-field
-            label="Occupation/Job title RU"
+            :label="isAdminPath ? $t('common.fields.occupationRu') : $t('common.fields.occupationRu') + '*'"
             id="occupationRu"
             v-model="credentials.occupationRu"
             type="text"
@@ -88,7 +88,7 @@
       <v-layout row>
         <v-flex sm12>
           <v-text-field
-            label="Occupation/Job title EN"
+            :label="isAdminPath ? $t('common.fields.occupationEn') : $t('common.fields.occupationEn') + '*'"
             id="occupationEn"
             v-model="credentials.occupationEn"
             type="text"
@@ -101,7 +101,7 @@
       <v-layout row>
         <v-flex sm12>
           <v-text-field
-            label="Telephone number"
+            :label="isAdminPath ? $t('common.fields.telephone') : $t('common.fields.telephone') + '*'"
             id="tel"
             v-model="credentials.tel"
             type="text"
@@ -114,7 +114,7 @@
       <v-layout row>
         <v-flex sm12>
           <v-text-field
-            label="Mobile number"
+            :label="isAdminPath ? $t('common.fields.mobile') : $t('common.fields.mobile') + '*'"
             id="mobile"
             v-model="credentials.mobile"
             type="text"
@@ -129,20 +129,16 @@
       <v-card v-if="userData.id" class="mb-4">
         <v-list dense>
           <v-list-tile>
-            <v-list-tile-content>System ID:</v-list-tile-content>
+            <v-list-tile-content>{{ $t('common.fields.systemId') }}:</v-list-tile-content>
             <v-list-tile-content class="align-end">{{ userData.id }}</v-list-tile-content>
           </v-list-tile>
           <v-list-tile v-if="userData.createdAt">
-            <v-list-tile-content>Registration date:</v-list-tile-content>
+            <v-list-tile-content>{{ $t('common.fields.registrationDate') }}:</v-list-tile-content>
             <v-list-tile-content class="align-end">{{ userData.createdAt }}</v-list-tile-content>
           </v-list-tile>
           <v-list-tile v-if="userData.lastLogin">
-            <v-list-tile-content>Last login:</v-list-tile-content>
+            <v-list-tile-content>{{ $t('common.fields.lastLogin') }}:</v-list-tile-content>
             <v-list-tile-content class="align-end">{{ userData.lastLogin }}</v-list-tile-content>
-          </v-list-tile>
-          <v-list-tile v-if="userData.status">
-            <v-list-tile-content>Status:</v-list-tile-content>
-            <v-list-tile-content class="align-end">{{ userData.status }}</v-list-tile-content>
           </v-list-tile>
         </v-list>
       </v-card>
@@ -153,7 +149,7 @@
           <v-select
             :items="partnerRoles"
             v-model="credentials.role"
-            label="Role*"
+            :label="$t('common.fields.role') + '*'"
             item-text="title"
             item-value="id"
             return-object
@@ -173,7 +169,7 @@
           <v-select
             :items="companies"
             v-model="credentials.company"
-            label="Company"
+            :label="$t('common.fields.company') + '*'"
             item-text="title"
             item-value="id"
             @change="setCompany"
@@ -245,8 +241,8 @@
         rules: {
           email: [
             /* eslint-disable no-new */
-            v => !!v.trim() || this.$t('common.fields.validation.email.required'),
-            v => /^\w+([+.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/.test(v) || this.$t('common.fields.validation.email.invalid'),
+            v => !!v.trim() || this.$t('common.fields.validation.field.required'),
+            v => /^\w+([+.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/.test(v) || this.$t('common.fields.validation.email'),
           ],
           name: [
             /* eslint-disable no-new */

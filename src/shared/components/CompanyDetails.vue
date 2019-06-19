@@ -1,14 +1,14 @@
 <template>
   <v-layout wrap mb-4>
     <v-flex xs12>
-      <h3 class="title mb-2">Company General Information</h3>
+      <h3 class="title mb-2">{{ $t('companyInfo.title') }}</h3>
     </v-flex>
     <v-flex xs12 sm6 :class="{ 'pr-4': $vuetify.breakpoint.smAndUp }">
       <!-- Company name Ru -->
       <v-layout row>
         <v-flex sm12>
           <v-text-field
-            label="Company Name RU*"
+            :label="$t('common.fields.companyNameRu') + '*'"
             id="nameRu"
             v-model="credentials.nameRu"
             type="text"
@@ -22,7 +22,7 @@
       <v-layout row>
         <v-flex sm12>
           <v-text-field
-            label="Company name EN*"
+            :label="$t('common.fields.companyNameEn') + '*'"
             id="nameEn"
             v-model="credentials.nameEn"
             type="text"
@@ -36,7 +36,7 @@
       <v-layout row>
         <v-flex sm12>
           <v-text-field
-            label="Trade name/DBA RU"
+            :label="isAdminPath ? $t('common.fields.tradeNameRu') : $t('common.fields.tradeNameRu') + '*'"
             id="tradeNameRu"
             v-model="credentials.tradeNameRu"
             type="text"
@@ -50,7 +50,7 @@
       <v-layout row>
         <v-flex sm12>
           <v-text-field
-            label="Trade name/DBA EN"
+            :label="isAdminPath ? $t('common.fields.tradeNameEn') : $t('common.fields.tradeNameEn') + '*'"
             id="tradeNameEn"
             v-model="credentials.tradeNameEn"
             type="text"
@@ -64,7 +64,7 @@
       <v-layout row>
         <v-flex sm12>
           <v-text-field
-            label="License"
+            :label="isAdminPath ? $t('common.fields.license') : $t('common.fields.license') + '*'"
             id="license"
             v-model="credentials.license"
             type="text"
@@ -80,7 +80,7 @@
           <v-select
             :items="countries"
             v-model="credentials.country"
-            label="Country"
+            :label="isAdminPath ? $t('common.fields.country') : $t('common.fields.country') + '*'"
             item-text="title"
             item-value="id"
             return-object
@@ -94,7 +94,7 @@
       <v-layout row>
         <v-flex sm12>
           <v-text-field
-            label="Company CEO's Name RU"
+            :label="isAdminPath ? $t('common.fields.ceoFirstNameRu') : $t('common.fields.ceoFirstNameRu') + '*'"
             id="ceoFirstNameRu"
             v-model="credentials.ceoFirstNameRu"
             type="text"
@@ -108,7 +108,7 @@
       <v-layout row>
         <v-flex sm12>
           <v-text-field
-            label="Company CEO's Name EN"
+            :label="isAdminPath ? $t('common.fields.ceoFirstNameEn') : $t('common.fields.ceoFirstNameEn') + '*'"
             id="ceoFirstNameEn"
             v-model="credentials.ceoFirstNameEn"
             type="text"
@@ -124,7 +124,7 @@
       <v-layout row>
         <v-flex sm12>
           <v-text-field
-            label="Company CEO's Last Name RU"
+            :label="isAdminPath ? $t('common.fields.ceoLastNameRu') : $t('common.fields.ceoLastNameRu') + '*'"
             id="ceoLastNameRu"
             v-model="credentials.ceoLastNameRu"
             type="text"
@@ -138,7 +138,7 @@
       <v-layout row>
         <v-flex sm12>
           <v-text-field
-            label="Company CEO's Last Name EN"
+            :label="isAdminPath ? $t('common.fields.ceoLastNameEn') : $t('common.fields.ceoLastNameEn') + '*'"
             id="ceoLastNameEn"
             v-model="credentials.ceoLastNameEn"
             type="text"
@@ -152,7 +152,7 @@
       <v-layout row>
         <v-flex sm12>
           <v-text-field
-            label="Year established"
+            :label="isAdminPath ? $t('common.fields.companyYear') : $t('common.fields.companyYear') + '*'"
             id="establishmentYear"
             v-model="credentials.year"
             type="text"
@@ -166,7 +166,7 @@
       <v-layout row>
         <v-flex sm12>
           <v-text-field
-            label="Number of employees"
+            :label="isAdminPath ? $t('common.fields.employersCount') : $t('common.fields.employersCount') + '*'"
             id="employersCount"
             v-model="credentials.employers"
             type="text"
@@ -182,7 +182,7 @@
           <v-select
             :items="areasOfWork"
             v-model="credentials.areaOfWork"
-            label="Areas of work"
+            :label="isAdminPath ? $t('common.fields.areaOfWork') : $t('common.fields.areaOfWork') + '*'"
             item-text="title"
             item-value="id"
             return-object
@@ -198,7 +198,7 @@
           <v-select
             :items="ownership"
             v-model="credentials.ownership"
-            label="Сompany's Ownership"
+            :label="isAdminPath ? $t('common.fields.ownership') : $t('common.fields.ownership') + '*'"
             item-text="title"
             item-value="id"
             return-object
@@ -214,7 +214,7 @@
           <v-select
             :items="partnerTypes"
             v-model="credentials.partnerType"
-            label="Partner type"
+            :label="isAdminPath ? $t('common.fields.partnerType') : $t('common.fields.partnerType') + '*'"
             item-text="title"
             item-value="id"
             return-object
@@ -230,7 +230,7 @@
           <v-select
             :items="csoTypes"
             v-model="credentials.csoType"
-            label="CSO type"
+            :label="isAdminPath ? $t('common.fields.csoType') : $t('common.fields.csoType') + '*'"
             item-text="title"
             item-value="id"
             return-object
@@ -242,14 +242,14 @@
       </v-layout>
     </v-flex>
     <v-flex xs12 pt-4>
-      <h3 class="title mb-2">Company's Contact Information</h3>
+      <h3 class="title mb-2">{{ $t('companyContacts.title') }}</h3>
     </v-flex>
     <v-flex xs12 sm6 :class="{ 'pr-4': $vuetify.breakpoint.smAndUp }">
       <!-- Company Telephone -->
       <v-layout row>
         <v-flex sm12>
           <v-text-field
-            label="Phone number"
+            :label="isAdminPath ? $t('common.fields.telephone') : $t('common.fields.telephone') + '*'"
             id="companyTel"
             v-model="credentials.tel"
             type="text"
@@ -262,14 +262,14 @@
       <!-- Website -->
       <v-layout row>
         <v-flex sm12>
-          <v-text-field label="Website" id="website" v-model="credentials.website" type="text" :disabled="fieldsDisabled" />
+          <v-text-field :label="isAdminPath ? $t('common.fields.website') : $t('common.fields.website') + '*'" id="website" v-model="credentials.website" type="text" :disabled="fieldsDisabled" />
         </v-flex>
       </v-layout>
       <!-- City/town Ru -->
       <v-layout row>
         <v-flex sm12>
           <v-text-field
-            label="City/town RU"
+            :label="isAdminPath ? $t('common.fields.cityRu') : $t('common.fields.cityRu') + '*'"
             id="cityRu"
             v-model="credentials.cityRu"
             type="text"
@@ -283,7 +283,7 @@
       <v-layout row>
         <v-flex sm12>
           <v-text-field
-            label="City/town EN"
+            :label="isAdminPath ? $t('common.fields.cityEn') : $t('common.fields.cityEn') + '*'"
             id="cityEn"
             v-model="credentials.cityEn"
             type="text"
@@ -299,7 +299,7 @@
       <v-layout row>
         <v-flex sm12>
           <v-text-field
-            label="Address line RU"
+            :label="isAdminPath ? $t('common.fields.addressRu') : $t('common.fields.addressRu') + '*'"
             id="addressRu"
             v-model="credentials.addressRu"
             type="text"
@@ -313,7 +313,7 @@
       <v-layout row>
         <v-flex sm12>
           <v-text-field
-            label="Address line EN"
+            :label="isAdminPath ? $t('common.fields.addressEn') : $t('common.fields.addressEn') + '*'"
             id="addressEn"
             v-model="credentials.addressEn"
             type="text"
@@ -326,20 +326,20 @@
       <!-- Postal code -->
       <v-layout row>
         <v-flex sm12>
-          <v-text-field label="Postal code" id="zip" v-model="credentials.zip" type="text" :disabled="fieldsDisabled" />
+          <v-text-field id="zip" :label="isAdminPath ? $t('common.fields.zip') : $t('common.fields.zip') + '*'" v-model="credentials.zip" type="text" :disabled="fieldsDisabled" />
         </v-flex>
       </v-layout>
     </v-flex>
     <!-- AUTHORISED PERSON BLOCK (only for client and partner role Responsible Assistant) -->
     <v-flex xs12 pt-4 v-if="isClientPath&&isResponsibleAssistant">
-      <h3 class="title mb-2" v-if="isClientPath">Authorised Person's Information</h3>
+      <h3 class="title mb-2" v-if="isClientPath">{{ $t('apInformation.title') }}</h3>
     </v-flex>
     <v-flex xs12 sm6 :class="{ 'pr-4': $vuetify.breakpoint.smAndUp }" v-if="isClientPath&&isResponsibleAssistant">
       <!-- Authorised Person's First name Ru -->
       <v-layout row>
         <v-flex sm12>
           <v-text-field
-            label="First Name RU"
+            :label="isAdminPath ? $t('common.fields.firstNameRu') : $t('common.fields.firstNameRu') + '*'"
             id="opFirstNameRu"
             v-model="authorisedPerson.firstNameRu"
             type="text"
@@ -352,7 +352,7 @@
       <v-layout row>
         <v-flex sm12>
           <v-text-field
-            label="First Name EN"
+            :label="isAdminPath ? $t('common.fields.firstNameEn') : $t('common.fields.firstNameEn') + '*'"
             id="opFirstNameEn"
             v-model="authorisedPerson.firstNameEn"
             type="text"
@@ -365,7 +365,7 @@
       <v-layout row>
         <v-flex sm12>
           <v-text-field
-            label="Last Name RU"
+            :label="isAdminPath ? $t('common.fields.lastNameRu') : $t('common.fields.lastNameRu') + '*'"
             id="opLastNameRu"
             v-model="authorisedPerson.lastNameRu"
             type="text"
@@ -378,7 +378,7 @@
       <v-layout row>
         <v-flex sm12>
           <v-text-field
-            label="Last Name EN"
+            :label="isAdminPath ? $t('common.fields.lastNameEn') : $t('common.fields.lastNameEn') + '*'"
             id="opLastNameEn"
             v-model="authorisedPerson.lastNameEn"
             type="text"
@@ -393,7 +393,7 @@
       <v-layout row>
         <v-flex sm12>
           <v-text-field
-            label="Occupation/Job title RU"
+            :label="isAdminPath ? $t('common.fields.occupationRu') : $t('common.fields.occupationRu') + '*'"
             id="opOccupationRu"
             v-model="authorisedPerson.occupationRu"
             type="text"
@@ -406,7 +406,7 @@
       <v-layout row>
         <v-flex sm12>
           <v-text-field
-            label="Occupation/Job title EN"
+            :label="isAdminPath ? $t('common.fields.occupationEn') : $t('common.fields.occupationEn') + '*'"
             id="opOccupationEn"
             v-model="authorisedPerson.occupationEn"
             type="text"
@@ -419,11 +419,12 @@
       <v-layout row>
         <v-flex sm12>
           <v-text-field
-            label="Authorised Person's email"
+            :label="$t('common.fields.email') + '*'"
             id="opEmail"
             v-model="authorisedPerson.email"
             type="text"
             :rules="rules.email"
+            :disabled="!!authorisedPersonData.email"
             required
           />
         </v-flex>
@@ -513,10 +514,10 @@
             country: {},
             year: '',
             employers: '',
-            areaOfWork: {},
-            ownership: {},
-            partnerType: {},
-            csoType: {},
+            areaOfWork: null,
+            ownership: null,
+            partnerType: null,
+            csoType: null,
             tel: '',
             website: '',
             cityRu: '',
@@ -544,7 +545,7 @@
           ],
           selectFieldRequired: [
             /* eslint-disable no-new */
-            v => !!v.title || this.$t('common.fields.validation.field.required'),
+            v => !!v || this.$t('common.fields.validation.field.required'),
           ],
           letter: [
             /* eslint-disable no-new */

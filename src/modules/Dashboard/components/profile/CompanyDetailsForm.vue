@@ -1,7 +1,7 @@
 <template>
   <v-layout wrap>
     <v-flex xs12>
-      <v-toolbar class="headline justify-center mt-4" color="light-blue">Company Details</v-toolbar>
+      <v-toolbar class="headline justify-center mt-4" color="light-blue">{{ $t('companyDetails.title') }}</v-toolbar>
       <v-form ref="companyDetailsForm" lazy-validation>
         <v-card class="company-details">
           <v-container :class='{ "pt-4": $vuetify.breakpoint.xs }'>
@@ -42,8 +42,7 @@
 
             <v-card-actions>
               <v-layout align-center class="btns-wrapper">
-                <v-btn type="button" @click="saveCompany" color="info mb-2 mt-2" depressed>Save</v-btn>
-                <v-btn type="button" color="error mb-2 mt-2" depressed>Cancel</v-btn>
+                <v-btn type="button" @click="saveCompany" color="info mb-2 mt-2" depressed>{{ $t('common.btns.save') }}</v-btn>
               </v-layout>
             </v-card-actions>
           </v-container>
