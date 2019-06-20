@@ -147,7 +147,7 @@
         }
         const data = await this.$store.dispatch('admin/settings/getTranslations', this.credentials.key);
         const that = this;
-        
+
         if (data.data.success && data.data.data) {
           Object.keys(data.data.data).forEach((key) => {
             that.$store.commit('admin/settings/setKeyTranslation', { key, value: data.data.data[key] });

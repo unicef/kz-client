@@ -85,7 +85,7 @@
 
           if (response.data.success) {
             this.$refs.form.reset();
-            
+
             this.errorAlert.state = false;
             this.errorAlert.msg = '';
             this.successAlert.state = true;

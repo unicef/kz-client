@@ -7,7 +7,7 @@
       persistent 
       max-width="290">
       <v-card class="confirm-dialog">
-        <v-card-title class="headline">Are you sure you want to delete the document? {{deleteDocumentId}}</v-card-title>
+        <v-card-title class="headline">{{ $t('deleteDocumentDialog.title') }}</v-card-title>
         <!-- Alert -->
         <v-layout row v-if='errorAlert.state'>
             <v-flex sm12 py-2 px-4>
@@ -18,8 +18,8 @@
         </v-layout>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="red darken-1" flat @click="close">Cancel</v-btn>
-          <v-btn color="green darken-1" flat @click="deleteDocument">Delete</v-btn>
+          <v-btn color="red darken-1" flat @click="close">{{ $t('common.btns.cancel') }}</v-btn>
+          <v-btn color="green darken-1" flat @click="deleteDocument">{{ $t('common.btns.delete') }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -55,7 +55,7 @@
     },
     methods: {
       async deleteDocument() {
-        const data = await this.$store.dispatch('users/deleteCompanyDocument', { id: this.deleteDocumentId });
+        const data = await this.$store.dispatch('users/deleteCompanyDocument', this.deleteDocumentId);
 
         if (data.data.success) {
           this.$store.commit('users/deleteCompanyDocument', this.deleteDocumentId);
@@ -63,7 +63,7 @@
           this.close();
         } else {
           this.errorAlert.state = true;
-          this.errorAlert.msg = data.data.err;
+          this.errorAlert.msg = data.data.error.message;
           const that = this;
           setTimeout(() => {
             that.close();

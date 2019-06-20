@@ -170,7 +170,6 @@
             response = await this.$store.dispatch('users/editPartnerByAdmin', this.credentials);
           }
 
-          console.log(response);
           if (response.data.success) {
             this.errorAlert.state = false;
             this.errorAlert.msg = '';

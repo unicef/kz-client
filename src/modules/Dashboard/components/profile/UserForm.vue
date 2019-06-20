@@ -189,9 +189,8 @@
     },
     methods: {
       async saveProfile() {
-        console.log('save profile', this.credentials);
-        let response = await this.$store.dispatch('users/saveUserStepByStep', this.credentials);
-        console.log(response);
+        const response = await this.$store.dispatch('users/saveUserStepByStep', this.credentials);
+
         const that = this;
         if (response.data.success) {
           this.errorAlert.state = false;
@@ -203,7 +202,7 @@
             this.successAlert.state = false;
             this.successAlert.msg = '';
             await that.$store.dispatch('auth/auth/getMyInfo');
-            
+
             that.$router.push({ name: 'user-details' });
           }, 2000);
         } else {

@@ -21,7 +21,7 @@
         localStorage.removeItem('me');
         await store.commit('global/setRoles', null, { root: true });
       }
-      
+
       if (store.getters['auth/auth/isAuthenticated'] && store.getters['global/getRoles'].indexOf('a') !== -1) {
         next();
       } else if (store.getters['auth/auth/isAuthenticated'] && store.getters['global/getRoles'].indexOf('a') === -1) {

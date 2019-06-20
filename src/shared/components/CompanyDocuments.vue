@@ -83,6 +83,7 @@
 </template>
 
 <script>
+  import { saveAs } from 'file-saver';
   import '@/../static/icons/compiled-svg/close';
   import DeleteDocumentDialog from '@/shared/components/DeleteDocumentDialog';
 
@@ -98,21 +99,7 @@
     },
     watch: {
       companyDocumentsData() {
-        // add a required load doc row if Anexg not loaded (for client side)
-        /* eslint-disable */
-        const isAnexgLoaded = !!this.companyDocumentsData.filter((item) => {
-          return item.title === 'Partner Declaration Profile and due Diligence Verification Form';
-        }).length;
-        if (!isAnexgLoaded && this.isClientPath) {
-          const fileObj = {
-            id: '',
-            title: 'Partner Declaration Profile and due Diligence Verification Form',
-            loading: false,
-            fileError: '',
-          };
-          this.docsInputRows++;
-          this.credentials.files.push(fileObj);
-        }
+        this.addRowForAnexgUploading();
       },
     },
     data() {
@@ -143,9 +130,13 @@
         return this.$route.path.indexOf('partner-create') !== -1;
       },
     },
+    created() {
+      this.addRowForAnexgUploading();
+    },
     methods: {
       getCompanyDocuments() {
         if (this.validateData()) {
+          /* eslint-disable */
           const loadedFiles = this.credentials.files.filter((item) => {
             return item.id && item.title;
           }).map((item) => {
@@ -159,20 +150,34 @@
         }
         return false;
       },
+      addRowForAnexgUploading() {
+        // add a required load doc row if Anexg not loaded (for client side)
+        /* eslint-disable */
+        const isAnexgLoaded = !!this.companyDocumentsData.filter((item) => {
+          return item.title === 'Partner Declaration Profile and due Diligence Verification Form';
+        }).length;
+        const isRowForAnexgLoaded = !!this.credentials.files.filter((item) => {
+          return item.title === 'Partner Declaration Profile and due Diligence Verification Form';
+        }).length;
+        if (!isAnexgLoaded && !isRowForAnexgLoaded && this.isClientPath) {
+          const fileObj = {
+            id: '',
+            title: 'Partner Declaration Profile and due Diligence Verification Form',
+            loading: false,
+            fileError: '',
+          };
+          this.docsInputRows++;
+          this.credentials.files.push(fileObj);
+        }
+      },
       async downloadDocument(docId, event) {
         console.log(docId);
         const data = await this.$store.dispatch('users/getCompanyDocument', docId);
         console.log(data);
         const headers = data.headers;
         const blob = new Blob([data.data], { type: headers['content-type'] });
-         console.log(event.target);
 
-        const url = window.URL.createObjectURL(blob);
-        let link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', 'file');
-        document.body.appendChild(link);
-        link.click();
+        saveAs(blob, 'file');
       },
       deleteDocument(id) {
         console.log('delete document with id: ', id);
