@@ -16,7 +16,7 @@
         <v-flex xs12 sm6 md6>
           <v-layout wrap align-content-start>
             <v-flex xs9>
-              <a @click="downloadDocument(doc.id)">{{doc.title}}</a>
+              <a @click="downloadDocument(doc.id, $event)">{{doc.title}}</a>
             </v-flex>
             <v-flex xs3>
               <v-btn class="my-0" flat icon @click="deleteDocument(doc.id)">
@@ -159,10 +159,20 @@
         }
         return false;
       },
-      async downloadDocument(docId) {
+      async downloadDocument(docId, event) {
         console.log(docId);
         const data = await this.$store.dispatch('users/getCompanyDocument', docId);
         console.log(data);
+        const headers = data.headers;
+        const blob = new Blob([data.data], { type: headers['content-type'] });
+         console.log(event.target);
+
+        const url = window.URL.createObjectURL(blob);
+        let link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'file');
+        document.body.appendChild(link);
+        link.click();
       },
       deleteDocument(id) {
         console.log('delete document with id: ', id);

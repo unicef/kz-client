@@ -230,9 +230,21 @@ const actions = {
     try {
       const token = localStorage.getItem('token') || '';
       const lang = localStorage.getItem('language') || '';
-      const data = await axios.get(`/partner/document?id=${credentials}`, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
-
-      return data.data.data;
+      const data = await axios.get(`/partner/document?id=${credentials}`, { headers: { Authorization: `Bearer ${token}`, Lang: lang, responseType: 'document' } });
+      // const headers = data.headers();
+      // const blob = new Blob([data.data], { type: headers['content-type'] });
+    //   axios.get(url, {responseType: 'arraybuffer'})
+    //   .then(function (response) {
+    //     var headers = response.headers();
+    //     var blob = new Blob([response.data],{type:headers['content-type']});
+    //     var link = document.createElement('a');
+    //     link.href = window.URL.createObjectURL(blob);
+    //     link.download = "Your_file_name";
+    //     link.click();
+    // });
+    // console.log(data);
+    //console.log(blob);
+      return data;
     } catch (error) {
       return error.response;
     }
