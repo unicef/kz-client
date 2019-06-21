@@ -230,9 +230,9 @@ const actions = {
     try {
       const token = localStorage.getItem('token') || '';
       const lang = localStorage.getItem('language') || '';
-      const data = await axios.get(`/partner/document?id=${credentials}`, { headers: { Authorization: `Bearer ${token}`, Lang: lang, responseType: 'document' } });
+      const data = await axios.get(`/partner/document?id=${credentials}`, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
 
-      return data;
+      return data.data;
     } catch (error) {
       return error.response;
     }

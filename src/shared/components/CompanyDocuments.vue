@@ -84,6 +84,7 @@
 
 <script>
   import { saveAs } from 'file-saver';
+  import { base64StringToBlob } from 'blob-util';
   import '@/../static/icons/compiled-svg/close';
   import DeleteDocumentDialog from '@/shared/components/DeleteDocumentDialog';
 
@@ -171,13 +172,11 @@
         }
       },
       async downloadDocument(docId, event) {
-        console.log(docId);
         const data = await this.$store.dispatch('users/getCompanyDocument', docId);
-        console.log(data);
-        const headers = data.headers;
-        const blob = new Blob([data.data], { type: headers['content-type'] });
-
-        saveAs(blob, 'file');
+        if (data.success) {
+          const blob = base64StringToBlob(data.data.doc, data.data.contentType);
+          saveAs(blob, data.data.filename);
+        }
       },
       deleteDocument(id) {
         console.log('delete document with id: ', id);
