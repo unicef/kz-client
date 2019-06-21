@@ -72,6 +72,7 @@
     },
     data() {
       return {
+        credentials: null,
         errorAlert: {
           state: false,
           msg: '',
@@ -94,10 +95,31 @@
       async saveUser() {
         if (this.$refs.userDetailsForm.validate()) {
           this.$refs.userDetails.getUserDetails();
+
+          const response = await this.$store.dispatch('users/saveUserDetails', this.credentials);
+
+          if (response.data.success) {
+            this.errorAlert.state = false;
+            this.errorAlert.msg = '';
+            this.successAlert.state = true;
+            this.successAlert.msg = response.data.data.message;
+            this.$store.commit('users/setUserData', this.credentials);
+
+            setTimeout(() => {
+              this.successAlert.state = false;
+              this.successAlert.msg = '';
+            }, 2000);
+          } else {
+            this.successAlert.state = false;
+            this.successAlert.msg = '';
+            this.errorAlert.state = true;
+            this.errorAlert.msg = response.data.error.message;
+          }
         }
       },
       getUserDetails(userData) {
         console.log('in parent', userData);
+        this.credentials = userData;
       },
     },
   };

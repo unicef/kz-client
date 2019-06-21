@@ -172,13 +172,23 @@ const actions = {
       return error.response;
     }
   },
+  async saveUserDetails({ commit }, credentials) {
+    try {
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+      const data = await axios.put('/user/information', credentials, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
+
+      return data;
+    } catch (error) {
+      return error.response;
+    }
+  },
   async getAuthorisedPersonInfo({ commit }, credentials) {
     try {
       const token = localStorage.getItem('token') || '';
       const lang = localStorage.getItem('language') || '';
       const data = await axios.get(`/user?id=${credentials}`, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
 
-      // const data = await axios.get(`${JSONpath()}/user${credentials}JSON.json`);
       commit('setAuthorisedPersonData', data.data.data);
 
       return data.data.data;
