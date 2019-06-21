@@ -36,18 +36,18 @@ const actions = {
       const token = localStorage.getItem('token') || '';
       const data = await axios.patch('/user/seed', null, { headers: { Authorization: `Bearer ${token}` } });
 
-
       return data;
-    //   return {
-    //     data: {
-    //       success: true,
-    //     }
-    //   }
-      // return {
-      //   data: {
-      //     err: "something went wrong",
-      //   }
-      // }
+    } catch (error) {
+      return error.response;
+    }
+  },
+  async getSeedFile({ commit }, credentials) {
+    try {
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+      const data = await axios.get(`/file?id=${credentials}`, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
+
+      return data.data;
     } catch (error) {
       return error.response;
     }
