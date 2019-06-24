@@ -78,7 +78,7 @@
           password: [
             /* eslint-disable*/
             v => !!v || this.$t('common.fields.validation.field.required'),
-            v => /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*~^()_+`\-={}\[\]:;<>\\\/?])[A-Za-z\d#$@!%&*~^()_+`\-={}\[\]:;<>.\\\/?]{10,}$/.test(v) || this.$t('common.fields.validation.password'),
+            v => /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*~^()_+`\-={}\[\]:;<>\\\/?])[A-Za-z\d#$@!%&*~^()_+`\-={}\[\]:;<>.\\\/?]{10,}$/.test(v) || this.$t('common.fields.validation.password'),
           ],
           repeatPassword: [val => val === this.setData.password || this.$t('common.fields.validation.password.dontMatch')],
         },
