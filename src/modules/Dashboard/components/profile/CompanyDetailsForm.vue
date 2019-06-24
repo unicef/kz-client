@@ -72,6 +72,7 @@
     },
     data() {
       return {
+        credentials: null,
         errorAlert: {
           state: false,
           msg: '',
@@ -112,10 +113,33 @@
       async saveCompany() {
         if (this.$refs.companyDetailsForm.validate()) {
           this.$refs.companyDetails.getCompanyDetails();
+
+          const response = await this.$store.dispatch('users/saveCompanyDetails', this.credentials);
+
+          if (response.data.success) {
+            this.errorAlert.state = false;
+            this.errorAlert.msg = '';
+            this.successAlert.state = true;
+            this.successAlert.msg = response.data.data.message;
+
+            this.$store.commit('users/setCompanyData',  this.credentials.company);
+            this.$store.commit('users/setAuthorisedPersonData',  this.credentials.authorisedPerson);
+
+            setTimeout(() => {
+              this.successAlert.state = false;
+              this.successAlert.msg = '';
+            }, 2000);
+          } else {
+            this.successAlert.state = false;
+            this.successAlert.msg = '';
+            this.errorAlert.state = true;
+            this.errorAlert.msg = response.data.error.message;
+          }
         }
       },
       getCompanyDetails(companyData) {
         console.log('dashbord in parent company data: ', companyData);
+        this.credentials = companyData;
       },
     },
 

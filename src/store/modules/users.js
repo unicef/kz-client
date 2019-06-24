@@ -215,10 +215,20 @@ const actions = {
       const lang = localStorage.getItem('language') || '';
       const data = await axios.get(`/partner?id=${credentials}`, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
 
-      // const data = await axios.get(`${JSONpath()}/company${credentials}JSON.json`);
       commit('setCompanyData', data.data.data);
 
       return data.data.data;
+    } catch (error) {
+      return error.response;
+    }
+  },
+  async saveCompanyDetails({ commit }, credentials) {
+    try {
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+      const data = await axios.put('/partner', credentials, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
+
+      return data;
     } catch (error) {
       return error.response;
     }
