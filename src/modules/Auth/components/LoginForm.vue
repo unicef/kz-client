@@ -25,8 +25,10 @@
                     :label='$t("common.fields.password") + "*"'
                     id="password"
                     v-model="credentials.password"
-                    type="password"
+                    :append-icon="showPassword ? 'visibility' : 'visibility_off'"
+                    :type="showPassword ? 'text' : 'password'"
                     :rules="rules.password"
+                    @click:append="showPassword = !showPassword"
                     required
                   />
                 </v-flex>
@@ -86,6 +88,7 @@
           password: '',
           'g-recaptcha-response': '',
         },
+        showPassword: false,
         rules: {
           login: [
             /* eslint-disable no-new */

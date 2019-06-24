@@ -33,8 +33,10 @@
                     :label='$t("common.fields.password") + "*"'
                     id="password"
                     v-model="credentials.password"
-                    type="password"
+                    :append-icon="showPassword ? 'visibility' : 'visibility_off'"
+                    :type="showPassword ? 'text' : 'password'"
                     :rules="rules.password"
+                    @click:append="showPassword = !showPassword"
                     required
                   />
                 </v-flex>
@@ -45,8 +47,10 @@
                     name="repeatPassword"
                     :label='$t("common.fields.password.repeat") + "*"'
                     v-model="credentials.passwordConfirmation"
-                    type="password"
+                    :append-icon="showPasswordConfirmation ? 'visibility' : 'visibility_off'"
+                    :type="showPasswordConfirmation ? 'text' : 'password'"
                     :rules="rules.password_confirmation"
+                    @click:append="showPasswordConfirmation = !showPasswordConfirmation"
                     required
                   />
                 </v-flex>
@@ -125,6 +129,8 @@
           agree: false,
           'g-recaptcha-response': '',
         },
+        showPassword: false,
+        showPasswordConfirmation: false,
         rules: {
           login: [
             /* eslint-disable no-new */

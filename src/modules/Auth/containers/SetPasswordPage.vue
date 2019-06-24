@@ -21,8 +21,10 @@
                     name='password'
                     :label='$t("common.fields.password") + "*"'
                     v-model='setData.password'
-                    type='password'
+                    :append-icon="showPassword ? 'visibility' : 'visibility_off'"
+                    :type="showPassword ? 'text' : 'password'"
                     :rules='rules.password'
+                    @click:append="showPassword = !showPassword"
                     required />
                 </v-flex>
               </v-layout>
@@ -32,8 +34,10 @@
                     name='repeatPassword'
                     :label='$t("common.fields.password.repeat") + "*"'
                     v-model='setData.passwordConfirmation'
-                    type='password'
+                    :append-icon="showPasswordConfirmation ? 'visibility' : 'visibility_off'"
+                    :type="showPasswordConfirmation ? 'text' : 'password'"
                     :rules='rules.repeatPassword'
+                    @click:append="showPasswordConfirmation = !showPasswordConfirmation"
                     required />
                 </v-flex>
               </v-layout>
@@ -74,6 +78,8 @@
           password: '',
           passwordConfirmation: '',
         },
+        showPassword: false,
+        showPasswordConfirmation: false,
         rules: {
           password: [
             /* eslint-disable*/
