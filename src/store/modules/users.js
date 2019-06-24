@@ -246,6 +246,17 @@ const actions = {
       return error.response;
     }
   },
+  async saveCompanyDocuments({ commit }, credentials) {
+    try {
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+      const data = await axios.post('/partner/documents', credentials, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
+
+      return data;
+    } catch (error) {
+      return error.response;
+    }
+  },
   async getCompanyDocument({ commit }, credentials) {
     try {
       const token = localStorage.getItem('token') || '';

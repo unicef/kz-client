@@ -65,6 +65,7 @@
     },
     data() {
       return {
+        credentials: null,
         errorAlert: {
           state: false,
           msg: '',
@@ -84,10 +85,32 @@
       async saveDocuments() {
         if (this.$refs.companyDocumentsForm.validate()) {
           this.$refs.companyDocuments.getCompanyDocuments();
+
+          const response = await this.$store.dispatch('users/saveCompanyDocuments', this.credentials);
+
+          if (response.data.success) {
+            this.errorAlert.state = false;
+            this.errorAlert.msg = '';
+            this.successAlert.state = true;
+            this.successAlert.msg = response.data.data.message;
+
+            this.$store.dispatch('users/getCompanyDocuments', companyDocumentsData.id);
+
+            setTimeout(() => {
+              this.successAlert.state = false;
+              this.successAlert.msg = '';
+            }, 2000);
+          } else {
+            this.successAlert.state = false;
+            this.successAlert.msg = '';
+            this.errorAlert.state = true;
+            this.errorAlert.msg = response.data.error.message;
+          }
         }
       },
       getCompanyDocuments(companyDocumetsData) {
         console.log('in parent company docs: ', companyDocumetsData);
+        this.credentials = companyDocumetsData;
       },
     },
   };
