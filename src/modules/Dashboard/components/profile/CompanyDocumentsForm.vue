@@ -80,21 +80,25 @@
       companyDocumentsData() {
         return this.$store.getters['users/getCompanyDocumentsData'];
       },
+      companyData() {
+        return this.$store.getters['users/getCompanyData'];
+      },
     },
     methods: {
       async saveDocuments() {
         if (this.$refs.companyDocumentsForm.validate()) {
           this.$refs.companyDocuments.getCompanyDocuments();
 
-          const response = await this.$store.dispatch('users/saveCompanyDocuments', this.credentials);
+          const response = await this.$store.dispatch('users/saveCompanyDocuments', { documents: this.credentials });
 
           if (response.data.success) {
             this.errorAlert.state = false;
             this.errorAlert.msg = '';
             this.successAlert.state = true;
             this.successAlert.msg = response.data.data.message;
+            this.$refs.companyDocuments.clearCompanyDocuments();
 
-            this.$store.dispatch('users/getCompanyDocuments', companyDocumentsData.id);
+            this.$store.dispatch('users/getCompanyDocuments', this.companyData.id);
 
             setTimeout(() => {
               this.successAlert.state = false;

@@ -151,6 +151,10 @@
         }
         return false;
       },
+      clearCompanyDocuments() {
+        this.credentials.files = [];
+        this.docsInputRows = 0;
+      },
       addRowForAnexgUploading() {
         // add a required load doc row if Anexg not loaded (for client side)
         /* eslint-disable */
