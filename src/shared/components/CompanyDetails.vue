@@ -225,7 +225,7 @@
         </v-flex>
       </v-layout>
       <!-- CSO type -->
-      <v-layout row v-if="credentials.partnerType.title === 'Civil society'">
+      <v-layout row v-if="credentials.partnerType&&(credentials.partnerType.title === 'Civil society')">
         <v-flex sm12>
           <v-select
             :items="csoTypes"
