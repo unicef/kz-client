@@ -179,6 +179,7 @@
             setTimeout(() => {
               this.successAlert.state = false;
               this.successAlert.msg = '';
+              this.$router.push({ name: 'partners-list' });
             }, 2000);
           } else {
             this.successAlert.state = false;
