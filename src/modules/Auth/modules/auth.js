@@ -64,6 +64,16 @@ const actions = {
         return error.response;
       }
     },
+    async resendActivationLink({ commit }, link) {
+      try {
+        const lang = localStorage.getItem('language') || '';
+        const data = await axios.post('/user/repeat-activation-link', JSON.stringify({ repeatHash: link }), { headers: { Lang: lang } });
+
+        return data;
+      } catch (error) {
+        return error.response;
+      }
+    },
     async setPassword({ commit }, setData) {
       try {
         const lang = localStorage.getItem('language') || '';

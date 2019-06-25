@@ -50,6 +50,17 @@
                   <v-alert :value="errorAlert.state" type="error">{{ errorAlert.msg }}</v-alert>
                 </v-flex>
               </v-layout>
+              <!-- Success -->
+              <v-layout row v-if="successAlert.state">
+                <v-flex sm12>
+                  <v-alert :value="successAlert.state" type="success">{{ successAlert.msg }}</v-alert>
+                </v-flex>
+              </v-layout>
+              <v-layout row v-if="showResendLink">
+                <v-flex sm12>
+                  <v-btn color="info mb-2 mt-2" @click="sendActivationLink" depressed>{{ $t('common.btns.sendActivationLink') }}</v-btn>
+                </v-flex>
+              </v-layout>
             </v-container>
           </v-card-text>
 
@@ -89,6 +100,8 @@
           'g-recaptcha-response': '',
         },
         showPassword: false,
+        showResendLink: false,
+        activationHash: '',
         rules: {
           login: [
             /* eslint-disable no-new */
@@ -101,6 +114,10 @@
           ],
         },
         errorAlert: {
+          state: false,
+          msg: '',
+        },
+        successAlert: {
           state: false,
           msg: '',
         },
@@ -143,7 +160,32 @@
             this.errorAlert.msg = data.data.error.message;
             this.$refs.recaptcha.reset();
             this.credentials['g-recaptcha-response'] = '';
+
+            if (data.status === 412) {
+              this.showResendLink = true;
+              this.activationHash = data.data.data.repeatHash; 
+            }
           }
+        }
+      },
+      async sendActivationLink() {
+        const data = await this.$store.dispatch('auth/auth/resendActivationLink', this.activationHash);
+
+        if (data.data.success) {
+          this.errorAlert.state = false;
+          this.errorAlert.msg = '';
+          this.successAlert.state = true;
+          this.successAlert.msg = data.data.data.message;
+
+          setTimeout(() => {
+            this.successAlert.state = false;
+            this.successAlert.msg = '';
+          }, 2000);
+        } else {
+          this.successAlert.state = false;
+          this.successAlert.msg = '';
+          this.errorAlert.state = true;
+          this.errorAlert.msg = data.data.error.message;
         }
       },
       forgotPassword() {
