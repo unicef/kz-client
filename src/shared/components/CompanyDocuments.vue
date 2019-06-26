@@ -100,6 +100,7 @@
     },
     watch: {
       companyDocumentsData() {
+        this.clearCompanyDocuments();
         this.addRowForAnexgUploading();
       },
     },
@@ -164,6 +165,8 @@
         const isRowForAnexgLoaded = !!this.credentials.files.filter((item) => {
           return item.title === 'Partner Declaration Profile and due Diligence Verification Form';
         }).length;
+        console.log(isAnexgLoaded);
+        console.log(isRowForAnexgLoaded);
         if (!isAnexgLoaded && !isRowForAnexgLoaded && this.isClientPath) {
           const fileObj = {
             id: '',
