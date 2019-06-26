@@ -262,7 +262,7 @@
       <!-- Website -->
       <v-layout row>
         <v-flex sm12>
-          <v-text-field :label="isAdminPath ? $t('common.fields.website') : $t('common.fields.website') + '*'" id="website" v-model="credentials.website" type="text" :disabled="fieldsDisabled" />
+          <v-text-field :label="$t('common.fields.website')" id="website" v-model="credentials.website" type="text" :disabled="fieldsDisabled" />
         </v-flex>
       </v-layout>
       <!-- City/town Ru -->
@@ -326,7 +326,7 @@
       <!-- Postal code -->
       <v-layout row>
         <v-flex sm12>
-          <v-text-field id="zip" :label="isAdminPath ? $t('common.fields.zip') : $t('common.fields.zip') + '*'" v-model="credentials.zip" type="text" :disabled="fieldsDisabled" />
+          <v-text-field id="zip" :label="$t('common.fields.zip')" v-model="credentials.zip" type="text" :disabled="fieldsDisabled" />
         </v-flex>
       </v-layout>
     </v-flex>
