@@ -1,4 +1,5 @@
 import settings from './modules/settings';
+import users from './modules/users';
 
 /* eslint-disable */
 const initialState = {
@@ -19,12 +20,13 @@ const mutations = {
 
 
 export default {
-    namespaced: true,
-    modules: {
-        settings,
-    },
-    state: initialState,
-    getters,
-    actions,
-    mutations,
+  namespaced: true,
+  modules: {
+    settings,
+    users,
+  },
+  state: initialState,
+  getters,
+  actions,
+  mutations,
 };

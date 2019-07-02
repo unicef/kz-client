@@ -1,7 +1,7 @@
 <template>
   <v-layout wrap>
     <v-flex xs12 mt-4>
-      <v-toolbar class="headline justify-center" color="light-blue">List of Partners</v-toolbar>
+      <v-toolbar class="headline justify-center" color="light-blue">{{ $t('partnersList.title') }}</v-toolbar>
       <v-card class="partners-list">
         <v-container :class="{ 'pt-4': $vuetify.breakpoint.xs }">
           <v-card-text>
@@ -11,28 +11,69 @@
                   <v-text-field
                     class="search"
                     ref="search"
+                    v-model="search"
                     color="primary"
-                    label="Search"
+                    :label="$t('common.fields.search')"
                   ></v-text-field>
-                  <v-btn class="search-btn" color="primary">Search</v-btn>
-                  <v-btn color="primary" :to="{ name: 'partner-create' }">Create Partner</v-btn>
+                  <v-btn class="search-btn" color="primary" @click="searchPartners">{{ $t('common.btns.search') }}</v-btn>
+                  <v-btn color="primary" :to="{ name: 'partner-create' }">{{ $t('common.btns.createPartner') }}</v-btn>
                 </v-layout>
               </v-flex>
             </v-layout>
-            <v-data-table :headers="headers" :items="users">
-              <template v-slot:items="props">
-                <td>{{ props.item.id }}</td>
-                <td class="text-xs-center">
-                  <router-link
-                    :to="'/admin/users/partner/'+props.item.id"
-                  >{{ props.item.email }}</router-link>
+            <v-data-table
+              class="table-custom partnersList small mt-4 mb-4"
+              :items="partnersListData.partners"
+              :headers="headers"
+              hide-actions
+            >
+              <template slot="headers" slot-scope="{ headers }">
+                <tr>
+                  <th class="text-xs-left">{{ $t('partnersList.tableHeaders.id') }}</th>
+                  <th class="text-xs-left">{{ $t('partnersList.tableHeaders.email') }}</th>
+                  <th class="text-xs-left">{{ $t('partnersList.tableHeaders.firstName') }}</th>
+                  <th class="text-xs-left">{{ $t('partnersList.tableHeaders.lastName') }}</th>
+                  <th class="text-xs-left">{{ $t('partnersList.tableHeaders.role') }}</th>
+                  <th class="text-xs-left">{{ $t('partnersList.tableHeaders.status') }}</th>
+                  <th class="text-xs-left">{{ $t('partnersList.tableHeaders.created') }}</th>
+                  <th class="text-xs-left">{{ $t('partnersList.tableHeaders.company') }}</th>
+                </tr>
+              </template>
+              <template slot="items" slot-scope="{ item }">
+                <tr>
+                  <td class="text-xs-left">{{ item.id }}</td>
+                  <td
+                    class="text-xs-left"
+                  >
+                    <router-link
+                      :to="'/admin/users/partner/'+item.id"
+                    >{{ item.email }}</router-link>
+                  </td>
+                  <td class="text-xs-left">{{ item.firstName }}</td>
+                  <td class="text-xs-left">{{ item.lastName }}</td>
+                  <td class="text-xs-left">{{ item.role }}</td>
+                  <td class="text-xs-left">{{ item.status }}</td>
+                  <td class="text-xs-left">{{ item.createdAt }}</td>
+                  <td class="text-xs-left">{{ item.company }}</td>
+                </tr>
+              </template>
+              <template slot="no-data">
+                <td colspan="8" class="no-data">
+                  <div
+                    class="text-xs-center"
+                    :class="{
+                          'pl-mobile': $vuetify.breakpoint.xsOnly,
+                        }"
+                  >{{ $t('partnersList.noData') }}</div>
                 </td>
-                <td class="text-xs-center">{{ props.item.name }}</td>
-                <td class="text-xs-center">{{ props.item.last }}</td>
-                <td class="text-xs-center">{{ props.item.role }}</td>
-                <td class="text-xs-center">{{ props.item.status }}</td>
               </template>
             </v-data-table>
+            <div v-if="paginationPage" class="text-xs-center">
+              <v-pagination
+                :value="paginationPage"
+                :length="paginationLength"
+                @input="choosePaginatorPage($event)"
+              ></v-pagination>
+            </div>
           </v-card-text>
         </v-container>
       </v-card>
@@ -47,85 +88,43 @@
     },
     data() {
       return {
+        search: '',
         headers: [
-            {
-                text: 'id',
-                align: 'center',
-                value: 'id',
-            },
-            { text: 'email', value: 'email' },
-            { text: 'First Name', value: 'name' },
-            { text: 'Last Name', value: 'last' },
-            { text: 'Role', value: 'role' },
-            { text: 'Status', value: 'status' },
-        ],
-        users: [
-            {
-                id: 12,
-                email: 'ziharevmihail@gmail.com',
-                name: 'Mihail',
-                last: 'Zhikharev',
-                role: 'Associate',
-                status: 'Active',
-            },
-            {
-                id: 13,
-                email: 'abdur@gmail.com',
-                name: 'Durman',
-                last: 'Vasilev',
-                role: 'Responsible officer',
-                status: 'Active',
-            },
-            {
-                id: 19,
-                email: 'abdur@gmail.com',
-                name: 'Durman',
-                last: 'Vasilev',
-                role: 'Budget owner',
-                status: 'Active',
-            },
-            {
-                id: 14,
-                email: 'ziharevmihail@gmail.com',
-                name: 'Mihail',
-                last: 'Zhikharev',
-                role: 'Associate',
-                status: 'Active',
-            },
-            {
-                id: 15,
-                email: 'abdur@gmail.com',
-                name: 'Durman',
-                last: 'Vasilev',
-                role: 'Responsible officer',
-                status: 'Active',
-            },
-            {
-                id: 16,
-                email: 'abdur@gmail.com',
-                name: 'Durman',
-                last: 'Vasilev',
-                role: 'Budget owner',
-                status: 'Active',
-            },
-            {
-                id: 17,
-                email: 'ziharevmihail@gmail.com',
-                name: 'Mihail',
-                last: 'Zhikharev',
-                role: 'Associate',
-                status: 'Active',
-            },
-            {
-                id: 18,
-                email: 'abdur@gmail.com',
-                name: 'Durman',
-                last: 'Vasilev',
-                role: 'Responsible officer',
-                status: 'Active',
-            },
+            { text: '', sortable: false },
+            { text: '', sortable: false },
+            { text: '', sortable: false },
+            { text: '', sortable: false },
+            { text: '', sortable: false },
+            { text: '', sortable: false },
+            { text: '', sortable: false },
+            { text: '', sortable: false },
         ],
       };
+    },
+    computed: {
+      partnersListData() {
+        return this.$store.getters['admin/users/getPartnersListData'];
+      },
+      paginationLength() {
+        return this.partnersListData.lastPage;
+      },
+      paginationPage() {
+        if (this.partnersListData.currentPage === 1 && this.partnersListData.lastPage === 1) {
+          return 0;
+        }
+        return this.partnersListData.currentPage;
+      },
+    },
+    created() {
+      this.$store.dispatch('admin/users/fetchPartnersListData', { page: 1 });
+    },
+    methods: {
+      async searchPartners() {
+        await this.$store.dispatch('admin/users/fetchPartnersListData', { page: 1, search: this.search });
+      },
+      async choosePaginatorPage(page) {
+        await this.$store.dispatch('admin/users/fetchPartnersListData', { page, search: this.search });
+      },
     },
   };
 </script>

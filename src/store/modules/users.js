@@ -3,7 +3,6 @@ import { JSONpath } from '@/shared/helpers/JSONpath';
 
 /* eslint-disable */
 const initialState = {
-  // userData: {},
   userData: {
     email: '',
     id: null,
