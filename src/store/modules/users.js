@@ -322,6 +322,17 @@ const actions = {
       return error.response;
     }
   },
+  async changeUserPassword({ commit }, credentials) {
+    try {
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+      const data = await axios.patch('/user/password', credentials, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
+
+      return data;
+    } catch (error) {
+      return error.response;
+    }
+  },
 };
 
 

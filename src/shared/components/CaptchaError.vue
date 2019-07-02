@@ -1,7 +1,7 @@
 <template>                    
   <transition name="slide-y-transition">
     <div class="captcha-error mt-1">
-      {{ $t('common.fields.validation.captcha') }}
+      {{ $t('common.fields.validation.field.required') }}
     </div>
   </transition>
 </template>
