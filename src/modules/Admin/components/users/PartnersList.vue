@@ -36,6 +36,7 @@
                   <th class="text-xs-left">{{ $t('partnersList.tableHeaders.status') }}</th>
                   <th class="text-xs-left">{{ $t('partnersList.tableHeaders.created') }}</th>
                   <th class="text-xs-left">{{ $t('partnersList.tableHeaders.company') }}</th>
+                  <th class="text-xs-left">{{ $t('partnersList.tableHeaders.companyStatus') }}</th>
                 </tr>
               </template>
               <template slot="items" slot-scope="{ item }">
@@ -51,9 +52,10 @@
                   <td class="text-xs-left">{{ item.firstName }}</td>
                   <td class="text-xs-left">{{ item.lastName }}</td>
                   <td class="text-xs-left">{{ item.role }}</td>
-                  <td class="text-xs-left">{{ item.status }}</td>
+                  <td class="text-xs-left">{{ item.userStatus }}</td>
                   <td class="text-xs-left">{{ item.createdAt }}</td>
                   <td class="text-xs-left">{{ item.company }}</td>
+                  <td class="text-xs-left">{{ item.companyStatus }}</td>
                 </tr>
               </template>
               <template slot="no-data">
@@ -90,6 +92,7 @@
       return {
         search: '',
         headers: [
+            { text: '', sortable: false },
             { text: '', sortable: false },
             { text: '', sortable: false },
             { text: '', sortable: false },
