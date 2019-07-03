@@ -19,11 +19,12 @@ const mutations = {
 const actions = {
   async fetchPartnersListData({ commit } , credentials ) {
     try {
-        console.log(credentials);
-    //   const token = localStorage.getItem('token') || '';
-    //   const lang = localStorage.getItem('language') || '';
-    //   const data = await axios.post('/partners', JSON.stringify(credentials),  { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
-      const data = await axios.get(`${JSONpath()}/partnersListJSON.json`);
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+      const search = credentials.search ? credentials.search : '';
+      const page = credentials.page ? credentials.page : '';
+      const data = await axios.get(`/admin/partner/list?page=${page}&search=${search}`,  { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
+
       const partnersListData = data.data.data;
 
       commit('setPartnersListData', partnersListData);
