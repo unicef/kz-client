@@ -1,8 +1,7 @@
 const AdminPage = () => import(/* webpackChunkName: "admin" */'./containers/AdminPage');
 const UsersPage = () => import(/* webpackChunkName: "admin" */'./containers/UsersPage');
 const UnicefUsersList = () => import(/* webpackChunkName: "admin" */'./components/users/UnicefUsersList');
-const UnicefUserCreate = () => import(/* webpackChunkName: "admin" */'./components/users/UnicefUserCreate');
-const UnicefUser = () => import(/* webpackChunkName: "admin" */'./components/users/UnicefUser');
+const UnicefUserForm = () => import(/* webpackChunkName: "admin" */'./components/users/UnicefUserForm');
 const PartnersList = () => import(/* webpackChunkName: "admin" */'./components/users/PartnersList');
 const PartnerFullForm = () => import(/* webpackChunkName: "admin" */'./components/users/PartnerFullForm');
 const SettingsPage = () => import(/* webpackChunkName: "admin" */'./containers/SettingsPage');
@@ -28,11 +27,11 @@ export default {
                 {
                     path: 'unicef-user-create',
                     name: 'unicef-user-create',
-                    component: UnicefUserCreate,
+                    component: UnicefUserForm,
                 },
                 {
                     path: 'unicef-user/:id',
-                    component: UnicefUser,
+                    component: UnicefUserForm,
                 },
                 {
                     path: 'partners-list',

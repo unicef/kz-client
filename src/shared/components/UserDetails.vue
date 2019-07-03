@@ -147,7 +147,7 @@
       <v-layout row v-if="isAdminPath && isPartnerPath">
         <v-flex sm12>
           <v-select
-            :items="partnerRoles"
+            :items="userRoles"
             v-model="credentials.role"
             :label="$t('common.fields.role') + '*'"
             item-text="title"
@@ -155,6 +155,22 @@
             return-object
             :rules="rules.role"
             @change="setRole"
+            required
+            :disabled="userData.roles && !!userData.roles[0].title"
+          ></v-select>
+        </v-flex>
+      </v-layout>
+      <!-- Unicef roles -->
+      <v-layout row v-if="isAdminPath && isUnicefUserPath">
+        <v-flex sm12>
+          <v-select
+            :items="userRoles"
+            v-model="credentials.role"
+            :label="$t('common.fields.role') + '*'"
+            item-text="title"
+            item-value="id"
+            return-object
+            :rules="rules.role"
             required
             :disabled="userData.roles && !!userData.roles[0].title"
           ></v-select>
@@ -190,7 +206,7 @@
       userData: {
         type: Object,
       },
-      partnerRoles: {
+      userRoles: {
           type: Array,
       },
       companies: {
@@ -293,6 +309,9 @@
       },
       isUserFormPath() {
         return this.$route.path.indexOf('user-form') !== -1;
+      },
+      isUnicefUserPath() {
+        return this.$route.path.indexOf('unicef-user') !== -1;
       },
     },
     methods: {

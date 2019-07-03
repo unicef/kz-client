@@ -15,7 +15,7 @@
                 <user-details
                   ref="userDetails"
                   :companies="companies"
-                  :partnerRoles="partnerRoles"
+                  :userRoles="partnerRoles"
                   :userData="userData"
                   @getUserDetails="getUserDetails"
                 />
