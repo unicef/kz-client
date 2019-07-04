@@ -56,12 +56,14 @@
 
             <v-card-actions>
               <v-layout align-center class="btns-wrapper">
-                <v-btn type="button" @click="createPartner" color="info mb-2 mt-2" depressed>{{ $t('common.btns.save') }}</v-btn>
+                <v-btn type="button" @click="createPartner" class="info mb-2 mt-2 mx-2" depressed>{{ $t('common.btns.save') }}</v-btn>
+                <v-btn type="button" v-if="userData.status === 'active'" @click="blockUser" class="error mb-2 mt-2 mx-2" depressed>{{ $t('common.btns.block') }}</v-btn>
               </v-layout>
             </v-card-actions>
           </v-container>
         </v-card>
       </v-form>
+      <block-user-dialog />
     </v-flex>
   </v-layout>
 </template>
@@ -70,6 +72,7 @@
   import UserDetails from '@/shared/components/UserDetails';
   import CompanyDetails from '@/shared/components/CompanyDetails';
   import CompanyDocuments from '@/shared/components/CompanyDocuments';
+  import BlockUserDialog from './BlockUserDialog';
 
   export default {
     name: 'PartnerFullForm',
@@ -77,6 +80,7 @@
       UserDetails,
       CompanyDetails,
       CompanyDocuments,
+      BlockUserDialog,
     },
     data() {
       return {
@@ -137,6 +141,12 @@
       },
       isPartnerCreationPath() {
         return this.$route.path.indexOf('partner-create') !== -1;
+      },
+      userName() {
+        const lang = this.$i18n.locale[0].toUpperCase() + this.$i18n.locale.slice(1);
+        const firstName = `firstName${lang}`;
+        const lastName = `lastName${lang}`;
+        return `${this.userData[firstName]} ${this.userData[lastName]}`;
       },
     },
     async created() {
@@ -201,6 +211,10 @@
         console.log('in parent company docs: ', companyDocumetsData);
         this.credentials.documents = companyDocumetsData;
       },
+      blockUser() {
+        this.$store.commit('admin/users/setBlockedUser', { user: { id: this.userData.id, name: this.userName }, type: 'partner' });
+        this.$store.commit('admin/users/toggleBlockUserDialogState', true);
+      },
     },
   };
 </script>
@@ -208,5 +222,10 @@
 <style lang="scss" scoped>
 .search {
   max-width: 250px;
+}
+.btns-wrapper {
+  @media (max-width: 550px) {
+    flex-direction: column;
+  }
 }
 </style>

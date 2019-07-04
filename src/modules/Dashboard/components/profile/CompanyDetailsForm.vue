@@ -122,8 +122,8 @@
             this.successAlert.state = true;
             this.successAlert.msg = response.data.data.message;
 
-            this.$store.commit('users/setCompanyData',  this.credentials.company);
-            this.$store.commit('users/setAuthorisedPersonData',  this.credentials.authorisedPerson);
+            this.$store.commit('users/setCompanyData', this.credentials.company);
+            this.$store.commit('users/setAuthorisedPersonData', this.credentials.authorisedPerson);
 
             setTimeout(() => {
               this.successAlert.state = false;

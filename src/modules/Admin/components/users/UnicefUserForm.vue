@@ -36,23 +36,27 @@
 
             <v-card-actions>
               <v-layout align-center class="btns-wrapper">
-                <v-btn type="button" @click="saveUnicefUser" color="info mb-2 mt-2" depressed>{{ $t('common.btns.save') }}</v-btn>
+                <v-btn type="button" @click="saveUnicefUser" class="info mb-2 mt-2 mx-2" depressed>{{ $t('common.btns.save') }}</v-btn>
+                <v-btn type="button" v-if="userData.status === 'active'" @click="blockUser" class="error mb-2 mt-2 mx-2" depressed>{{ $t('common.btns.block') }}</v-btn>
               </v-layout>
             </v-card-actions>
           </v-container>
         </v-card>
       </v-form>
     </v-flex>
+    <block-user-dialog />
   </v-layout>
 </template>
 
 <script>
   import UserDetails from '@/shared/components/UserDetails';
+  import BlockUserDialog from './BlockUserDialog';
 
   export default {
-    name: 'PartnerFullForm',
+    name: 'UnicefUserForm',
     components: {
       UserDetails,
+      BlockUserDialog,
     },
     data() {
       return {
@@ -88,11 +92,17 @@
       isUnicefUserCreationPath() {
         return this.$route.path.indexOf('unicef-user-create') !== -1;
       },
+      userName() {
+        const lang = this.$i18n.locale[0].toUpperCase() + this.$i18n.locale.slice(1);
+        const firstName = `firstName${lang}`;
+        const lastName = `lastName${lang}`;
+        return `${this.userData[firstName]} ${this.userData[lastName]}`;
+      },
     },
     async created() {
       await this.$store.dispatch('admin/users/getUnicefUserProperties');
       if (this.$route.params.id) {
-        const user = await this.$store.dispatch('users/getUserInfo', this.$route.params.id);
+        await this.$store.dispatch('users/getUserInfo', this.$route.params.id);
       }
     },
     destroyed() {
@@ -134,6 +144,10 @@
         console.log('in parent user data: ', userData);
         this.credentials.user = userData;
       },
+      blockUser() {
+        this.$store.commit('admin/users/setBlockedUser', { user: { id: this.userData.id, name: this.userName }, type: 'unicef' });
+        this.$store.commit('admin/users/toggleBlockUserDialogState', true);
+      },
     },
   };
 </script>
@@ -141,5 +155,10 @@
 <style lang="scss" scoped>
 .search {
   max-width: 250px;
+}
+.btns-wrapper {
+  @media (max-width: 550px) {
+    flex-direction: column;
+  }
 }
 </style>

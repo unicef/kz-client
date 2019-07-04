@@ -5,11 +5,15 @@ import { JSONpath } from '@/shared/helpers/JSONpath';
 const initialState = {
     partnersListData: {},
     unicefUserProperties: {},
+    blockUserDialogState: false,
+    blockedUser: null,
 };
 
 const getters = {
   getPartnersListData: state => state.partnersListData,
   getUnicefUserProperties: state => state.unicefUserProperties,
+  getBlockUserDialogState: state => state.blockUserDialogState,
+  getBlockedUser: state => state.blockedUser,
 };
 
 const mutations = {
@@ -18,6 +22,12 @@ const mutations = {
   },
   setUnicefUserProperties(state, data) {
     state.unicefUserProperties = data;
+  },
+  toggleBlockUserDialogState(state, data) {
+    state.blockUserDialogState = data;
+  },
+  setBlockedUser(state, data) {
+    state.blockedUser = data;
   },
 };
 
@@ -69,6 +79,18 @@ const actions = {
       const token = localStorage.getItem('token') || '';
       const lang = localStorage.getItem('language') || '';
       const data = await axios.put('/admin/unicef', unicefUser, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
+
+      return data;
+    } catch (error) {
+      return error.response;
+    }
+  },
+  async blockUser({ commit }, blockUserData) {
+    try {
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+      const url = blockUserData.type === 'unicef' ? '/admin/unicef/block' : '/admin/partner/block';
+      const data = await axios.patch(`${url}`, blockUserData.user, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
 
       return data;
     } catch (error) {
