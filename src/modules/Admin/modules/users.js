@@ -4,6 +4,7 @@ import { JSONpath } from '@/shared/helpers/JSONpath';
 /* eslint-disable */
 const initialState = {
     partnersListData: {},
+    unicefUsersListData: {},
     unicefUserProperties: {},
     blockUserDialogState: false,
     blockedUser: null,
@@ -11,6 +12,7 @@ const initialState = {
 
 const getters = {
   getPartnersListData: state => state.partnersListData,
+  getUnicefUsersListData: state => state.unicefUsersListData,
   getUnicefUserProperties: state => state.unicefUserProperties,
   getBlockUserDialogState: state => state.blockUserDialogState,
   getBlockedUser: state => state.blockedUser,
@@ -19,6 +21,9 @@ const getters = {
 const mutations = {
   setPartnersListData(state, data) {
     state.partnersListData = data;
+  },
+  setUnicefUsersListData(state, data) {
+    state.unicefUsersListData = data;
   },
   setUnicefUserProperties(state, data) {
     state.unicefUserProperties = data;
@@ -44,6 +49,24 @@ const actions = {
 
       commit('setPartnersListData', partnersListData);
       return partnersListData;
+    } catch (err) {
+      /* eslint-disable */
+      console.log(err);
+      return err.response;
+    }
+  },
+  async fetchUnicefUsersListData({ commit } , credentials ) {
+    try {
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+      const search = credentials.search ? credentials.search : '';
+      const page = credentials.page ? credentials.page : '';
+      const data = await axios.get(`/admin/unicef/list?page=${page}&search=${search}`,  { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
+
+      const unicefUsersListData = data.data.data;
+
+      commit('setUnicefUsersListData', unicefUsersListData);
+      return unicefUsersListData;
     } catch (err) {
       /* eslint-disable */
       console.log(err);
