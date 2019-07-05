@@ -2,23 +2,23 @@
   <v-layout row justify-center>
     <v-dialog 
       transition="slide-y-transition"
-      v-model='blockUserDialog' 
+      v-model='rejectCompanyDialog' 
       @keydown.esc='close' 
       persistent 
       max-width="550">
-      <v-card class="block-user-dialog px-4 py-4">
-        <v-card-title class="headline">{{ $t('blockUserDialog.title1') }} {{blockedUser ? blockedUser.user.name : ''}}? {{ $t('blockUserDialog.title2') }}</v-card-title>
+      <v-card class="reject-company-dialog px-4 py-4">
+        <v-card-title class="headline">{{ $t('rejectCompanyDialog.title1') }} {{rejectedCompany ? rejectedCompany.name : ''}}? {{ $t('rejectCompanyDialog.title2') }}</v-card-title>
         <v-card-text>
-            <v-form ref="blockUserForm" lazy-validation>
+            <v-form ref="rejectCompanyForm" lazy-validation>
             <v-layout row>
                 <v-flex sm12>
-                    <v-text-field
-                        name="Email"
-                        :label='$t("common.fields.email") + "*"'
-                        id="email"
-                        v-model="email"
-                        type="email"
-                        :rules="rules.email"
+                    <v-textarea
+                        name="Reason"
+                        :label='$t("common.fields.rejectCompanyReason") + "*"'
+                        id="reason"
+                        v-model="reason"
+                        type="text"
+                        :rules="rules.reason"
                         required
                     />
                 </v-flex>
@@ -41,7 +41,7 @@
         </v-layout>
         <v-card-actions>
           <v-btn color="red darken-1" flat @click="close">{{ $t('common.btns.cancel') }}</v-btn>
-          <v-btn color="green darken-1" flat @click="blockUser">{{ $t('common.btns.block') }}</v-btn>
+          <v-btn color="green darken-1" flat @click="rejectCompany">{{ $t('common.btns.reject') }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -50,10 +50,10 @@
 
 <script>
   export default {
-    name: 'BlockUserDialog',
+    name: 'RejectCompanyDialog',
     data() {
       return {
-        email: '',
+        reason: '',
         errorAlert: {
           state: false,
           msg: '',
@@ -63,18 +63,17 @@
           msg: '',
         },
         rules: {
-          email: [
+          reason: [
             /* eslint-disable no-new */
             v => !!v || this.$t('common.fields.validation.field.required'),
-            v => /^\w+([+.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/.test(v) || this.$t('common.fields.validation.email'),
           ],
         },
       };
     },
     computed: {
-      blockUserDialog: {
+      rejectCompanyDialog: {
         get() {
-          return this.$store.getters['admin/users/getBlockUserDialogState'];
+          return this.$store.getters['users/getRejectCompanyDialogState'];
         },
         set(value) {
           if (!value) {
@@ -82,14 +81,14 @@
           }
         },
       },
-      blockedUser() {
-        return this.$store.getters['admin/users/getBlockedUser'];
+      rejectedCompany() {
+        return this.$store.getters['users/getRejectedCompany'];
       },
     },
     methods: {
-      async blockUser() {
-        if (this.$refs.blockUserForm.validate()) {
-          const data = await this.$store.dispatch('admin/users/blockUser', { type: this.blockedUser.type, user: { userId: this.blockedUser.user.id, email: this.email } });
+      async rejectCompany() {
+        if (this.$refs.rejectCompanyForm.validate()) {
+          const data = await this.$store.dispatch('users/rejectCompany', { id: this.rejectedCompany.id, reason: this.reason });
 
           if (data.data.success) {
             this.errorAlert.state = false;
@@ -98,11 +97,10 @@
             this.successAlert.msg = data.data.data.message;
 
             setTimeout(() => {
-              const routeName = this.blockUser.type === 'unicef' ? 'unicef-users-list' : 'partners-list';
+              this.$store.commit('users/setCompanyDataField', { field: 'statusId', value: 'trusted' });
               this.successAlert.state = false;
               this.successAlert.msg = '';
               this.close();
-              this.$router.push({ name: routeName });
             }, 3000);
           } else {
             this.errorAlert.state = true;
@@ -111,9 +109,9 @@
         }
       },
       close() {
-        this.$refs.blockUserForm.reset();
-        this.$store.commit('admin/users/toggleBlockUserDialogState', false);
-        this.$store.commit('admin/users/setBlockedUser', null);
+        this.$store.commit('users/toggleRejectCompanyDialogState', false);
+        this.$refs.rejectCompanyForm.reset();
+        this.$store.commit('users/setRejectedCompany', null);
         this.errorAlert.state = false;
         this.errorAlert.msg = '';
       },
@@ -122,7 +120,7 @@
 </script>
 
 <style lang="scss" scoped>
-  .block-user-dialog {
+  .reject-company-dialog {
     .v-btn {
       text-transform: initial;
     }

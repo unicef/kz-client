@@ -49,12 +49,14 @@ const initialState = {
     zip: '',
     createdAt: '',
     assistId: null,
-    status: '',
+    statusId: '',
   },
   companyFieldsDisabled: false,
   companyDocumentsData: [],
   deleteDocumentDialogState: false,
   deleteDocumentId: null,
+  rejectCompanyDialogState: false,
+  rejectedCompany: null,
 };
 
 const getters = {
@@ -66,6 +68,8 @@ const getters = {
   getCompanyDocumentsData: state => state.companyDocumentsData,
   getDeleteDocumentDialogState: state => state.deleteDocumentDialogState,
   getDeleteDocumentId: state => state.deleteDocumentId,
+  getRejectCompanyDialogState: state => state.rejectCompanyDialogState,
+  getRejectedCompany: state => state.rejectedCompany,
 };
 
 const mutations = {
@@ -129,10 +133,13 @@ const mutations = {
         zip: '',
         createdAt: '',
         assistId: null,
-        status: '',
+        statusId: '',
       };
     }
 
+  },
+  setCompanyDataField(state, data) {
+    state.companyData[data.field] = data.value;
   },
   setPartnerCompanyProperties(state, data) {
     state.partnerCompanyProperties = data;
@@ -154,6 +161,12 @@ const mutations = {
       return doc.id !== id;
     });
     state.companyDocumentsData = newCompanyDocumentsData;
+  },
+  toggleRejectCompanyDialogState(state, data) {
+    state.rejectCompanyDialogState = data;
+  },
+  setRejectedCompany(state, data) {
+    state.rejectedCompany = data;
   },
 };
 
@@ -327,6 +340,17 @@ const actions = {
       const token = localStorage.getItem('token') || '';
       const lang = localStorage.getItem('language') || '';
       const data = await axios.patch('/user/password', credentials, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
+
+      return data;
+    } catch (error) {
+      return error.response;
+    }
+  },
+  async rejectCompany({ commit }, rejectCompanyData) {
+    try {
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+      const data = await axios.patch('/partner/reject', rejectCompanyData, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
 
       return data;
     } catch (error) {

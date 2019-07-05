@@ -3,6 +3,17 @@
     <v-flex xs12>
       <h3 class="title mb-2">{{ $t('companyInfo.title') }}</h3>
     </v-flex>
+    <v-flex xs12 mb-2 v-if="companyData.statusId">
+      <v-layout align-center justify-end>
+        <v-chip disabled :color="companyData.statusId === 'trusted' ? 'success' : 'error'" text-color="white">{{ $t('companyInfo.status') }}: {{companyData.statusId.toUpperCase()}}</v-chip>
+      </v-layout>
+    </v-flex>
+    <v-flex xs12 mb-2 v-if="companyData.statusId === 'filled' && (isAdminPath || (isUnicefUser&&isClientPath))">
+      <v-layout align-center justify-end class="btns-wrapper">
+        <v-btn type="button" @click="approvePartner" class="info mb-2 mt-2 mx-2" depressed>{{ $t('common.btns.approve') }}</v-btn>
+        <v-btn type="button" @click="rejectPartner" class="error mb-2 mt-2 mx-2" depressed>{{ $t('common.btns.reject') }}</v-btn>
+      </v-layout>
+    </v-flex>
     <v-flex xs12 sm6 :class="{ 'pr-4': $vuetify.breakpoint.smAndUp }">
       <!-- Company name Ru -->
       <v-layout row>
@@ -430,13 +441,17 @@
         </v-flex>
       </v-layout>
     </v-flex>
+    <reject-company-dialog />
   </v-layout>
 </template>
 
 <script>
+  import RejectCompanyDialog from '@/shared/components/RejectCompanyDialog';
+
   export default {
     name: 'CompanyDetails',
     components: {
+      RejectCompanyDialog,
     },
     props: {
       companyData: {
@@ -527,7 +542,7 @@
             zip: '',
             createdAt: '',
             assistId: null,
-            status: '',
+            statusId: '',
         },
         authorisedPerson: {
           firstNameRu: '',
@@ -595,12 +610,27 @@
       isResponsibleAssistant() {
         return this.roles.indexOf('ra') !== -1;
       },
+      isUnicefUser() {
+        return this.roles.indexOf('ro') !== -1 || this.roles.indexOf('bo') !== -1 || this.roles.indexOf('dr') !== -1 || this.roles.indexOf('om') !== -1;
+      },
+      companyName() {
+        const lang = this.$i18n.locale[0].toUpperCase() + this.$i18n.locale.slice(1);
+        const companyName = `name${lang}`;
+        return `${this.companyData[companyName]}`;
+      },
     },
     methods: {
       getCompanyDetails() {
         this.credentials.establishmentYear = (this.credentials.year.length) ? +this.credentials.year : null;
         this.credentials.employersCount = (this.credentials.employers.length) ? +this.credentials.employers : null;
         this.$emit('getCompanyDetails', { company: this.credentials, authorisedPerson: this.authorisedPerson });
+      },
+      approvePartner() {
+
+      },
+      rejectPartner() {
+        this.$store.commit('users/setRejectedCompany', { id: this.companyData.id, name: this.companyName });
+        this.$store.commit('users/toggleRejectCompanyDialogState', true);
       },
     },
   };
@@ -609,5 +639,10 @@
 <style lang="scss" scoped>
 .search {
   max-width: 250px;
+}
+.btns-wrapper {
+  @media (max-width: 550px) {
+    flex-direction: column;
+  }
 }
 </style>
