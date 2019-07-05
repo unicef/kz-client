@@ -97,7 +97,7 @@
             this.successAlert.msg = data.data.data.message;
 
             setTimeout(() => {
-              this.$store.commit('users/setCompanyDataField', { field: 'statusId', value: 'trusted' });
+              this.$store.commit('users/setCompanyDataField', { field: 'statusId', value: 'new' });
               this.successAlert.state = false;
               this.successAlert.msg = '';
               this.close();
