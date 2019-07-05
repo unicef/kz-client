@@ -442,16 +442,19 @@
       </v-layout>
     </v-flex>
     <reject-company-dialog />
+    <approve-company-dialog />
   </v-layout>
 </template>
 
 <script>
   import RejectCompanyDialog from '@/shared/components/RejectCompanyDialog';
+  import ApproveCompanyDialog from '@/shared/components/ApproveCompanyDialog';
 
   export default {
     name: 'CompanyDetails',
     components: {
       RejectCompanyDialog,
+      ApproveCompanyDialog,
     },
     props: {
       companyData: {
@@ -626,7 +629,8 @@
         this.$emit('getCompanyDetails', { company: this.credentials, authorisedPerson: this.authorisedPerson });
       },
       approvePartner() {
-
+        this.$store.commit('users/setApprovedCompany', { id: this.companyData.id, name: this.companyName });
+        this.$store.commit('users/toggleApproveCompanyDialogState', true);
       },
       rejectPartner() {
         this.$store.commit('users/setRejectedCompany', { id: this.companyData.id, name: this.companyName });

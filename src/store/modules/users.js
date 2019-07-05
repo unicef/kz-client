@@ -57,6 +57,8 @@ const initialState = {
   deleteDocumentId: null,
   rejectCompanyDialogState: false,
   rejectedCompany: null,
+  approveCompanyDialogState: false,
+  approvedCompany: null,
 };
 
 const getters = {
@@ -70,6 +72,8 @@ const getters = {
   getDeleteDocumentId: state => state.deleteDocumentId,
   getRejectCompanyDialogState: state => state.rejectCompanyDialogState,
   getRejectedCompany: state => state.rejectedCompany,
+  getApproveCompanyDialogState: state => state.approveCompanyDialogState,
+  getApprovedCompany: state => state.approvedCompany,
 };
 
 const mutations = {
@@ -167,6 +171,12 @@ const mutations = {
   },
   setRejectedCompany(state, data) {
     state.rejectedCompany = data;
+  },
+  toggleApproveCompanyDialogState(state, data) {
+    state.approveCompanyDialogState = data;
+  },
+  setApprovedCompany(state, data) {
+    state.approvedCompany = data;
   },
 };
 
@@ -351,6 +361,17 @@ const actions = {
       const token = localStorage.getItem('token') || '';
       const lang = localStorage.getItem('language') || '';
       const data = await axios.patch('/partner/reject', rejectCompanyData, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
+
+      return data;
+    } catch (error) {
+      return error.response;
+    }
+  },
+  async approveCompany({ commit }, approveCompanyData) {
+    try {
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+      const data = await axios.patch('/partner/approve', approveCompanyData, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
 
       return data;
     } catch (error) {
