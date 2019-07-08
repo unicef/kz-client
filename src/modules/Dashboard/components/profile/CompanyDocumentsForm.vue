@@ -113,7 +113,6 @@
         }
       },
       getCompanyDocuments(companyDocumetsData) {
-        console.log('in parent company docs: ', companyDocumetsData);
         this.credentials = companyDocumetsData;
       },
     },

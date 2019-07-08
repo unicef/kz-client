@@ -141,7 +141,6 @@
         }
       },
       getUserDetails(userData) {
-        console.log('in parent user data: ', userData);
         this.credentials.user = userData;
       },
       blockUser() {

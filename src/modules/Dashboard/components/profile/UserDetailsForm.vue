@@ -118,7 +118,6 @@
         }
       },
       getUserDetails(userData) {
-        console.log('in parent', userData);
         this.credentials = userData;
       },
     },

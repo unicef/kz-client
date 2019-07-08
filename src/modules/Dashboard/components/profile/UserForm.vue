@@ -241,15 +241,12 @@
         }
       },
       getUserDetails(userData) {
-        console.log('in parent user data: ', userData);
         this.credentials.user = userData;
       },
       getCompanyDetails(companyData) {
-        console.log('in parent company data: ', companyData);
         this.credentials.company = companyData;
       },
       getCompanyDocuments(companyDocumentsData) {
-        console.log('in parent company docs: ', companyDocumentsData);
         this.credentials.documents = companyDocumentsData;
       },
     },

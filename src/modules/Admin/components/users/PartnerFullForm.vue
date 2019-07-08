@@ -200,15 +200,12 @@
         }
       },
       getUserDetails(userData) {
-        console.log('in parent user data: ', userData);
         this.credentials.user = userData;
       },
       getCompanyDetails(companyData) {
-        console.log('in parent company data: ', companyData);
         this.credentials.company = companyData.company;
       },
       getCompanyDocuments(companyDocumetsData) {
-        console.log('in parent company docs: ', companyDocumetsData);
         this.credentials.documents = companyDocumetsData;
       },
       blockUser() {

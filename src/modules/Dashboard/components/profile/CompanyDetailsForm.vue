@@ -138,7 +138,6 @@
         }
       },
       getCompanyDetails(companyData) {
-        console.log('dashbord in parent company data: ', companyData);
         this.credentials = companyData;
       },
     },

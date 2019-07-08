@@ -1,5 +1,4 @@
 import axios from '@/api/axiosInit';
-import { JSONpath } from '@/shared/helpers/JSONpath';
 
 const initialState = {
   isAuthenticated: !!localStorage.getItem('token') || false,
