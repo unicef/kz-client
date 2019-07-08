@@ -4,6 +4,10 @@ const UserDetailsForm = () => import(/* webpackChunkName: "dashboard" */'./compo
 const CompanyDetailsForm = () => import(/* webpackChunkName: "dashboard" */'./components/profile/CompanyDetailsForm');
 const UserSettings = () => import(/* webpackChunkName: "dashboard" */'./components/profile/UserSettings');
 const CompanyDocumentsForm = () => import(/* webpackChunkName: "dashboard" */'./components/profile/CompanyDocumentsForm');
+const ProjectsPage = () => import(/* webpackChunkName: "dashboard" */'./containers/ProjectsPage');
+const MyProjects = () => import(/* webpackChunkName: "dashboard" */'./components/projects/MyProjects');
+const AllProjects = () => import(/* webpackChunkName: "dashboard" */'@/shared/components/AllProjects');
+const CreateProjectForm = () => import(/* webpackChunkName: "dashboard" */'@/shared/components/CreateProjectForm');
 const UserForm = () => import(/* webpackChunkName: "dashboard" */'./components/profile/UserForm');
 const DocsPage = () => import(/* webpackChunkName: "dashboard" */'./containers/DocsPage');
 const NotFound = () => import(/* webpackChunkName: "admin" */'@/shared/components/NotFound');
@@ -20,9 +24,9 @@ export default {
         redirect: { name: 'user-details' },
         children: [
             {
-                path: 'user-details',
-                name: 'user-details',
-                component: UserDetailsForm,
+              path: 'user-details',
+              name: 'user-details',
+              component: UserDetailsForm,
             },
             {
               path: 'company-details',
@@ -30,19 +34,41 @@ export default {
               component: CompanyDetailsForm,
             },
             {
-                path: 'settings',
-                name: 'user-settings',
-                component: UserSettings,
+              path: 'settings',
+              name: 'user-settings',
+              component: UserSettings,
             },
             {
-                path: 'documents',
-                name: 'documents',
-                component: CompanyDocumentsForm,
+              path: 'documents',
+              name: 'documents',
+              component: CompanyDocumentsForm,
             },
             {
               path: 'user-form',
               name: 'user-form',
               component: UserForm,
+            },
+        ],
+      },
+      {
+        path: 'projects',
+        component: ProjectsPage,
+        redirect: { name: 'my-projects' },
+        children: [
+            {
+              path: 'my-projects',
+              name: 'my-projects',
+              component: MyProjects,
+            },
+            {
+              path: 'all-projects',
+              name: 'all-projects',
+              component: AllProjects,
+            },
+            {
+              path: 'create-project',
+              name: 'create-project',
+              component: CreateProjectForm,
             },
         ],
       },

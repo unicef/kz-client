@@ -5,6 +5,8 @@ const UnicefUserForm = () => import(/* webpackChunkName: "admin" */'./components
 const PartnersList = () => import(/* webpackChunkName: "admin" */'./components/users/PartnersList');
 const PartnerFullForm = () => import(/* webpackChunkName: "admin" */'./components/users/PartnerFullForm');
 const SettingsPage = () => import(/* webpackChunkName: "admin" */'./containers/SettingsPage');
+const ProjectsPage = () => import(/* webpackChunkName: "dashboard" */'./containers/ProjectsPage');
+const AllProjects = () => import(/* webpackChunkName: "dashboard" */'@/shared/components/AllProjects');
 const Localization = () => import(/* webpackChunkName: "admin" */'./components/settings/Localization');
 const NotFound = () => import(/* webpackChunkName: "admin" */'@/shared/components/NotFound');
 
@@ -68,6 +70,18 @@ export default {
                     path: 'localization',
                     name: 'localization',
                     component: Localization,
+                },
+            ],
+        },
+        {
+            path: 'projects',
+            component: ProjectsPage,
+            redirect: { name: 'all-projects' },
+            children: [
+                {
+                    path: 'all-projects',
+                    name: 'all-projects',
+                    component: AllProjects,
                 },
             ],
         },

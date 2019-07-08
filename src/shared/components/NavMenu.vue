@@ -113,7 +113,7 @@
           },
           {
             title: this.$t('header.projects'),
-            link: '',
+            link: '/admin/projects',
           },
           {
             title: this.$t('header.finance'),
@@ -138,7 +138,7 @@
           },
           {
             title: this.$t('header.projects'),
-            link: '',
+            link: '/dashboard/projects',
           },
           {
             title: this.$t('header.finance'),
@@ -163,7 +163,7 @@
           },
           {
             title: this.$t('header.projects'),
-            link: '',
+            link: '/dashboard/projects',
           },
           {
             title: this.$t('header.finance'),
@@ -184,7 +184,7 @@
           },
           {
             title: this.$t('header.myProjects'),
-            link: '',
+            link: '/dashboard/projects',
           },
           {
             title: this.$t('header.finance'),
