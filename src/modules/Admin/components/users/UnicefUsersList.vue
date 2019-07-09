@@ -44,7 +44,7 @@
                     class="text-xs-left"
                   >
                     <router-link
-                      :to="'/admin/users/partner/'+item.id"
+                      :to="'/admin/users/unicef-user/'+item.id"
                     >{{ item.email }}</router-link>
                   </td>
                   <td class="text-xs-left">{{ item.firstName }}</td>
