@@ -586,7 +586,7 @@
           email: [
             /* eslint-disable no-new */
             v => !!v.trim() || this.$t('common.fields.validation.field.required'),
-            v => /^\w+([+.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/.test(v) || this.$t('common.fields.validation.email.invalid'),
+            v => /^\w+([+.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/.test(v) || this.$t('common.fields.validation.email'),
           ],
         },
       };
