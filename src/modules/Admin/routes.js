@@ -8,6 +8,7 @@ const SettingsPage = () => import(/* webpackChunkName: "admin" */'./containers/S
 const ProjectsPage = () => import(/* webpackChunkName: "dashboard" */'./containers/ProjectsPage');
 const AllProjects = () => import(/* webpackChunkName: "dashboard" */'@/shared/components/AllProjects');
 const Localization = () => import(/* webpackChunkName: "admin" */'./components/settings/Localization');
+const PasswordSettings = () => import(/* webpackChunkName: "admin" */'./components/settings/PasswordSettings');
 const NotFound = () => import(/* webpackChunkName: "admin" */'@/shared/components/NotFound');
 
 export default {
@@ -64,7 +65,7 @@ export default {
                 {
                     path: 'change-password',
                     name: 'change-password',
-                    component: Localization,
+                    component: PasswordSettings,
                 },
                 {
                     path: 'localization',
