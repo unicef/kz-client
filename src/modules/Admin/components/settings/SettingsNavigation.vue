@@ -1,5 +1,5 @@
 <template>
-	<div class="navigation settings" v-if='$vuetify.breakpoint.mdAndUp'>
+	<div class="navigation settings">
       <v-list class="settings-nav-list">
         <v-list-tile to="/admin/settings/change-password" active-class="active">
           <v-list-tile-content>
