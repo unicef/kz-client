@@ -37,7 +37,7 @@
       <v-alert class='auth-alert mb-4' :value="errorAlert.state" type="error">
         {{ errorAlert.msg }}
       </v-alert>
-      <div class='text-sm-center'>
+      <div class='text-sm-center' v-if="showResendLink">
         <v-btn depressed color='info' @click='resendActivation'>
           {{ $t('common.labels.sendAgain') }}
         </v-btn>
@@ -56,6 +56,8 @@
       return {
         successAlert: false,
         resendAlert: false,
+        showResendLink: false,
+        activationHash: '',
         errorAlert: {
           state: false,
           msg: '',
@@ -65,15 +67,17 @@
     methods: {
       baseUrl,
       async resendActivation() {
-        const activationData = {
-          user_id: this.$route.query.user,
-          base_url: `${this.baseUrl()}/auth/activate-account`,
-        };
+        const data = await this.$store.dispatch('auth/auth/resendActivationLink', this.activationHash);
 
-        await this.$store.dispatch('auth/auth/resendActivation', activationData);
-        this.resendAlert = true;
-        this.errorAlert.state = false;
-        this.errorAlert.msg = '';
+        if (data.data.success) {
+          this.resendAlert = true;
+          this.errorAlert.state = false;
+          this.errorAlert.msg = '';
+          this.showResendLink = false;
+        } else {
+          this.errorAlert.state = true;
+          this.errorAlert.msg = data.data.error.message;
+        }
       },
     },
     async created() {
@@ -101,6 +105,11 @@
       } else {
         this.errorAlert.state = true;
         this.errorAlert.msg = data.data.error.message;
+
+        if (data.status === 412) {
+          this.showResendLink = true;
+          this.activationHash = data.data.data.repeatHash;
+        }
       }
     },
   };
