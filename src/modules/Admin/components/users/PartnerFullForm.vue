@@ -22,6 +22,7 @@
 
                 <!-- Company details -->
                 <company-details
+                  v-if="!isUserBlocked"
                   ref="companyDetails"
                   :countries="countries"
                   :areasOfWork="areasOfWork"
@@ -34,6 +35,7 @@
 
                 <!-- Company documents -->
                 <company-documents
+                  v-if="!isUserBlocked"
                   ref="companyDocuments"
                   :companyDocumentsData="companyDocumentsData"
                   @getCompanyDocuments="getCompanyDocuments"
@@ -56,7 +58,7 @@
 
             <v-card-actions>
               <v-layout align-center class="btns-wrapper">
-                <v-btn type="button" @click="createPartner" class="info mb-2 mt-2 mx-2" depressed>{{ $t('common.btns.save') }}</v-btn>
+                <v-btn type="button" @click="createPartner" v-if="!isUserBlocked" class="info mb-2 mt-2 mx-2" depressed>{{ $t('common.btns.save') }}</v-btn>
                 <v-btn type="button" v-if="userData.status === 'active'" @click="blockUser" class="error mb-2 mt-2 mx-2" depressed>{{ $t('common.btns.block') }}</v-btn>
               </v-layout>
             </v-card-actions>
@@ -148,11 +150,15 @@
         const lastName = `lastName${lang}`;
         return `${this.userData[firstName]} ${this.userData[lastName]}`;
       },
+      isUserBlocked() {
+        return this.userData.status === 'blocked';
+      },
     },
     async created() {
       await this.$store.dispatch('users/getPartnerCompanyProperties');
       if (this.$route.params.id) {
         const user = await this.$store.dispatch('users/getUserInfo', this.$route.params.id);
+
         if (user.company) {
           await this.$store.dispatch('users/getCompanyInfo', user.company);
           await this.$store.dispatch('users/getCompanyDocuments', user.company);

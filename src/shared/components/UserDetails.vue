@@ -29,6 +29,7 @@
             type="text"
             :rules="isAdminPath ? rules.name : rules.nameRequired"
             required
+            :disabled="isUserBlocked"
           />
         </v-flex>
       </v-layout>
@@ -42,6 +43,7 @@
             type="text"
             :rules="isAdminPath ? rules.name : rules.nameRequired"
             required
+            :disabled="isUserBlocked"
           />
         </v-flex>
       </v-layout>
@@ -55,6 +57,7 @@
             type="text"
             :rules="isAdminPath ? rules.name : rules.nameRequired"
             required
+            :disabled="isUserBlocked"
           />
         </v-flex>
       </v-layout>
@@ -68,6 +71,7 @@
             type="text"
             :rules="isAdminPath ? rules.name : rules.nameRequired"
             required
+            :disabled="isUserBlocked"
           />
         </v-flex>
       </v-layout>
@@ -81,6 +85,7 @@
             type="text"
             :rules="isAdminPath ? rules.occupation : rules.occupationRequired"
             required
+            :disabled="isUserBlocked"
           />
         </v-flex>
       </v-layout>
@@ -94,6 +99,7 @@
             type="text"
             :rules="isAdminPath ? rules.occupation : rules.occupationRequired"
             required
+            :disabled="isUserBlocked"
           />
         </v-flex>
       </v-layout>
@@ -107,6 +113,7 @@
             type="text"
             :rules="isAdminPath ? rules.tel : rules.telRequired"
             required
+            :disabled="isUserBlocked"
           />
         </v-flex>
       </v-layout>
@@ -120,6 +127,7 @@
             type="text"
             :rules="isAdminPath ? rules.tel : rules.telRequired"
             required
+            :disabled="isUserBlocked"
           />
         </v-flex>
       </v-layout>
@@ -312,6 +320,9 @@
       },
       isUnicefUserPath() {
         return this.$route.path.indexOf('unicef-user') !== -1;
+      },
+      isUserBlocked() {
+        return this.userData.status === 'blocked';
       },
     },
     methods: {
