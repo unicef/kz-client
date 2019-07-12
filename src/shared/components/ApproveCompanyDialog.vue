@@ -24,8 +24,8 @@
             </v-flex>
         </v-layout>
         <v-card-actions>
-          <v-btn color="red darken-1" flat @click="close">{{ $t('common.btns.cancel') }}</v-btn>
-          <v-btn color="green darken-1" flat @click="approveCompany">{{ $t('common.btns.approve') }}</v-btn>
+          <v-btn color="red darken-1" flat :disabled="areBtnsDisabled" @click="close">{{ $t('common.btns.cancel') }}</v-btn>
+          <v-btn color="green darken-1" flat :disabled="areBtnsDisabled" @click="approveCompany">{{ $t('common.btns.approve') }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -45,6 +45,7 @@
           state: false,
           msg: '',
         },
+        areBtnsDisabled: false,
       };
     },
     computed: {
@@ -64,23 +65,26 @@
     },
     methods: {
       async approveCompany() {
+        this.areBtnsDisabled = true;
         const data = await this.$store.dispatch('users/approveCompany', { id: this.approvedCompany.id });
 
         if (data.data.success) {
-        this.errorAlert.state = false;
-        this.errorAlert.msg = '';
-        this.successAlert.state = true;
-        this.successAlert.msg = data.data.data.message;
+          this.errorAlert.state = false;
+          this.errorAlert.msg = '';
+          this.successAlert.state = true;
+          this.successAlert.msg = data.data.data.message;
 
-        setTimeout(() => {
+          setTimeout(() => {
             this.$store.commit('users/setCompanyDataField', { field: 'statusId', value: data.data.data.statusId });
             this.successAlert.state = false;
+            this.areBtnsDisabled = false;
             this.successAlert.msg = '';
             this.close();
-        }, 3000);
+          }, 3000);
         } else {
-        this.errorAlert.state = true;
-        this.errorAlert.msg = data.data.error.message;
+          this.errorAlert.state = true;
+          this.areBtnsDisabled = false;
+          this.errorAlert.msg = data.data.error.message;
         }
       },
       close() {

@@ -40,8 +40,8 @@
             </v-flex>
         </v-layout>
         <v-card-actions>
-          <v-btn color="red darken-1" flat @click="close">{{ $t('common.btns.cancel') }}</v-btn>
-          <v-btn color="green darken-1" flat @click="blockUser">{{ $t('common.btns.block') }}</v-btn>
+          <v-btn color="red darken-1" flat :disabled="areBtnsDisabled" @click="close">{{ $t('common.btns.cancel') }}</v-btn>
+          <v-btn color="green darken-1" flat :disabled="areBtnsDisabled" @click="blockUser">{{ $t('common.btns.block') }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -62,6 +62,7 @@
           state: false,
           msg: '',
         },
+        areBtnsDisabled: false,
         rules: {
           email: [
             /* eslint-disable no-new */
@@ -89,9 +90,11 @@
     methods: {
       async blockUser() {
         if (this.$refs.blockUserForm.validate()) {
+          this.areBtnsDisabled = true;
           const data = await this.$store.dispatch('admin/users/blockUser', { type: this.blockedUser.type, user: { userId: this.blockedUser.user.id, email: this.email } });
 
           if (data.data.success) {
+            this.$refs.blockUserForm.reset();
             this.errorAlert.state = false;
             this.errorAlert.msg = '';
             this.successAlert.state = true;
@@ -100,12 +103,14 @@
             setTimeout(() => {
               const routeName = this.blockUser.type === 'unicef' ? 'unicef-users-list' : 'partners-list';
               this.successAlert.state = false;
+              this.areBtnsDisabled = false;
               this.successAlert.msg = '';
               this.close();
               this.$router.push({ name: routeName });
             }, 3000);
           } else {
             this.errorAlert.state = true;
+            this.areBtnsDisabled = false;
             this.errorAlert.msg = data.data.error.message;
           }
         }

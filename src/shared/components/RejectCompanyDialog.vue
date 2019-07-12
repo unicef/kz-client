@@ -40,8 +40,8 @@
             </v-flex>
         </v-layout>
         <v-card-actions>
-          <v-btn color="red darken-1" flat @click="close">{{ $t('common.btns.cancel') }}</v-btn>
-          <v-btn color="green darken-1" flat @click="rejectCompany">{{ $t('common.btns.reject') }}</v-btn>
+          <v-btn color="red darken-1" flat :disabled="areBtnsDisabled" @click="close">{{ $t('common.btns.cancel') }}</v-btn>
+          <v-btn color="green darken-1" flat :disabled="areBtnsDisabled" @click="rejectCompany">{{ $t('common.btns.reject') }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -62,6 +62,7 @@
           state: false,
           msg: '',
         },
+        areBtnsDisabled: false,
         rules: {
           reason: [
             /* eslint-disable no-new */
@@ -88,9 +89,11 @@
     methods: {
       async rejectCompany() {
         if (this.$refs.rejectCompanyForm.validate()) {
+          this.areBtnsDisabled = true;
           const data = await this.$store.dispatch('users/rejectCompany', { id: this.rejectedCompany.id, reason: this.reason });
 
           if (data.data.success) {
+            this.$refs.rejectCompanyForm.reset();
             this.errorAlert.state = false;
             this.errorAlert.msg = '';
             this.successAlert.state = true;
@@ -99,11 +102,13 @@
             setTimeout(() => {
               this.$store.commit('users/setCompanyDataField', { field: 'statusId', value: data.data.data.statusId });
               this.successAlert.state = false;
+              this.areBtnsDisabled = false;
               this.successAlert.msg = '';
               this.close();
             }, 3000);
           } else {
             this.errorAlert.state = true;
+            this.areBtnsDisabled = false;
             this.errorAlert.msg = data.data.error.message;
           }
         }
