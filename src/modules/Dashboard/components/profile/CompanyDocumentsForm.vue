@@ -86,7 +86,7 @@
     },
     methods: {
       async saveDocuments() {
-        if (this.$refs.companyDocumentsForm.validate()) {
+        if (this.$refs.companyDocumentsForm.validate() && this.$refs.companyDocuments.getCompanyDocuments()) {
           this.$refs.companyDocuments.getCompanyDocuments();
 
           const response = await this.$store.dispatch('users/saveCompanyDocuments', { documents: this.credentials });
