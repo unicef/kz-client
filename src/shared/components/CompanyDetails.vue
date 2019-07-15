@@ -47,11 +47,11 @@
       <v-layout row>
         <v-flex sm12>
           <v-text-field
-            :label="isAdminPath ? $t('common.fields.tradeNameRu') : $t('common.fields.tradeNameRu') + '*'"
+            :label="$t('common.fields.tradeNameRu')"
             id="tradeNameRu"
             v-model="credentials.tradeNameRu"
             type="text"
-            :rules="isAdminPath ? [] : rules.fieldRequired"
+            :rules="[]"
             :disabled="fieldsDisabled"
             required
           />
@@ -61,11 +61,11 @@
       <v-layout row>
         <v-flex sm12>
           <v-text-field
-            :label="isAdminPath ? $t('common.fields.tradeNameEn') : $t('common.fields.tradeNameEn') + '*'"
+            :label="$t('common.fields.tradeNameEn')"
             id="tradeNameEn"
             v-model="credentials.tradeNameEn"
             type="text"
-            :rules="isAdminPath ? [] : rules.fieldRequired"
+            :rules="[]"
             :disabled="fieldsDisabled"
             required
           />
@@ -75,11 +75,11 @@
       <v-layout row>
         <v-flex sm12>
           <v-text-field
-            :label="isAdminPath ? $t('common.fields.license') : $t('common.fields.license') + '*'"
+            :label="$t('common.fields.license')"
             id="license"
             v-model="credentials.license"
             type="text"
-            :rules="isAdminPath ? [] : rules.fieldRequired"
+            :rules="[]"
             :disabled="fieldsDisabled"
             required
           />
@@ -260,11 +260,11 @@
       <v-layout row>
         <v-flex sm12>
           <v-text-field
-            :label="isAdminPath ? $t('common.fields.telephone') : $t('common.fields.telephone') + '*'"
+            :label="$t('common.fields.telephone')"
             id="companyTel"
             v-model="credentials.tel"
             type="text"
-            :rules="isAdminPath ? rules.number : rules.numberRequired"
+            :rules="rules.number"
             :disabled="fieldsDisabled"
             required
           />

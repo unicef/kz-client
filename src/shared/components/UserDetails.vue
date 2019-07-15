@@ -107,11 +107,11 @@
       <v-layout row>
         <v-flex sm12>
           <v-text-field
-            :label="isAdminPath ? $t('common.fields.telephone') : $t('common.fields.telephone') + '*'"
+            :label="$t('common.fields.telephone')"
             id="tel"
             v-model="credentials.tel"
             type="text"
-            :rules="isAdminPath ? rules.tel : rules.telRequired"
+            :rules="rules.tel"
             required
             :disabled="isUserBlocked"
           />
