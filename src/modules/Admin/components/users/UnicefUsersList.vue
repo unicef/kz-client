@@ -98,6 +98,12 @@
         ],
       };
     },
+    watch: {
+      /* eslint-disable */
+      '$i18n.locale': async function() {
+        await this.$store.dispatch('admin/users/fetchUnicefUsersListData', { page: this.paginationPage, search: this.search });
+      },
+    },
     computed: {
       unicefUsersListData() {
         return this.$store.getters['admin/users/getUnicefUsersListData'];

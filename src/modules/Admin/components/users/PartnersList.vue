@@ -104,6 +104,12 @@
         ],
       };
     },
+    watch: {
+      /* eslint-disable */
+      '$i18n.locale': async function() {
+        await this.$store.dispatch('admin/users/fetchPartnersListData', { page: this.paginationPage, search: this.search });
+      },
+    },
     computed: {
       partnersListData() {
         return this.$store.getters['admin/users/getPartnersListData'];
