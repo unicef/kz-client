@@ -17,6 +17,7 @@ import VInput from 'vuetify/es5/components/VInput';
 import VSelect from 'vuetify/es5/components/VSelect';
 import VTextField from 'vuetify/es5/components/VTextField';
 import VTextarea from 'vuetify/es5/components/VTextarea';
+import VAutocomplete from 'vuetify/es5/components/VAutocomplete';
 import VCheckbox from 'vuetify/es5/components/VCheckbox';
 import VIcon from 'vuetify/es5/components/VIcon';
 import VDatePicker from 'vuetify/es5/components/VDatePicker';
@@ -59,6 +60,7 @@ Vue.use(Vuetify, {
         VSelect,
         VTextField,
         VTextarea,
+        VAutocomplete,
         VCheckbox,
         VIcon,
         VDatePicker,

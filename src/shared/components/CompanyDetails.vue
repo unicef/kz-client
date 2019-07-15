@@ -88,17 +88,20 @@
       <!-- Country -->
       <v-layout row>
         <v-flex sm12>
-          <v-select
-            :items="countries"
+          <v-autocomplete
             v-model="credentials.country"
-            :label="isAdminPath ? $t('common.fields.country') : $t('common.fields.country') + '*'"
+            :items="countries"
+            :search-input.sync="searchCountry"
+            hide-no-data
             item-text="title"
             item-value="id"
+            :label="isAdminPath ? $t('common.fields.country') : $t('common.fields.country') + '*'"
+            :placeholder="$t('common.fields.search')"
             return-object
-            :rules="isAdminPath ? [] : rules.selectFieldRequired"
             :disabled="fieldsDisabled"
+            :rules="isAdminPath ? [] : rules.selectFieldRequired"
             required
-          ></v-select>
+          ></v-autocomplete>
         </v-flex>
       </v-layout>
       <!-- CEO's Name Ru -->
@@ -635,6 +638,9 @@
       rejectPartner() {
         this.$store.commit('users/setRejectedCompany', { id: this.companyData.id, name: this.companyName });
         this.$store.commit('users/toggleRejectCompanyDialogState', true);
+      },
+      searchCountry(val) {
+        return this.countries.filter(country => country.title.indexOf(val) !== -1);
       },
     },
   };
