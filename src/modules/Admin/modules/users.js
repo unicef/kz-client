@@ -40,7 +40,7 @@ const actions = {
     try {
       const token = localStorage.getItem('token') || '';
       const lang = localStorage.getItem('language') || '';
-      const search = credentials.search ? credentials.search : '';
+      const search = credentials.search ? encodeURIComponent(credentials.search) : '';
       const page = credentials.page ? credentials.page : '';
       const data = await axios.get(`/admin/partner/list?page=${page}&search=${search}`,  { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
 
@@ -58,7 +58,7 @@ const actions = {
     try {
       const token = localStorage.getItem('token') || '';
       const lang = localStorage.getItem('language') || '';
-      const search = credentials.search ? credentials.search : '';
+      const search = credentials.search ? encodeURIComponent(credentials.search) : '';
       const page = credentials.page ? credentials.page : '';
       const data = await axios.get(`/admin/unicef/list?page=${page}&search=${search}`,  { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
 
