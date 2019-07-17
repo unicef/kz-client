@@ -146,7 +146,7 @@
           },
           {
             title: this.$t('header.partners'),
-            link: '',
+            link: '/dashboard/partners',
           },
         ];
         return routes;

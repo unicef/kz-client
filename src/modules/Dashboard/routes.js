@@ -8,6 +8,13 @@ const ProjectsPage = () => import(/* webpackChunkName: "dashboard" */'./containe
 const MyProjects = () => import(/* webpackChunkName: "dashboard" */'./components/projects/MyProjects');
 const AllProjects = () => import(/* webpackChunkName: "dashboard" */'@/shared/components/AllProjects');
 const CreateProjectForm = () => import(/* webpackChunkName: "dashboard" */'@/shared/components/CreateProjectForm');
+const PartnersPage = () => import(/* webpackChunkName: "dashboard" */'./containers/PartnersPage');
+const PartnersList = () => import(/* webpackChunkName: "dashboard" */'./components/partners/PartnersList');
+const PartnerPage = () => import(/* webpackChunkName: "dashboard" */'./containers/PartnerPage');
+const CompanyInfo = () => import(/* webpackChunkName: "dashboard" */'./components/partners/CompanyInfo');
+const CompanyUsers = () => import(/* webpackChunkName: "dashboard" */'./components/partners/CompanyUsers');
+const CompanyDocuments = () => import(/* webpackChunkName: "dashboard" */'./components/partners/CompanyDocuments');
+const CompanyProjects = () => import(/* webpackChunkName: "dashboard" */'./components/partners/CompanyProjects');
 const UserForm = () => import(/* webpackChunkName: "dashboard" */'./components/profile/UserForm');
 const DocsPage = () => import(/* webpackChunkName: "dashboard" */'./containers/DocsPage');
 const NotFound = () => import(/* webpackChunkName: "admin" */'@/shared/components/NotFound');
@@ -69,6 +76,45 @@ export default {
               path: 'create-project',
               name: 'create-project',
               component: CreateProjectForm,
+            },
+        ],
+      },
+      {
+        path: 'partners',
+        component: PartnersPage,
+        redirect: { name: 'all-partners' },
+        children: [
+            {
+              path: '/',
+              name: 'all-partners',
+              component: PartnersList,
+            },
+            {
+              path: ':partnerId',
+              component: PartnerPage,
+              redirect: { name: 'company-info' },
+              children: [
+                  {
+                    path: 'company-info',
+                    name: 'company-info',
+                    component: CompanyInfo,
+                  },
+                  {
+                    path: 'company-users',
+                    name: 'company-users',
+                    component: CompanyUsers,
+                  },
+                  {
+                    path: 'company-documents',
+                    name: 'company-documents',
+                    component: CompanyDocuments,
+                  },
+                  {
+                    path: 'company-projects',
+                    name: 'company-projects',
+                    component: CompanyProjects,
+                  },
+              ],
             },
         ],
       },
