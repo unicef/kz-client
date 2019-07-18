@@ -4,6 +4,7 @@ import axios from '@/api/axiosInit';
 const initialState = {
     partnersListData: {},
     unicefUsersListData: {},
+    donorsListData: {},
     unicefUserProperties: {},
     blockUserDialogState: false,
     blockedUser: null,
@@ -12,6 +13,7 @@ const initialState = {
 const getters = {
   getPartnersListData: state => state.partnersListData,
   getUnicefUsersListData: state => state.unicefUsersListData,
+  getDonorsListData: state => state.donorsListData,
   getUnicefUserProperties: state => state.unicefUserProperties,
   getBlockUserDialogState: state => state.blockUserDialogState,
   getBlockedUser: state => state.blockedUser,
@@ -23,6 +25,9 @@ const mutations = {
   },
   setUnicefUsersListData(state, data) {
     state.unicefUsersListData = data;
+  },
+  setDonorsListData(state, data) {
+    state.donorsListData = data;
   },
   setUnicefUserProperties(state, data) {
     state.unicefUserProperties = data;
@@ -66,6 +71,24 @@ const actions = {
 
       commit('setUnicefUsersListData', unicefUsersListData);
       return unicefUsersListData;
+    } catch (err) {
+      /* eslint-disable */
+      console.log(err);
+      return err.response;
+    }
+  },
+  async fetchDonorsListData({ commit } , credentials ) {
+    try {
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+      const search = credentials.search ? encodeURIComponent(credentials.search) : '';
+      const page = credentials.page ? credentials.page : '';
+      const data = await axios.get(`/admin/donor/list?page=${page}&search=${search}`,  { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
+
+      const donorsListData = data.data.data;
+
+      commit('setDonorsListData', donorsListData);
+      return donorsListData;
     } catch (err) {
       /* eslint-disable */
       console.log(err);

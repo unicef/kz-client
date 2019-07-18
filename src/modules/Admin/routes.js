@@ -4,9 +4,10 @@ const UnicefUsersList = () => import(/* webpackChunkName: "admin" */'./component
 const UnicefUserForm = () => import(/* webpackChunkName: "admin" */'./components/users/UnicefUserForm');
 const PartnersList = () => import(/* webpackChunkName: "admin" */'./components/users/PartnersList');
 const PartnerFullForm = () => import(/* webpackChunkName: "admin" */'./components/users/PartnerFullForm');
+const DonorsList = () => import(/* webpackChunkName: "admin" */'./components/users/DonorsList');
 const SettingsPage = () => import(/* webpackChunkName: "admin" */'./containers/SettingsPage');
-const ProjectsPage = () => import(/* webpackChunkName: "dashboard" */'./containers/ProjectsPage');
-const AllProjects = () => import(/* webpackChunkName: "dashboard" */'@/shared/components/AllProjects');
+const ProjectsPage = () => import(/* webpackChunkName: "admin" */'./containers/ProjectsPage');
+const AllProjects = () => import(/* webpackChunkName: "admin" */'@/shared/components/AllProjects');
 const Localization = () => import(/* webpackChunkName: "admin" */'./components/settings/Localization');
 const PasswordSettings = () => import(/* webpackChunkName: "admin" */'./components/settings/PasswordSettings');
 const NotFound = () => import(/* webpackChunkName: "admin" */'@/shared/components/NotFound');
@@ -53,8 +54,17 @@ export default {
                 {
                     path: 'donors-list',
                     name: 'donors-list',
-                    component: UnicefUsersList,
+                    component: DonorsList,
                 },
+                // {
+                //     path: 'donor-create',
+                //     name: 'donor-create',
+                //     component: DonorForm,
+                // },
+                // {
+                //     path: 'donor/:id',
+                //     component: DonorForm,
+                // },
             ],
         },
         {
