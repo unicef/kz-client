@@ -19,6 +19,34 @@
           />
         </v-flex>
       </v-layout>
+      <!-- Company Ru (field only for Donor details) -->
+      <v-layout row v-if="isAdminPath && isDonorPath || isAdminPath && isDonorCreationPath || isClientPath && isDonor">
+        <v-flex sm12>
+          <v-text-field
+            :label="$t('common.fields.companyRu') + '*'"
+            id="companyRu"
+            v-model="credentials.companyRu"
+            type="text"
+            :rules="rules.company"
+            required
+            :disabled="isUserBlocked"
+          />
+        </v-flex>
+      </v-layout>
+      <!-- Company En (field only for Donor details) -->
+      <v-layout row v-if="isAdminPath && isDonorPath || isAdminPath && isDonorCreationPath || isClientPath && isDonor">
+        <v-flex sm12>
+          <v-text-field
+            :label="$t('common.fields.companyEn') + '*'"
+            id="companyEn"
+            v-model="credentials.companyEn"
+            type="text"
+            :rules="rules.company"
+            required
+            :disabled="isUserBlocked"
+          />
+        </v-flex>
+      </v-layout>
       <!-- First name Ru -->
       <v-layout row>
         <v-flex sm12>
@@ -248,6 +276,8 @@
         credentials: {
             email: '',
             id: null,
+            companyRu: '',
+            companyEn: '',
             firstNameRu: '',
             firstNameEn: '',
             lastNameRu: '',
@@ -299,6 +329,10 @@
             /* eslint-disable no-new */
             v => !!v.title || this.$t('common.fields.validation.field.required'),
           ],
+          company: [
+            /* eslint-disable no-new */
+            v => !!v.trim() || this.$t('common.fields.validation.field.required'),
+          ],
         },
       };
     },
@@ -306,8 +340,14 @@
       roles() {
         return this.$store.getters['global/getRoles'];
       },
+      isDonor() {
+        return this.roles.indexOf('d') !== -1;
+      },
       isAdminPath() {
         return this.$route.path.indexOf('admin') !== -1;
+      },
+      isClientPath() {
+        return this.$route.path.indexOf('dashboard') !== -1;
       },
       isPartnerPath() {
         return this.$route.path.indexOf('partner') !== -1;
@@ -320,6 +360,12 @@
       },
       isUnicefUserPath() {
         return this.$route.path.indexOf('unicef-user') !== -1;
+      },
+      isDonorPath() {
+        return this.$route.path.indexOf('donor') !== -1;
+      },
+      isDonorCreationPath() {
+        return this.$route.path.indexOf('donor-create') !== -1;
       },
       isUserBlocked() {
         return this.userData.status === 'blocked';

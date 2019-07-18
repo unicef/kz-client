@@ -7,6 +7,7 @@ const initialState = {
     donorsListData: {},
     unicefUserProperties: {},
     blockUserDialogState: false,
+    blockDonorDialogState: false,
     blockedUser: null,
 };
 
@@ -16,6 +17,7 @@ const getters = {
   getDonorsListData: state => state.donorsListData,
   getUnicefUserProperties: state => state.unicefUserProperties,
   getBlockUserDialogState: state => state.blockUserDialogState,
+  getBlockDonorDialogState: state => state.blockDonorDialogState,
   getBlockedUser: state => state.blockedUser,
 };
 
@@ -34,6 +36,9 @@ const mutations = {
   },
   toggleBlockUserDialogState(state, data) {
     state.blockUserDialogState = data;
+  },
+  toggleBlockDonorDialogState(state, data) {
+    state.blockDonorDialogState = data;
   },
   setBlockedUser(state, data) {
     state.blockedUser = data;
@@ -130,12 +135,45 @@ const actions = {
       return error.response;
     }
   },
+  async createDonorByAdmin({ commit }, donor) {
+    try {
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+      const data = await axios.post('/admin/donor', donor, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
+
+      return data;
+    } catch (error) {
+      return error.response;
+    }
+  },
+  async editDonorByAdmin({ commit }, donor) {
+    try {
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+      const data = await axios.put('/admin/donor', donor, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
+
+      return data;
+    } catch (error) {
+      return error.response;
+    }
+  },
   async blockUser({ commit }, blockUserData) {
     try {
       const token = localStorage.getItem('token') || '';
       const lang = localStorage.getItem('language') || '';
       const url = blockUserData.type === 'unicef' ? '/admin/unicef/block' : '/admin/partner/block';
       const data = await axios.patch(`${url}`, blockUserData.user, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
+
+      return data;
+    } catch (error) {
+      return error.response;
+    }
+  },
+  async blockDonor({ commit }, blockDonorData) {
+    try {
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+      const data = await axios.patch('/admin/donor/block', blockDonorData, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
 
       return data;
     } catch (error) {

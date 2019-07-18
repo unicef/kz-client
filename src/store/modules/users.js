@@ -5,6 +5,8 @@ const initialState = {
   userData: {
     email: '',
     id: null,
+    companyRu: '',
+    companyEn: '',
     firstNameRu: '',
     firstNameEn: '',
     lastNameRu: '',
@@ -84,6 +86,8 @@ const mutations = {
       state.userData = {
         email: '',
         id: null,
+        companyRu: '',
+        companyEn: '',
         firstNameRu: '',
         firstNameEn: '',
         lastNameRu: '',

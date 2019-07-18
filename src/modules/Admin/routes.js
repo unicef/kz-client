@@ -5,6 +5,7 @@ const UnicefUserForm = () => import(/* webpackChunkName: "admin" */'./components
 const PartnersList = () => import(/* webpackChunkName: "admin" */'./components/users/PartnersList');
 const PartnerFullForm = () => import(/* webpackChunkName: "admin" */'./components/users/PartnerFullForm');
 const DonorsList = () => import(/* webpackChunkName: "admin" */'./components/users/DonorsList');
+const DonorForm = () => import(/* webpackChunkName: "admin" */'./components/users/DonorForm');
 const SettingsPage = () => import(/* webpackChunkName: "admin" */'./containers/SettingsPage');
 const ProjectsPage = () => import(/* webpackChunkName: "admin" */'./containers/ProjectsPage');
 const AllProjects = () => import(/* webpackChunkName: "admin" */'@/shared/components/AllProjects');
@@ -56,15 +57,15 @@ export default {
                     name: 'donors-list',
                     component: DonorsList,
                 },
-                // {
-                //     path: 'donor-create',
-                //     name: 'donor-create',
-                //     component: DonorForm,
-                // },
-                // {
-                //     path: 'donor/:id',
-                //     component: DonorForm,
-                // },
+                {
+                    path: 'donor-create',
+                    name: 'donor-create',
+                    component: DonorForm,
+                },
+                {
+                    path: 'donor/:id',
+                    component: DonorForm,
+                },
             ],
         },
         {
@@ -87,11 +88,11 @@ export default {
         {
             path: 'projects',
             component: ProjectsPage,
-            redirect: { name: 'all-projects' },
+            redirect: { name: 'projects' },
             children: [
                 {
                     path: 'all-projects',
-                    name: 'all-projects',
+                    name: 'projects',
                     component: AllProjects,
                 },
             ],
