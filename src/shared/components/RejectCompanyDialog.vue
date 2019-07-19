@@ -85,6 +85,12 @@
       rejectedCompany() {
         return this.$store.getters['users/getRejectedCompany'];
       },
+      isAdminPath() {
+        return this.$route.path.indexOf('admin') !== -1;
+      },
+      isClientPath() {
+        return this.$route.path.indexOf('dashboard') !== -1;
+      },
     },
     methods: {
       async rejectCompany() {
@@ -100,7 +106,13 @@
             this.successAlert.msg = data.data.data.message;
 
             setTimeout(() => {
-              this.$store.commit('users/setCompanyDataField', { field: 'statusId', value: data.data.data.statusId });
+              if (this.isAdminPath) {
+                this.$store.commit('users/setCompanyDataField', { field: 'statusId', value: data.data.data.statusId });
+              }
+              if (this.isClientPath) {
+                this.$store.commit('dashboard/users/setPartnerInfoField', { field: 'statusId', value: data.data.data.statusId });
+              }
+
               this.successAlert.state = false;
               this.areBtnsDisabled = false;
               this.successAlert.msg = '';

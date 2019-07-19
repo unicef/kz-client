@@ -16,7 +16,7 @@
         <v-flex xs12 sm6 md6>
           <v-layout wrap align-content-start>
             <v-flex xs9>
-              <a @click="downloadDocument(doc.id)">{{doc.title}}</a>
+              <v-icon class="pr-2">insert_drive_file</v-icon><a @click="downloadDocument(doc.id)">{{doc.title}}</a>
             </v-flex>
             <v-flex xs3>
               <v-btn class="my-0" flat icon @click="deleteDocument(doc.id)">
