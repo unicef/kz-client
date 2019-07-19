@@ -176,6 +176,10 @@
             <v-list-tile-content>{{ $t('common.fields.lastLogin') }}:</v-list-tile-content>
             <v-list-tile-content class="align-end">{{ userData.lastLogin }}</v-list-tile-content>
           </v-list-tile>
+          <v-list-tile v-if="userData.status">
+            <v-list-tile-content>{{ $t('common.fields.status') }}:</v-list-tile-content>
+            <v-list-tile-content class="align-end">{{ userData.status }}</v-list-tile-content>
+          </v-list-tile>
         </v-list>
       </v-card>
       <!-- FIELDS FOR ADMIN -->
