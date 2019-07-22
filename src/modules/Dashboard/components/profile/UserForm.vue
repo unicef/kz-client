@@ -63,6 +63,7 @@
                 @click="step--"
                 v-if="step > 1"
                 color="error mb-2 mt-2"
+                :disabled="areBtnsDisabled"
                 depressed
               >{{ $t('common.btns.back') }}</v-btn>
               <v-btn
@@ -70,6 +71,7 @@
                 @click="submitForm"
                 v-if="!isPartner || (isPartner && (step === 3))"
                 color="info mb-2 mt-2"
+                :disabled="areBtnsDisabled"
                 depressed
               >{{ $t('common.btns.save') }}</v-btn>
               <v-btn
@@ -122,6 +124,7 @@
           state: false,
           msg: '',
         },
+        areBtnsDisabled: false,
       };
     },
     computed: {
@@ -195,6 +198,7 @@
     },
     methods: {
       async saveProfile() {
+        this.areBtnsDisabled = true;
         const response = await this.$store.dispatch('users/saveUserStepByStep', this.credentials);
 
         const that = this;
@@ -208,13 +212,14 @@
             this.successAlert.state = false;
             this.successAlert.msg = '';
             await that.$store.dispatch('auth/auth/getMyInfo');
-
+            that.areBtnsDisabled = false;
             that.$router.push({ name: 'user-details' });
           }, 2000);
         } else {
           this.successAlert.state = false;
           this.successAlert.msg = '';
           this.errorAlert.state = true;
+          this.areBtnsDisabled = false;
           this.errorAlert.msg = response.data.error.message;
         }
       },

@@ -74,7 +74,7 @@
         </v-card-text>
         <v-card-actions>
           <v-layout align-center class="btns-wrapper">
-            <v-btn type="submit" depressed color="info">{{ $t('common.btns.changePassword') }}</v-btn>
+            <v-btn type="submit" :disabled="areBtnsDisabled" depressed color="info">{{ $t('common.btns.changePassword') }}</v-btn>
           </v-layout>
         </v-card-actions>
       </v-container>
@@ -118,11 +118,13 @@
           state: false,
           msg: '',
         },
+        areBtnsDisabled: false,
       };
     },
     methods: {
       async submit() {
         if (this.$refs.form.validate()) {
+          this.areBtnsDisabled = true;
           const response = await this.$store.dispatch('users/changeUserPassword', this.setData);
 
           if (response.data.success) {
@@ -136,11 +138,13 @@
             setTimeout(() => {
               this.successAlert.state = false;
               this.successAlert.msg = '';
+              this.areBtnsDisabled = false;
             }, 2000);
           } else {
             this.successAlert.state = false;
             this.successAlert.msg = '';
             this.errorAlert.state = true;
+            this.areBtnsDisabled = false;
             this.errorAlert.msg = response.data.error.message;
           }
         }

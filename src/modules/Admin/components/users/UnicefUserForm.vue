@@ -36,8 +36,8 @@
 
             <v-card-actions>
               <v-layout align-center class="btns-wrapper">
-                <v-btn type="button" @click="saveUnicefUser" v-if="!isUserBlocked" class="info mb-2 mt-2 mx-2" depressed>{{ $t('common.btns.save') }}</v-btn>
-                <v-btn type="button" v-if="userData.status === 'active'" @click="blockUser" class="error mb-2 mt-2 mx-2" depressed>{{ $t('common.btns.block') }}</v-btn>
+                <v-btn type="button" @click="saveUnicefUser" v-if="!isUserBlocked" :disabled="areBtnsDisabled" class="info mb-2 mt-2 mx-2" depressed>{{ $t('common.btns.save') }}</v-btn>
+                <v-btn type="button" v-if="userData.status === 'active'" @click="blockUser" :disabled="areBtnsDisabled" class="error mb-2 mt-2 mx-2" depressed>{{ $t('common.btns.block') }}</v-btn>
               </v-layout>
             </v-card-actions>
           </v-container>
@@ -71,6 +71,7 @@
           state: false,
           msg: '',
         },
+        areBtnsDisabled: false,
       };
     },
     computed: {
@@ -123,6 +124,7 @@
         if (this.$refs.unicefUserForm.validate()) {
           this.$refs.userDetails.getUserDetails();
 
+          this.areBtnsDisabled = true;
           let response;
           if (this.isUnicefUserCreationPath) {
             response = await this.$store.dispatch('admin/users/createUnicefUserByAdmin', this.credentials);
@@ -139,12 +141,14 @@
             setTimeout(() => {
               this.successAlert.state = false;
               this.successAlert.msg = '';
+              this.areBtnsDisabled = false;
               this.$router.push({ name: 'unicef-users-list' });
             }, 2000);
           } else {
             this.successAlert.state = false;
             this.successAlert.msg = '';
             this.errorAlert.state = true;
+            this.areBtnsDisabled = false;
             this.errorAlert.msg = response.data.error.message;
           }
         }

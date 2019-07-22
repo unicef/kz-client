@@ -32,7 +32,7 @@
 
             <v-card-actions>
               <v-layout align-center class="btns-wrapper">
-                <v-btn type="button" @click="saveUser" color="info mb-2 mt-2" depressed>{{ $t('common.btns.save') }}</v-btn>
+                <v-btn type="button" @click="saveUser" :disabled="areBtnsDisabled" color="info mb-2 mt-2" depressed>{{ $t('common.btns.save') }}</v-btn>
               </v-layout>
             </v-card-actions>
           </v-container>
@@ -81,6 +81,7 @@
           state: false,
           msg: '',
         },
+        areBtnsDisabled: false,
       };
     },
     computed: {
@@ -96,6 +97,7 @@
         if (this.$refs.userDetailsForm.validate()) {
           this.$refs.userDetails.getUserDetails();
 
+          this.areBtnsDisabled = true;
           const response = await this.$store.dispatch('users/saveUserDetails', this.credentials);
 
           if (response.data.success) {
@@ -108,11 +110,13 @@
             setTimeout(() => {
               this.successAlert.state = false;
               this.successAlert.msg = '';
+              this.areBtnsDisabled = false;
             }, 2000);
           } else {
             this.successAlert.state = false;
             this.successAlert.msg = '';
             this.errorAlert.state = true;
+            this.areBtnsDisabled = false;
             this.errorAlert.msg = response.data.error.message;
           }
         }

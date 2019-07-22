@@ -99,7 +99,7 @@
           <v-card-actions>
             <v-layout align-center class="btns-wrapper">
               <a class="text-xs-center" @click="goToLogin">{{ $t('common.btns.alreadyHaveAnAccount') }}</a>
-              <v-btn type="submit" color="info mb-2 mt-2" depressed>{{ $t('common.btns.create') }}</v-btn>
+              <v-btn type="submit" :disabled="areBtnsDisabled" color="info mb-2 mt-2" depressed>{{ $t('common.btns.create') }}</v-btn>
             </v-layout>
           </v-card-actions>
         </v-container>
@@ -131,6 +131,7 @@
         },
         showPassword: false,
         showPasswordConfirmation: false,
+        areBtnsDisabled: false,
         rules: {
           login: [
             /* eslint-disable no-new */
@@ -169,6 +170,7 @@
             return;
           }
 
+          this.areBtnsDisabled = true;
           const data = await this.$store.dispatch('auth/auth/register', this.credentials);
 
           if (data.data.success) {
@@ -184,11 +186,13 @@
             setTimeout(() => {
               this.successAlert.state = false;
               this.successAlert.msg = '';
+              this.areBtnsDisabled = false;
               this.$router.push({ name: 'login' });
             }, 3000);
           } else {
             this.errorAlert.state = true;
             this.errorAlert.msg = data.data.error.message;
+            this.areBtnsDisabled = false;
             this.$refs.recaptcha.reset();
             this.credentials['g-recaptcha-response'] = '';
           }

@@ -56,7 +56,7 @@
 
           <v-card-actions>
             <v-layout align-center class="btns-wrapper">
-              <v-btn type='submit' depressed color='info'>
+              <v-btn type='submit' :disabled="areBtnsDisabled" depressed color='info'>
               {{ $t('common.btns.setPassword') }}
             </v-btn>
             </v-layout>
@@ -96,11 +96,13 @@
           state: false,
           msg: '',
         },
+        areBtnsDisabled: false,
       };
     },
     methods: {
       async submit() {
         if (this.$refs.form.validate()) {
+          this.areBtnsDisabled = true;
           const response = await this.$store.dispatch('auth/auth/setPassword', this.setData);
 
           if (response.data.success) {
@@ -112,12 +114,14 @@
             this.successAlert.msg = response.data.data.message;
 
             setTimeout(() => {
+              this.areBtnsDisabled = false;
               this.$router.push({ name: 'login' });
             }, 2000);
           } else {
             this.successAlert.state = false;
             this.successAlert.msg = '';
             this.errorAlert.state = true;
+            this.areBtnsDisabled = false;
             this.errorAlert.msg = response.data.error.message;
           }
         }
