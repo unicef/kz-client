@@ -42,7 +42,7 @@
                   >
                     <router-link
                       :to="`/dashboard/partners/${item.id}`"
-                    >{{ item.name }}ddd</router-link>
+                    >{{ item.name }}</router-link>
                   </td>
                   <td class="text-xs-left">{{ item.createdAt }}</td>
                   <td class="text-xs-left">{{ item.coordinator }}</td>
