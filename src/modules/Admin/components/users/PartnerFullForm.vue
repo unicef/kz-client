@@ -154,6 +154,12 @@
         return this.userData.status === 'blocked';
       },
     },
+    watch: {
+      /* eslint-disable */
+      '$i18n.locale': async function() {
+        await this.$store.dispatch('users/getPartnerCompanyProperties');
+      },
+    },
     async created() {
       await this.$store.dispatch('users/getPartnerCompanyProperties');
       if (this.$route.params.id) {

@@ -26,6 +26,12 @@
         return this.$store.getters['dashboard/profile/showForm'];
       },
     },
+    watch: {
+      /* eslint-disable */
+      '$i18n.locale': async function() {
+        await this.$store.dispatch('users/getPartnerCompanyProperties');
+      },
+    },
     destroyed() {
       this.$store.commit('users/setUserData', null);
       this.$store.commit('users/setCompanyData', null);

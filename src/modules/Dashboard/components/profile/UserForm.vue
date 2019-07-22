@@ -168,6 +168,12 @@
         return this.$store.getters['dashboard/profile/showSeed'];
       },
     },
+    watch: {
+      /* eslint-disable */
+      '$i18n.locale': async function() {
+        await this.$store.dispatch('users/getPartnerCompanyProperties');
+      },
+    },
     async created() {
       const myId = JSON.parse(localStorage.getItem('me')).id;
       const myUser = await this.$store.dispatch('users/getUserInfo', myId);
