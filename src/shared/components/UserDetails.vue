@@ -219,7 +219,7 @@
       <!-- Companies (shown only for Partner creation page when Authorized Person role is choosen) -->
       <v-layout
         row
-        v-if="isAdminPath && isPartnerCreationPath && credentials.role.title === 'Authorised person'"
+        v-if="isAdminPath && isPartnerCreationPath && credentials.role.id === 'ap'"
       >
         <v-flex sm12>
           <v-select
@@ -380,7 +380,7 @@
         this.$emit('getUserDetails', this.credentials);
       },
       setRole() {
-        if (this.credentials.role.title === 'Authorised person') {
+        if (this.credentials.role.id === 'ap') {
           this.$store.commit('users/toggleCompanyFieldsDisabled', true);
         } else {
           this.$store.commit('users/toggleCompanyFieldsDisabled', false);
