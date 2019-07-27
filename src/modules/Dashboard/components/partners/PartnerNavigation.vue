@@ -57,7 +57,7 @@
             display: flex;
             background: transparent;
 
-            @media (max-width: (450px)) {
+            @media (max-width: (550px)) {
               display: block;
             }
         }

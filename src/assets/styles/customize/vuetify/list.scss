@@ -1,10 +1,23 @@
 .company-users, .company-info {
   .v-list__tile {
-    padding: 0;
+    padding: 15px 0;
+    height: auto;
 
     @media (max-width: 550px) {
       flex-direction: column;
       align-items: flex-start;
+    }
+
+    .v-list__tile__content {
+      width: 100%;
+      align-items: normal;
+    }
+  }
+  .v-list--dense {
+    .v-list__tile{
+      &:not(.v-list__tile--avatar) {
+        height: auto;
+      }
     }
   }
 }
