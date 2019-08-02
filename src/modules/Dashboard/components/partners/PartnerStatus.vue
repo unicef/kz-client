@@ -4,7 +4,7 @@
       <v-layout align-center justify-end>
         <v-chip
           disabled
-          :color="companyData.statusId === 'trusted' ? 'success' : 'error'"
+          :color="companyStatusChipColor"
           text-color="white"
         >{{ $t('companyInfo.status') }}: {{companyData.statusId.toUpperCase()}}</v-chip>
       </v-layout>
@@ -33,6 +33,8 @@
 </template>
 
 <script>
+  import { chipColor } from '@/shared/helpers/chipColor';
+
   export default {
     name: 'PartnerStatus',
     components: {
@@ -44,6 +46,9 @@
     computed: {
       companyData() {
         return this.$store.getters['dashboard/users/getPartnerInfo'];
+      },
+      companyStatusChipColor() {
+        return chipColor(this.companyData.statusId);
       },
     },
     methods: {

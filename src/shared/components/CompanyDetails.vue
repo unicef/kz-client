@@ -5,7 +5,7 @@
     </v-flex>
     <v-flex xs12 mb-2 v-if="companyData.statusId">
       <v-layout align-center justify-end>
-        <v-chip disabled :color="companyData.statusId === 'trusted' ? 'success' : 'error'" text-color="white">{{ $t('companyInfo.status') }}: {{companyData.statusId.toUpperCase()}}</v-chip>
+        <v-chip disabled :color="companyStatusChipColor" text-color="white">{{ $t('companyInfo.status') }}: {{companyData.statusId.toUpperCase()}}</v-chip>
       </v-layout>
     </v-flex>
     <v-flex xs12 mb-2 v-if="companyData.statusId === 'filled' && (isAdminPath || (isUnicefUser&&isClientPath))">
@@ -452,6 +452,7 @@
 <script>
   import RejectCompanyDialog from '@/shared/components/RejectCompanyDialog';
   import ApproveCompanyDialog from '@/shared/components/ApproveCompanyDialog';
+  import { chipColor } from '@/shared/helpers/chipColor';
 
   export default {
     name: 'CompanyDetails',
@@ -623,6 +624,9 @@
         const lang = this.$i18n.locale[0].toUpperCase() + this.$i18n.locale.slice(1);
         const companyName = `name${lang}`;
         return `${this.companyData[companyName]}`;
+      },
+      companyStatusChipColor() {
+        return chipColor(this.companyData.statusId);
       },
     },
     methods: {

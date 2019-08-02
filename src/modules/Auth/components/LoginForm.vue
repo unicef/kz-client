@@ -225,6 +225,16 @@
   max-width: 400px;
   margin: 0 auto;
 
+  .headline {
+    text-align: center;
+    text-transform: uppercase;
+    color: #fff;
+
+    @media (max-width: 960px) {
+      font-size: 18px !important;
+    }
+  }
+
   .btns-wrapper {
     justify-content: space-around;
     a {
