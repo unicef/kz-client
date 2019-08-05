@@ -248,7 +248,7 @@
 }
 
 .logo_w {
-  width: 200px;
+  width: 150px;
 
   .logo {
     display: block;
