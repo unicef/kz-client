@@ -63,7 +63,7 @@
               class="auth-alert mb-3 text-sm-center"
               :value="successAlert.state"
               type="success"
-            >{{ $t('setPassword.success') }}</v-alert>
+            >{{ successAlert.msg }}</v-alert>
 
             <v-alert
               class="auth-alert mb-3"

@@ -44,7 +44,7 @@
               
               <!-- Alerts -->
               <v-alert class='auth-alert mb-3 text-sm-center' :value="successAlert.state" type="success">
-                {{ $t('setPassword.success') }}
+                {{ successAlert.msg }}
               </v-alert>
 
               <v-alert class='auth-alert mb-3' :value="errorAlert.state" type="error">
