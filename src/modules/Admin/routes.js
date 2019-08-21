@@ -100,6 +100,11 @@ export default {
                     path: 'project/:id',
                     component: ProjectForm,
                 },
+                {
+                    path: 'create-project',
+                    name: 'create-new-project',
+                    component: ProjectForm,
+                },
             ],
         },
         {

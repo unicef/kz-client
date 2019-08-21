@@ -101,7 +101,7 @@
     async beforeRouteEnter(to, from, next) {
       await store.commit('global/setRoles', null, { root: true });
 
-      if (to.name === 'create-project' && (store.getters['global/getRoles'].indexOf('ro') !== -1 ||
+      if ((to.name === 'create-project' || to.name === 'create-new-project') && (store.getters['global/getRoles'].indexOf('ro') !== -1 ||
           store.getters['global/getRoles'].indexOf('bo') !== -1 ||
           store.getters['global/getRoles'].indexOf('dr') !== -1 ||
           store.getters['global/getRoles'].indexOf('om') !== -1)) {
