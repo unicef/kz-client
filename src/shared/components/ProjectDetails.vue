@@ -274,6 +274,8 @@
 </template>
 
 <script>
+  import { findNestedObj } from '@/shared/helpers/findNestedObj';
+
   export default {
     name: 'ProjectDetails',
     components: {
@@ -379,6 +381,17 @@
         Object.keys(this.projectData).forEach((key) => {
           that.credentials[key] = that.projectData[key];
         });
+      },
+      projectProperties() {
+        if (this.credentials.programme.id) {
+          const updatedProgramme = findNestedObj(this.projectProperties.programmes, 'id', this.credentials.programme.id);
+          const selectedProgramme = {
+              id: updatedProgramme.id,
+              title: updatedProgramme.title,
+              code: updatedProgramme.code,
+          };
+          this.credentials.programme = selectedProgramme;
+        }
       },
     },
     created() {
