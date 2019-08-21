@@ -1,5 +1,5 @@
 <template>
-	<div class="navigation projects" v-if='$vuetify.breakpoint.mdAndUp'>
+	<div class="navigation projects">
       <v-list class="projects-nav-list">
         <v-list-tile to="/dashboard/projects/my-projects" active-class="active">
           <v-list-tile-content>
@@ -52,6 +52,10 @@
         .projects-nav-list {
             display: flex;
             background: transparent;
+
+            @media (max-width: (550px)) {
+              display: block;
+            }
         }
     }
 }
