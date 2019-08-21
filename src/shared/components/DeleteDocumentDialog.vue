@@ -41,7 +41,7 @@
     computed: {
       deleteDialog: {
         get() {
-          return this.$store.getters['users/getDeleteDocumentDialogState'];
+          return this.$store.getters['global/getDeleteDocumentDialogState'];
         },
         set(value) {
           if (!value) {
@@ -49,17 +49,34 @@
           }
         },
       },
-      deleteDocumentId() {
-        return this.$store.getters['users/getDeleteDocumentId'];
+      deleteDocumentData() {
+        return this.$store.getters['global/getDeleteDocumentData'];
+      },
+      isPartnerDocument() {
+        return this.deleteDocumentData.type === 'partner';
       },
     },
     methods: {
       async deleteDocument() {
-        const data = await this.$store.dispatch('users/deleteCompanyDocument', this.deleteDocumentId);
+        let data;
+        if (this.isPartnerDocument) {
+          // delete company doc
+          data = await this.$store.dispatch('users/deleteCompanyDocument', this.deleteDocumentData.id);
+        } else {
+          // delete project doc
+          data = await this.$store.dispatch('projects/deleteProjectDocument', this.deleteDocumentData.id);
+        }
 
         if (data.data.success) {
-          this.$store.commit('users/deleteCompanyDocument', this.deleteDocumentId);
-          this.$store.commit('users/setDeleteDocumentId', null);
+          if (this.isPartnerDocument) {
+            // delete company doc from list
+            this.$store.commit('users/deleteCompanyDocument', this.deleteDocumentData.id);
+          } else {
+            // delete project doc from list
+            this.$store.commit('projects/deleteProjectDocument', this.deleteDocumentData.id);
+          }
+
+          this.$store.commit('global/setDeleteDocumentData', null);
           this.close();
         } else {
           this.errorAlert.state = true;
@@ -71,7 +88,7 @@
         }
       },
       close() {
-        this.$store.commit('users/toggleDeleteDocumentDialogState', false);
+        this.$store.commit('global/toggleDeleteDocumentDialogState', false);
         this.errorAlert.state = false;
         this.errorAlert.msg = '';
       },

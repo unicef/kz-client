@@ -1,5 +1,5 @@
 <template>
-  <v-layout wrap mb-4>
+  <v-layout wrap mt-4 mb-4>
     <v-flex xs12 sm6 :class="{ 'pr-4': $vuetify.breakpoint.smAndUp }">
       <h3 class="title mb-2">{{ $t('documents.title') }}</h3>
     </v-flex>
@@ -9,17 +9,17 @@
         type="info"
       >{{ $t('companyDocuments.info') }}</v-alert>
     </v-flex>
-    <v-flex mt-4 xs12 v-if="companyDocumentsData.length">
+    <v-flex mt-4 xs12 v-if="projectDocumentsData&&projectDocumentsData.length">
       <!-- Company already loaded documents -->
-      <v-layout wrap mb-2 v-for="(doc, index) in companyDocumentsData" :key="index">
-        <v-flex xs12 sm6 md6>{{ doc.title }}</v-flex>
+      <v-layout wrap mb-2 v-for="(doc, index) in projectDocumentsData" :key="index">
+        <!-- <v-flex xs12 sm6 md6>{{ doc.title }}</v-flex> -->
         <v-flex xs12 sm6 md6>
           <v-layout wrap align-content-start>
             <v-flex xs9>
               <v-icon class="pr-2">insert_drive_file</v-icon><a @click="downloadDocument(doc.id)">{{doc.title}}</a>
             </v-flex>
             <v-flex xs3>
-              <v-btn class="my-0" flat icon @click="deleteDocument(doc.id)">
+              <v-btn class="my-0" flat icon v-if="!areFieldsDisabled" @click="deleteDocument(doc.id)">
                 <svgicon class="svg-icon" width="10" height="10" color="red" name="close"/>
               </v-btn>
             </v-flex>
@@ -38,7 +38,6 @@
                 v-model="credentials.files[index].title"
                 :ref="'fileName' + index"
                 type="text"
-                :disabled="credentials.files[index].title==='Partner Declaration Profile and due Diligence Verification Form'"
                 @input="checkFileInputError(index)"
                 :rules="(credentials.files[index].id) ? rules.fieldRequired : []"
               />
@@ -75,7 +74,7 @@
             </v-flex>
           </v-layout>
         </v-flex>
-        <v-btn color="info" @click="addRow">{{ $t('common.btns.addFile') }}</v-btn>
+        <v-btn v-if="!areFieldsDisabled" color="info" @click="addRow">{{ $t('common.btns.addFile') }}</v-btn>
       </v-layout>
     </v-flex>
     <delete-document-dialog/>
@@ -89,19 +88,18 @@
   import DeleteDocumentDialog from '@/shared/components/DeleteDocumentDialog';
 
   export default {
-    name: 'CompanyDocuments',
+    name: 'ProjectDocuments',
     components: {
       DeleteDocumentDialog,
     },
     props: {
-      companyDocumentsData: {
+      projectDocumentsData: {
         type: Array,
       },
     },
     watch: {
-      companyDocumentsData() {
-        this.clearCompanyDocuments();
-        this.addRowForAnexgUploading();
+      projectDocumentsData() {
+        this.clearProjectDocuments();
       },
     },
     data() {
@@ -119,24 +117,43 @@
       };
     },
     computed: {
-      isAdminPath() {
-        return this.$route.path.indexOf('admin') !== -1;
+      projectData() {
+        return this.$store.getters['projects/getProjectData'];
       },
-      isPartnerPath() {
-        return this.$route.path.indexOf('partner') !== -1;
+      isProjectCreationPath() {
+        return this.$route.path.indexOf('create-project') !== -1;
       },
-      isClientPath() {
-        return this.$route.path.indexOf('dashboard') !== -1;
+      isProjectInProgress() {
+        return this.projectData.status === 'In progress';
       },
-      isPartnerCreationPath() {
-        return this.$route.path.indexOf('partner-create') !== -1;
+      isProjectTerminated() {
+        return this.projectData.status === 'Project termination';
       },
-    },
-    created() {
-      this.addRowForAnexgUploading();
+      isProjectCreated() {
+        return this.projectData.status === 'Created';
+      },
+      isProjectCompleted() {
+        return this.projectData.status === 'Completed';
+      },
+      roles() {
+        return this.$store.getters['global/getRoles'];
+      },
+      isPartner() {
+        return this.roles.indexOf('ra') !== -1 || this.roles.indexOf('ap') !== -1;
+      },
+      isDonor() {
+        return this.roles.indexOf('d') !== -1;
+      },
+      areFieldsDisabled() {
+          return this.isPartner ||
+                 this.isDonor ||
+                 this.isProjectInProgress ||
+                 this.isProjectTerminated ||
+                 this.isProjectCompleted;
+      },
     },
     methods: {
-      getCompanyDocuments() {
+      getProjectDocuments() {
         if (this.validateData()) {
           /* eslint-disable */
           const loadedFiles = this.credentials.files.filter((item) => {
@@ -147,38 +164,17 @@
               title: item.title,
             };
           });
-          this.$emit('getCompanyDocuments', loadedFiles);
+          this.$emit('getProjectDocuments', loadedFiles);
           return true;
         }
         return false;
       },
-      clearCompanyDocuments() {
+      clearProjectDocuments() {
         this.credentials.files = [];
         this.docsInputRows = 0;
       },
-      addRowForAnexgUploading() {
-        // add a required load doc row if Anexg not loaded (for client side)
-        /* eslint-disable */
-        const isAnexgLoaded = !!this.companyDocumentsData.filter((item) => {
-          return item.title === 'Partner Declaration Profile and due Diligence Verification Form';
-        }).length;
-        const isRowForAnexgLoaded = !!this.credentials.files.filter((item) => {
-          return item.title === 'Partner Declaration Profile and due Diligence Verification Form';
-        }).length;
-
-        if (!isAnexgLoaded && !isRowForAnexgLoaded && this.isClientPath) {
-          const fileObj = {
-            id: '',
-            title: 'Partner Declaration Profile and due Diligence Verification Form',
-            loading: false,
-            fileError: '',
-          };
-          this.docsInputRows++;
-          this.credentials.files.push(fileObj);
-        }
-      },
       async downloadDocument(docId) {
-        const data = await this.$store.dispatch('users/getCompanyDocument', docId);
+        const data = await this.$store.dispatch('projects/getProjectDocument', docId);
         if (data.success) {
           const blob = base64StringToBlob(data.data.doc, data.data.contentType);
           saveAs(blob, data.data.filename);
@@ -186,7 +182,7 @@
       },
       deleteDocument(id) {
         console.log('delete document with id: ', id);
-        this.$store.commit('global/setDeleteDocumentData', { id: id, type: 'partner' });
+        this.$store.commit('global/setDeleteDocumentData', { id: id, type: 'project' });
         this.$store.commit('global/toggleDeleteDocumentDialogState', true);
       },
       deleteTempDocument(index) {
@@ -216,7 +212,7 @@
         const fileFormData = new FormData();
         fileFormData.append('file', file);
 
-        const data = await this.$store.dispatch('users/uploadDocument', fileFormData);
+        const data = await this.$store.dispatch('projects/uploadDocument', fileFormData);
 
         if (data.data.success) {
           this.credentials.files[index].loading = false;

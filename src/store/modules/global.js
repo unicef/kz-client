@@ -7,6 +7,8 @@ const initialState = {
   locale: {},
   languages: [],
   roles: [],
+  deleteDocumentDialogState: false,
+  deleteDocumentData: null,
 };
 
 const getters = {
@@ -14,6 +16,8 @@ const getters = {
   getLocale: state => state.locale,
   getLanguages: state => state.languages,
   getRoles: state => state.roles,
+  getDeleteDocumentDialogState: state => state.deleteDocumentDialogState,
+  getDeleteDocumentData: state => state.deleteDocumentData,
 };
 
 const mutations = {
@@ -42,6 +46,12 @@ const mutations = {
     } else {
       state.roles = [];
     }
+  },
+  toggleDeleteDocumentDialogState(state, data) {
+    state.deleteDocumentDialogState = data;
+  },
+  setDeleteDocumentData(state, data) {
+    state.deleteDocumentData = data;
   },
 };
 

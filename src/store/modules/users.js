@@ -54,8 +54,6 @@ const initialState = {
   },
   companyFieldsDisabled: false,
   companyDocumentsData: [],
-  deleteDocumentDialogState: false,
-  deleteDocumentId: null,
   rejectCompanyDialogState: false,
   rejectedCompany: null,
   approveCompanyDialogState: false,
@@ -69,8 +67,6 @@ const getters = {
   getPartnerCompanyProperties: state => state.partnerCompanyProperties,
   getCompanyFieldsDisabled: state => state.companyFieldsDisabled,
   getCompanyDocumentsData: state => state.companyDocumentsData,
-  getDeleteDocumentDialogState: state => state.deleteDocumentDialogState,
-  getDeleteDocumentId: state => state.deleteDocumentId,
   getRejectCompanyDialogState: state => state.rejectCompanyDialogState,
   getRejectedCompany: state => state.rejectedCompany,
   getApproveCompanyDialogState: state => state.approveCompanyDialogState,
@@ -156,12 +152,6 @@ const mutations = {
   },
   setCompanyDocumentsData(state, data) {
     state.companyDocumentsData = data;
-  },
-  toggleDeleteDocumentDialogState(state, data) {
-    state.deleteDocumentDialogState = data;
-  },
-  setDeleteDocumentId(state, data) {
-    state.deleteDocumentId = data;
   },
   deleteCompanyDocument(state, id) {
     let newCompanyDocumentsData = state.companyDocumentsData.filter((doc) => {

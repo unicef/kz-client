@@ -1,0 +1,40 @@
+.theme--light.v-expansion-panel .v-expansion-panel__container {
+    border: 0;
+}
+.project-form {
+    .v-expansion-panel {
+        box-shadow: none;
+    }
+    .v-expansion-panel__container {
+        margin: 10px 0;
+
+        &.no-children {
+            .v-expansion-panel__header__icon {
+                display: none;
+            }
+        }
+    }
+    .v-expansion-panel__header {
+        padding: 0;
+        min-height: auto;
+
+        .v-messages {
+            display: none;
+        }
+
+        .v-input--selection-controls {
+            margin: 0;
+            padding: 0;
+
+            .v-input__slot {
+                margin: 0;
+            }
+        }
+    }
+    .v-expansion-panel__body {
+        .v-card {
+            padding: 8px;
+
+        }
+    }
+}

@@ -7,7 +7,7 @@ const CompanyDocumentsForm = () => import(/* webpackChunkName: "dashboard" */'./
 const ProjectsPage = () => import(/* webpackChunkName: "dashboard" */'./containers/ProjectsPage');
 const MyProjects = () => import(/* webpackChunkName: "dashboard" */'./components/projects/MyProjects');
 const AllProjects = () => import(/* webpackChunkName: "dashboard" */'@/shared/components/AllProjects');
-const CreateProjectForm = () => import(/* webpackChunkName: "dashboard" */'@/shared/components/CreateProjectForm');
+const ProjectForm = () => import(/* webpackChunkName: "dashboard" */'@/shared/components/ProjectForm');
 const PartnersPage = () => import(/* webpackChunkName: "dashboard" */'./containers/PartnersPage');
 const PartnersList = () => import(/* webpackChunkName: "dashboard" */'./components/partners/PartnersList');
 const PartnerPage = () => import(/* webpackChunkName: "dashboard" */'./containers/PartnerPage');
@@ -75,8 +75,12 @@ export default {
             {
               path: 'create-project',
               name: 'create-project',
-              component: CreateProjectForm,
+              component: ProjectForm,
             },
+            {
+              path: 'project/:id',
+              component: ProjectForm,
+          },
         ],
       },
       {
