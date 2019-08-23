@@ -15,7 +15,9 @@
                 <project-details
                   ref="projectDetails"
                   :projectData="projectData"
+                  :isProjectDataSaved="isProjectDataSaved"
                   @getProjectDetails="getProjectDetails"
+                  @setIP="setIP"
                 />
 
                 <!-- Project tabs -->
@@ -87,6 +89,7 @@
           </v-container>
         </v-card>
       </v-form>
+      <set-ip-dialog v-if="isProjectCreated" />
     </v-flex>
   </v-layout>
 </template>
@@ -95,6 +98,7 @@
   import store from '@/store';
   import ProjectDetails from '@/shared/components/ProjectDetails';
   import ProjectDocuments from '@/shared/components/ProjectDocuments';
+  import SetIpDialog from '@/shared/components/SetIpDialog';
 
   export default {
     name: 'ProjectForm',
@@ -115,6 +119,7 @@
     components: {
       ProjectDetails,
       ProjectDocuments,
+      SetIpDialog,
     },
     data() {
       return {
@@ -129,6 +134,7 @@
         },
         areBtnsDisabled: false,
         activeTab: null,
+        isProjectDataSaved: true,
       };
     },
     computed: {
@@ -146,6 +152,9 @@
       },
       isClientPath() {
         return this.$route.path.indexOf('dashboard') !== -1;
+      },
+      isProjectCreated() {
+        return this.projectData.status === 'Created';
       },
       isProjectInProgress() {
         return this.projectData.status === 'In progress';
@@ -177,6 +186,7 @@
       /* eslint-disable */
       '$i18n.locale': async function() {
         await this.$store.dispatch('projects/getProjectProperties');
+        await this.$store.dispatch('projects/getAvailablePartners');
       },
       '$route': async function() {
         if (this.$route.name === 'create-project') {
@@ -210,6 +220,7 @@
           this.$refs.projectDocuments.getProjectDocuments();
 
           this.areBtnsDisabled = true;
+          this.isProjectDataSaved = false;
 
           let response;
           if (this.isProjectCreationPath) {
@@ -228,28 +239,66 @@
               this.successAlert.state = false;
               this.successAlert.msg = '';
               this.areBtnsDisabled = false;
+              this.isProjectDataSaved = true;
               if (this.isAdminPath) {
                 this.$router.push('/admin/projects');
               } else {
                 this.$router.push('/dashboard/projects');
               }
-            }, 2000);
+            }, 3000);
           } else {
             this.successAlert.state = false;
             this.successAlert.msg = '';
             this.errorAlert.state = true;
             this.areBtnsDisabled = false;
+            this.isProjectDataSaved = true;
             this.errorAlert.msg = response.data.error.message;
           }
         }
       },
       getProjectDetails(projectData) {
         this.credentials = projectData;
-        console.log('project details in parent', this.credentials);
       },
       getProjectDocuments(projectDocumetsData) {
         this.credentials.documents = projectDocumetsData;
-        console.log('project documents in parent', this.credentials.documents);
+      },
+      async setIP() {
+        console.log('set ip');
+        this.$refs.projectDetails.validateProjectProgrammeField();
+        this.activeTab = 0;
+        if (this.$refs.projectForm.validate() && this.$refs.projectDetails.validateProjectProgrammeField() && this.$refs.projectDocuments.getProjectDocuments()) {
+          this.$refs.projectDetails.getProjectDetails();
+          this.$refs.projectDocuments.getProjectDocuments();
+
+          this.areBtnsDisabled = true;
+          this.isProjectDataSaved = false;
+
+          let response = await this.$store.dispatch('projects/editProject', this.credentials);
+
+          if (response.data.success) {
+            this.errorAlert.state = false;
+            this.errorAlert.msg = '';
+            this.successAlert.state = true;
+            this.successAlert.msg = response.data.data.message;
+
+            setTimeout(async () => {
+              this.successAlert.state = false;
+              this.successAlert.msg = '';
+              await this.$store.dispatch('projects/getAvailablePartners');
+              await this.$store.dispatch('projects/getProjectInfo', this.$route.params.id);
+              this.areBtnsDisabled = false;
+              this.isProjectDataSaved = true;
+              this.$store.commit('projects/toggleSetIpDialogState', true);
+            }, 3000);
+          } else {
+            this.successAlert.state = false;
+            this.successAlert.msg = '';
+            this.errorAlert.state = true;
+            this.areBtnsDisabled = false;
+            this.isProjectDataSaved = true;
+            this.errorAlert.msg = response.data.error.message;
+          }
+        }
       },
     },
   };

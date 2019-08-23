@@ -21,12 +21,16 @@ const initialState = {
   },
   projectProperties: {},
   projectDocumentsData: [],
+  setIpDialogState: false,
+  availablePartners: [],
 };
 
 const getters = {
   getProjectData: state => state.projectData,
   getProjectProperties: state => state.projectProperties,
   getProjectDocumentsData: state => state.projectDocumentsData,
+  getSetIpDialogState: state => state.setIpDialogState,
+  getAvailablePartners: state => state.availablePartners,
 };
 
 const mutations = {
@@ -65,6 +69,12 @@ const mutations = {
       return doc.id !== id;
     });
     state.projectDocumentsData = newProjectDocumentsData;
+  },
+  toggleSetIpDialogState(state, data) {
+    state.setIpDialogState = data;
+  },
+  setAvailablePartners(state, data) {
+    state.availablePartners = data;
   },
 };
 
@@ -158,6 +168,31 @@ const actions = {
       const lang = localStorage.getItem('language') || '';
       const data = await axios.put('/project', project, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
 
+      return data;
+    } catch (error) {
+      return error.response;
+    }
+  },
+  async getAvailablePartners({ commit }) {
+    try {
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+      const data = await axios.get('/partner/available', { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
+
+      commit('setAvailablePartners', data.data.data.partners);
+
+      return data;
+    } catch (error) {
+      return error.response;
+    }
+  },
+  async setIp({ commit }, ip) {
+    try {
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+      const data = await axios.post('/project/progress', ip, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
+
+      commit('setProjectData', data.data.data.project);
       return data;
     } catch (error) {
       return error.response;

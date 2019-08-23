@@ -266,8 +266,12 @@
             @click="setIP"
             color="info mb-2 mt-2"
             depressed
+            :loading="!isProjectDataSaved"
           >{{ $t('common.btns.setIP') }}</v-btn>
         </v-flex>
+      </v-layout>
+      <v-layout row v-if="isProjectCreated">
+        <v-flex sm12>{{ $t('setIP.warning') }}</v-flex>
       </v-layout>
     </v-flex>
   </v-layout>
@@ -283,6 +287,10 @@
     props: {
       projectData: {
         type: Object,
+      },
+      isProjectDataSaved: {
+        type: Boolean,
+        default: true,
       },
     },
     data() {
@@ -405,7 +413,7 @@
         this.$emit('getProjectDetails', this.credentials);
       },
       setIP() {
-
+        this.$emit('setIP');
       },
       chooseProgrammeField(field) {
         this.programmeFieldError = '';
