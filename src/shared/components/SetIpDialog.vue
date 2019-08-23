@@ -39,6 +39,7 @@
             <v-form ref="ipDocumentsForm" v-show="step===2" lazy-validation>
               <ip-documents
                 ref="ipDocuments"
+                :projectData="projectData"
                 @getIpDocuments="getIpDocuments"
               />
             </v-form>

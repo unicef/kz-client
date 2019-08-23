@@ -44,12 +44,17 @@
 <script>
   export default {
     name: 'IpDocuments',
+    props: {
+      projectData: {
+        type: Object,
+      },
+    },
     data() {
       return {
         files: [
           {
             id: '',
-            title: 'Annex G/Non PRC submission form',
+            title: this.projectData.type === 'SSFA' ? 'Non PRC submission form' : 'Annex G',
             loading: false,
             fileError: '',
           },
