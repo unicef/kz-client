@@ -1,7 +1,10 @@
 <template>
   <v-layout wrap>
     <v-flex xs12 mt-4>
-      <v-toolbar class="headline justify-center" color="light-blue">{{ (isProjectCreationPath) ? $t('createProject.title') : $t('editProject.title') }}</v-toolbar>
+      <v-toolbar
+        class="headline justify-center"
+        color="light-blue"
+      >{{ (isProjectCreationPath) ? $t('createProject.title') : $t('editProject.title') }}</v-toolbar>
       <v-form ref="projectForm" lazy-validation>
         <v-card class="project-form">
           <v-container :class="{ 'pt-4': $vuetify.breakpoint.xs }">
@@ -84,12 +87,21 @@
                   color="info mb-2 mt-2"
                   depressed
                 >{{ $t('common.btns.save') }}</v-btn>
+                <v-btn
+                  type="button"
+                  v-if="isProjectCreated && isAdminPath && isAdmin"
+                  @click="deleteProject"
+                  :disabled="areBtnsDisabled"
+                  class="error mb-2 mt-2 mx-2"
+                  depressed
+                >{{ $t('common.btns.delete') }}</v-btn>
               </v-layout>
             </v-card-actions>
           </v-container>
         </v-card>
       </v-form>
       <set-ip-dialog v-if="isProjectCreated" />
+      <delete-project-dialog v-if="isProjectCreated && isAdminPath && isAdmin" />
     </v-flex>
   </v-layout>
 </template>
@@ -99,6 +111,7 @@
   import ProjectDetails from '@/shared/components/ProjectDetails';
   import ProjectDocuments from '@/shared/components/ProjectDocuments';
   import SetIpDialog from '@/shared/components/SetIpDialog';
+  import DeleteProjectDialog from '@/modules/Admin/components/projects/DeleteProjectDialog';
 
   export default {
     name: 'ProjectForm',
@@ -120,6 +133,7 @@
       ProjectDetails,
       ProjectDocuments,
       SetIpDialog,
+      DeleteProjectDialog,
     },
     data() {
       return {
@@ -167,6 +181,9 @@
       },
       roles() {
         return this.$store.getters['global/getRoles'];
+      },
+      isAdmin() {
+        return this.roles.indexOf('a') !== -1;
       },
       isPartner() {
         return this.roles.indexOf('ra') !== -1 || this.roles.indexOf('ap') !== -1;
@@ -298,6 +315,9 @@
             this.errorAlert.msg = response.data.error.message;
           }
         }
+      },
+      deleteProject() {
+        this.$store.commit('admin/projects/toggleDeleteProjectDialogState', true);
       },
     },
   };
