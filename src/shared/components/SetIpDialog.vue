@@ -165,6 +165,7 @@
 
         const that = this;
         if (response.data.success) {
+          await this.$store.dispatch('projects/getProjectDocuments', this.credentials.id);
           this.errorAlert.state = false;
           this.errorAlert.msg = '';
           this.successAlert.state = true;
@@ -212,27 +213,27 @@
         }
       },
       close() {
-        this.$store.commit('projects/toggleSetIpDialogState', false);
-        this.$store.commit('projects/setAvailablePartners', []);
         // reset lower all forms
-        this.$refs.ipForm.reset();
-        this.$refs.ipDocuments.clearIpDocuments();
-        this.$refs.ipTranches.clearTranches();
+        if (this.$refs.ipForm && this.$refs.ipDocuments && this.$refs.ipTranches) {
+          this.$refs.ipForm.reset();
+          this.$refs.ipDocuments.clearIpDocuments();
+          this.$refs.ipTranches.clearTranches();
+        }
+
         this.errorAlert.state = false;
         this.errorAlert.msg = '';
         this.step = 1;
         this.credentials = {};
+        this.$store.commit('projects/toggleSetIpDialogState', false);
+        this.$store.commit('projects/setAvailablePartners', []);
       },
       getIp(ip) {
-        console.log(ip);
         this.credentials.partner = ip;
       },
       getIpDocuments(ipDocs) {
-        console.log(ipDocs);
         this.credentials.documents = ipDocs;
       },
       getIpTranches(ipTranches) {
-        console.log(ipTranches);
         this.credentials.tranches = ipTranches;
       },
     },

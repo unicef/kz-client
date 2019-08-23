@@ -263,7 +263,6 @@
         this.credentials.documents = projectDocumetsData;
       },
       async setIP() {
-        console.log('set ip');
         this.$refs.projectDetails.validateProjectProgrammeField();
         this.activeTab = 0;
         if (this.$refs.projectForm.validate() && this.$refs.projectDetails.validateProjectProgrammeField() && this.$refs.projectDocuments.getProjectDocuments()) {

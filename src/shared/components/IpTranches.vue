@@ -129,6 +129,7 @@
           numberRequired: [
             /* eslint-disable no-new */
             v => !!v || this.$t('common.fields.validation.field.required'),
+            v => +(v) !== 0 || this.$t('common.fields.validation.field.required'),
             v => /^\d*\.?\d{1,2}$/.test(v) || this.$t('common.fields.validation.field.onlyDigits'),
           ],
         },
@@ -150,16 +151,16 @@
         const validAmountFieldsArr = this.tranches.filter(amount => {
                 return (/^\d*\.?\d{1,2}$/.test(amount.amount)) && amount.amount;
               });
-        // show no total amount error if any of tranches's amount fields is not valid
-        if (notValidAmountFieldsArr.lenght) {
+         const allTranchesAmount = validAmountFieldsArr.reduce(function(acc, val) {
+            return acc + (+val.amount);
+            }, 0);
+        // show no total amount error if any of tranches's amount fields is not valid or allTranchesAmount = 0
+        if (notValidAmountFieldsArr.lenght || !allTranchesAmount) {
           return '';
         }
 
         // show total amount error if all tranche amount fields are valid && summ of all > this.projectData.ice
-        const allTranchesAmount = validAmountFieldsArr.reduce(function(acc, val) {
-            return acc + (+val.amount);
-            }, 0);
-        if (!notValidAmountFieldsArr.lenght && allTranchesAmount > +this.projectData.ice) {
+        if (!notValidAmountFieldsArr.lenght && allTranchesAmount != +this.projectData.ice) {
           return this.$t('common.fields.validation.totalAmountKZT');
         }
 
@@ -216,14 +217,14 @@
         // if not first tranche && dateTo
         if (lastRowIndex && lastRowDateTo) {
           // date should be <= dateTo && >= this.tranches[lastRowIndex-1].dateTo
-          return new Date(date).getTime() <= new Date(lastRowDateTo).getTime() &&
+          return new Date(date).getTime() < new Date(lastRowDateTo).getTime() &&
                  new Date(date).getTime() > new Date(this.tranches[lastRowIndex - 1].dateTo).getTime();
         }
 
         // if first tranche && dateTo
         if (!lastRowIndex && lastRowDateTo) {
           // date should be <= dateTo
-          return new Date(date).getTime() <= new Date(lastRowDateTo).getTime();
+          return new Date(date).getTime() < new Date(lastRowDateTo).getTime();
         }
 
         // if first tranche && !dateTo
@@ -242,13 +243,13 @@
         // if not first tranche && dateFrom
         if (lastRowIndex && lastRowDateFrom) {
           // date should be >= dateFrom
-          return new Date(date).getTime() >= new Date(lastRowDateFrom).getTime();
+          return new Date(date).getTime() > new Date(lastRowDateFrom).getTime();
         }
 
         // if first tranche && dateFrom
         if (!lastRowIndex && lastRowDateFrom) {
           // date should be >= dateFrom
-          return new Date(date).getTime() >= new Date(lastRowDateFrom).getTime();
+          return new Date(date).getTime() > new Date(lastRowDateFrom).getTime();
         }
 
         // if first tranche && !dateFrom

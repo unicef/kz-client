@@ -215,13 +215,13 @@
             <v-list-tile-content>{{ $t('common.fields.projectStatus') }}:</v-list-tile-content>
             <v-list-tile-content class="align-end">{{ projectData.status }}</v-list-tile-content>
           </v-list-tile>
-          <v-list-tile v-if="!projectData.ip">
+          <v-list-tile v-if="projectData.partnerName">
             <v-list-tile-content>{{ $t('common.fields.ip') }}:</v-list-tile-content>
-            <v-list-tile-content class="align-end">{{ projectData.ip }}</v-list-tile-content>
+            <v-list-tile-content class="align-end">{{ projectData.partnerName }}</v-list-tile-content>
           </v-list-tile>
-          <v-list-tile v-if="!projectData.assistant">
+          <v-list-tile v-if="projectData.assistantName">
             <v-list-tile-content>{{ $t('common.fields.officer') }}:</v-list-tile-content>
-            <v-list-tile-content class="align-end">{{ projectData.assistant }}</v-list-tile-content>
+            <v-list-tile-content class="align-end">{{ projectData.assistantName }}</v-list-tile-content>
           </v-list-tile>
         </v-list>
       </v-card>

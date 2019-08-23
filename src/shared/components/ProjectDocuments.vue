@@ -181,7 +181,6 @@
         }
       },
       deleteDocument(id) {
-        console.log('delete document with id: ', id);
         this.$store.commit('global/setDeleteDocumentData', { id: id, type: 'project' });
         this.$store.commit('global/toggleDeleteDocumentDialogState', true);
       },
