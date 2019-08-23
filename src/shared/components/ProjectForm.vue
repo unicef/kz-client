@@ -79,11 +79,12 @@
             </v-card-text>
 
             <v-card-actions>
-              <v-layout align-center class="btns-wrapper" v-if="!areFieldsDisabled">
+              <v-layout align-center class="btns-wrapper">
                 <v-btn
                   type="button"
                   @click="saveProject"
                   :disabled="areBtnsDisabled"
+                  v-if="!areFieldsDisabled"
                   color="info mb-2 mt-2"
                   depressed
                 >{{ $t('common.btns.save') }}</v-btn>
@@ -95,6 +96,14 @@
                   class="error mb-2 mt-2 mx-2"
                   depressed
                 >{{ $t('common.btns.delete') }}</v-btn>
+                <v-btn
+                  type="button"
+                  v-if="isProjectInProgress && isAdminPath && isAdmin"
+                  @click="terminateProject"
+                  :disabled="areBtnsDisabled"
+                  class="error mb-2 mt-2 mx-2"
+                  depressed
+                >{{ $t('common.btns.terminate') }}</v-btn>
               </v-layout>
             </v-card-actions>
           </v-container>
@@ -102,6 +111,7 @@
       </v-form>
       <set-ip-dialog v-if="isProjectCreated" />
       <delete-project-dialog v-if="isProjectCreated && isAdminPath && isAdmin" />
+      <terminate-project-dialog v-if="isProjectInProgress && isAdminPath && isAdmin" />
     </v-flex>
   </v-layout>
 </template>
@@ -112,6 +122,7 @@
   import ProjectDocuments from '@/shared/components/ProjectDocuments';
   import SetIpDialog from '@/shared/components/SetIpDialog';
   import DeleteProjectDialog from '@/modules/Admin/components/projects/DeleteProjectDialog';
+  import TerminateProjectDialog from '@/modules/Admin/components/projects/TerminateProjectDialog';
 
   export default {
     name: 'ProjectForm',
@@ -134,6 +145,7 @@
       ProjectDocuments,
       SetIpDialog,
       DeleteProjectDialog,
+      TerminateProjectDialog,
     },
     data() {
       return {
@@ -227,6 +239,7 @@
       this.$store.commit('projects/setProjectData', null);
       this.$store.commit('projects/setProjectProperties', {});
       this.$store.commit('projects/setProjectDocumentsData', []);
+      this.$store.commit('admin/projects/setTerminateProjectReasons', []);
     },
     methods: {
       async saveProject() {
@@ -318,6 +331,10 @@
       },
       deleteProject() {
         this.$store.commit('admin/projects/toggleDeleteProjectDialogState', true);
+      },
+      async terminateProject() {
+        await this.$store.dispatch('admin/projects/getTerminationReasons');
+        this.$store.commit('admin/projects/toggleTerminateProjectDialogState', true);
       },
     },
   };
