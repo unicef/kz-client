@@ -220,7 +220,7 @@
             <v-list-tile-content class="align-end">{{ projectData.partnerName }}</v-list-tile-content>
           </v-list-tile>
           <v-list-tile v-if="projectData.assistantName">
-            <v-list-tile-content>{{ $t('common.fields.officer') }}:</v-list-tile-content>
+            <v-list-tile-content>{{ $t('common.fields.assistant') }}:</v-list-tile-content>
             <v-list-tile-content class="align-end">{{ projectData.assistantName }}</v-list-tile-content>
           </v-list-tile>
         </v-list>
