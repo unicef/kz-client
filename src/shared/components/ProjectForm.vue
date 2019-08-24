@@ -231,7 +231,15 @@
       await this.$store.dispatch('projects/getProjectProperties');
 
       if (this.$route.params.id) {
-        await this.$store.dispatch('projects/getProjectInfo', this.$route.params.id);
+        const { data } = await this.$store.dispatch('projects/getProjectInfo', this.$route.params.id);
+        if (data && !data.success && this.isAdminPath) {
+          return this.$router.push({ name: 'not-found' });
+        }
+
+        if (data && !data.success && this.isClientPath) {
+          return this.$router.push({ name: 'not-found-page' });
+        }
+
         await this.$store.dispatch('projects/getProjectDocuments', this.$route.params.id);
       }
     },

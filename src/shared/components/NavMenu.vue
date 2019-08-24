@@ -12,28 +12,28 @@
 
     <v-list>
       <!-- links for Admin -->
-      <v-list-tile @click='close' v-if="isAuthenticated && isAdmin && isAdminPath" v-for='route in routesAdmin' :key='route.title' :to='route.link'>
+      <v-list-tile @click='close' v-if="isAuthenticated && isAdmin && (isAdminPath || isNotFoundAdminPath)" v-for='route in routesAdmin' :key='route.title' :to='route.link'>
         <v-list-tile-content>
           {{ route.title }}
         </v-list-tile-content>
       </v-list-tile>
 
       <!-- links for Unicef User -->
-      <v-list-tile @click='close' v-if="isAuthenticated && isUnicefUser && isClientPath" v-for='route in routesUnicefUser' :key='route.title' :to='route.link'>
+      <v-list-tile @click='close' v-if="isAuthenticated && isUnicefUser && (isClientPath || isNotFoundClientPath)" v-for='route in routesUnicefUser' :key='route.title' :to='route.link'>
         <v-list-tile-content>
           {{ route.title }}
         </v-list-tile-content>
       </v-list-tile>
 
       <!-- links for Partner -->
-      <v-list-tile @click='close' v-if="isAuthenticated && isPartner && isClientPath" v-for='route in routesPartner' :key='route.title' :to='route.link'>
+      <v-list-tile @click='close' v-if="isAuthenticated && isPartner && (isClientPath || isNotFoundClientPath)" v-for='route in routesPartner' :key='route.title' :to='route.link'>
         <v-list-tile-content>
           {{ route.title }}
         </v-list-tile-content>
       </v-list-tile>
 
       <!-- links for Donor -->
-      <v-list-tile @click='close' v-if="isAuthenticated && isDonor && isClientPath" v-for='route in routesDonor' :key='route.title' :to='route.link'>
+      <v-list-tile @click='close' v-if="isAuthenticated && isDonor && (isClientPath || isNotFoundClientPath)" v-for='route in routesDonor' :key='route.title' :to='route.link'>
         <v-list-tile-content>
           {{ route.title }}
         </v-list-tile-content>
@@ -89,6 +89,12 @@
       },
       isClientPath() {
         return this.$route.path.indexOf('dashboard') !== -1;
+      },
+      isNotFoundAdminPath() {
+        return this.$route.name === 'not-found';
+      },
+      isNotFoundClientPath() {
+        return this.$route.name === 'not-found-page';
       },
       isAdmin() {
         return this.roles.indexOf('a') !== -1;

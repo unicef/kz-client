@@ -80,7 +80,7 @@ export default {
             {
               path: 'project/:id',
               component: ProjectForm,
-          },
+            },
         ],
       },
       {

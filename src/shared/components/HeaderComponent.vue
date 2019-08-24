@@ -7,28 +7,28 @@
     <v-toolbar-items class="hidden-sm-and-down pl-4">
       <v-btn
         flat
-        v-if="isAuthenticated && isAdmin && isAdminPath"
+        v-if="isAuthenticated && isAdmin && (isAdminPath || isNotFoundAdminPath)"
         v-for="(item, key) in routesAdmin"
         :to="item.link"
         :key="key"
       >{{item.title}}</v-btn>
       <v-btn
         flat
-        v-if="isAuthenticated && isUnicefUser && isClientPath"
+        v-if="isAuthenticated && isUnicefUser && (isClientPath || isNotFoundClientPath)"
         v-for="(item, key) in routesUnicefUser"
         :to="item.link"
         :key="key"
       >{{item.title}}</v-btn>
       <v-btn
         flat
-        v-if="isAuthenticated && isPartner && isClientPath"
+        v-if="isAuthenticated && isPartner && (isClientPath || isNotFoundClientPath)"
         v-for="(item, key) in routesPartner"
         :to="item.link"
         :key="key"
       >{{item.title}}</v-btn>
       <v-btn
         flat
-        v-if="isAuthenticated && isDonor && isClientPath"
+        v-if="isAuthenticated && isDonor && (isClientPath || isNotFoundClientPath)"
         v-for="(item, key) in routesDonor"
         :to="item.link"
         :key="key"
@@ -76,6 +76,12 @@
       },
       isClientPath() {
         return this.$route.path.indexOf('dashboard') !== -1;
+      },
+      isNotFoundAdminPath() {
+        return this.$route.name === 'not-found';
+      },
+      isNotFoundClientPath() {
+        return this.$route.name === 'not-found-page';
       },
       isAdmin() {
         return this.roles.indexOf('a') !== -1;
