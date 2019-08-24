@@ -13,7 +13,7 @@
           <v-form ref="terminateProjectForm" lazy-validation>
             <v-layout row>
               <v-radio-group
-                :rules="[v => !!v || 'Item is required']"
+                :rules="rules.radioRequired"
                 required
                 v-model="credentials.reason"
               >
@@ -66,6 +66,12 @@
         credentials: {
           id: null,
           reason: {},
+        },
+        rules: {
+          radioRequired: [
+            /* eslint-disable no-new */
+            v => !!v&&!!v.key || this.$t('common.fields.validation.field.required'),
+          ],
         },
         errorAlert: {
           state: false,
@@ -121,6 +127,7 @@
         }
       },
       close() {
+        this.$refs.terminateProjectForm.reset();
         this.$store.commit('admin/projects/toggleTerminateProjectDialogState', false);
         this.errorAlert.state = false;
         this.errorAlert.msg = '';
