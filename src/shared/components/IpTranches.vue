@@ -97,7 +97,7 @@
           </v-layout>
         </v-flex>
         <v-flex error--text mb-4 xs12 v-if="totalAmountError">{{ totalAmountError }}</v-flex>
-        <v-btn color="info " :disabled="!canAddRow" @click="addRow">{{ $t('common.btns.addTranch') }}</v-btn>
+        <v-btn color="info " :disabled="!canAddRow" @click="addRow">{{ $t('common.btns.addTranche') }}</v-btn>
       </v-layout>
     </v-flex>
   </v-layout>

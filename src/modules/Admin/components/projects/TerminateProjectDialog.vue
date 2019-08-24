@@ -70,7 +70,7 @@
         rules: {
           radioRequired: [
             /* eslint-disable no-new */
-            v => !!v&&!!v.key || this.$t('common.fields.validation.field.required'),
+            v => !!v&&!!v.key || this.$root.$t('common.fields.validation.field.required'),
           ],
         },
         errorAlert: {

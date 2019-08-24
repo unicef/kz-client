@@ -116,12 +116,12 @@
         rules: {
           login: [
             /* eslint-disable no-new */
-            v => !!v || this.$t('common.fields.validation.field.required'),
-            v => /^\w+([+.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/.test(v) || this.$t('common.fields.validation.email'),
+            v => !!v || this.$root.$t('common.fields.validation.field.required'),
+            v => /^\w+([+.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/.test(v) || this.$root.$t('common.fields.validation.email'),
           ],
           password: [
             /* eslint-disable*/
-            v => !!v || this.$t('common.fields.validation.field.required'),
+            v => !!v || this.$root.$t('common.fields.validation.field.required'),
           ],
         },
         errorAlert: {
@@ -156,7 +156,6 @@
             await this.$store.dispatch('auth/auth/getMyInfo');
             this.$store.commit('global/setRoles', { root: true });
             this.$refs.form.reset();
-            this.$refs.recaptcha.reset();
             this.recaptchaVerified = false;
             this.credentials['g-recaptcha-response'] = '';
             this.errorAlert.state = false;
