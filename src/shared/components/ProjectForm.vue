@@ -45,8 +45,8 @@
                       Project reports
                     </v-tab-item>
                     <v-tab-item>
-                      <!-- Project links -->
-                      Project links
+                      <!-- Project links tab -->
+                      <project-links />
                     </v-tab-item>
                     <v-tab-item>
                       <!-- Project FACE -->
@@ -120,6 +120,7 @@
   import store from '@/store';
   import ProjectDetails from '@/shared/components/ProjectDetails';
   import ProjectDocuments from '@/shared/components/ProjectDocuments';
+  import ProjectLinks from '@/shared/components/ProjectLinks';
   import SetIpDialog from '@/shared/components/SetIpDialog';
   import DeleteProjectDialog from '@/modules/Admin/components/projects/DeleteProjectDialog';
   import TerminateProjectDialog from '@/modules/Admin/components/projects/TerminateProjectDialog';
@@ -143,6 +144,7 @@
     components: {
       ProjectDetails,
       ProjectDocuments,
+      ProjectLinks,
       SetIpDialog,
       DeleteProjectDialog,
       TerminateProjectDialog,

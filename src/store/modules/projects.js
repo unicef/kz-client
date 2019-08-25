@@ -26,6 +26,7 @@ const initialState = {
   projectsListData: {},
   projectInfoDialogState: false,
   projectInfo: {},
+  projectLinks: [],
 };
 
 const getters = {
@@ -37,6 +38,7 @@ const getters = {
   getProjectsListData: state => state.projectsListData,
   getProjectInfoDialogState: state => state.projectInfoDialogState,
   getProjectInfo: state => state.projectInfo,
+  getProjectLinks: state => state.projectLinks,
 };
 
 const mutations = {
@@ -90,6 +92,9 @@ const mutations = {
   },
   setProjectInfo(state, data) {
     state.projectInfo = data;
+  },
+  setProjectLinks(state, data) {
+    state.projectLinks = data;
   },
 };
 
@@ -259,6 +264,30 @@ const actions = {
       /* eslint-disable */
       console.log(err);
       return err.response;
+    }
+  },
+  async getProjectLinks({ commit }, credentials) {
+    try {
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+      const data = await axios.get(`/project/links?projectId=${credentials}`, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
+
+      commit('setProjectLinks', data.data.data.links);
+
+      return data;
+    } catch (error) {
+      return error.response;
+    }
+  },
+  async addProjectLink({ commit }, credentials) {
+    try {
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+      const data = await axios.post('/project/link', credentials, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
+
+      return data;
+    } catch (error) {
+      return error.response;
     }
   },
 };
