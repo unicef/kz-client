@@ -8,7 +8,7 @@ const DonorsList = () => import(/* webpackChunkName: "admin" */'./components/use
 const DonorForm = () => import(/* webpackChunkName: "admin" */'./components/users/DonorForm');
 const SettingsPage = () => import(/* webpackChunkName: "admin" */'./containers/SettingsPage');
 const ProjectsPage = () => import(/* webpackChunkName: "admin" */'./containers/ProjectsPage');
-const AllProjects = () => import(/* webpackChunkName: "admin" */'@/shared/components/AllProjects');
+const AllProjects = () => import(/* webpackChunkName: "admin" */'./components/projects/ProjectsList');
 const ProjectForm = () => import(/* webpackChunkName: "dashboard" */'@/shared/components/ProjectForm');
 const Localization = () => import(/* webpackChunkName: "admin" */'./components/settings/Localization');
 const PasswordSettings = () => import(/* webpackChunkName: "admin" */'./components/settings/PasswordSettings');

@@ -2,12 +2,14 @@
   <v-layout wrap>
     <v-flex xs12 mt-4>
       <v-toolbar class="headline justify-center" color="light-blue">{{ $t('allProjects.title') }}</v-toolbar>
+      <projects-table />
     </v-flex>
   </v-layout>
 </template>
 
 <script>
   import store from '@/store';
+  import ProjectsTable from '@/modules/Dashboard/components/projects/ProjectsTable';
 
   export default {
     name: 'AllProjects',
@@ -19,6 +21,7 @@
       }
     },
     components: {
+      ProjectsTable,
     },
     data() {
       return {

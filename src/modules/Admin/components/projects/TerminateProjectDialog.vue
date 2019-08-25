@@ -70,7 +70,7 @@
         rules: {
           radioRequired: [
             /* eslint-disable no-new */
-            v => !!v&&!!v.key || this.$root.$t('common.fields.validation.field.required'),
+            v => (!!v && !!v.key) || this.$root.$t('common.fields.validation.field.required'),
           ],
         },
         errorAlert: {
@@ -104,7 +104,7 @@
         if (this.$refs.terminateProjectForm.validate()) {
             this.areBtnsDisabled = true;
             this.credentials.id = this.$route.params.id;
-            let data = await this.$store.dispatch('admin/projects/terminateProject', this.credentials);
+            const data = await this.$store.dispatch('admin/projects/terminateProject', this.credentials);
 
             if (data.data.success) {
             this.errorAlert.state = false;

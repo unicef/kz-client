@@ -145,10 +145,11 @@
         return this.$store.getters['projects/getProjectData'];
       },
       totalAmountError() {
-        const notValidAmountFieldsArr = this.tranches.filter(amount => {
+        /* eslint-disable */
+        const notValidAmountFieldsArr = this.tranches.filter((amount) => {
                 return (!/^\d*\.?\d{1,2}$/.test(amount.amount)) && amount.amount;
               });
-        const validAmountFieldsArr = this.tranches.filter(amount => {
+        const validAmountFieldsArr = this.tranches.filter((amount) => {
                 return (/^\d*\.?\d{1,2}$/.test(amount.amount)) && amount.amount;
               });
          const allTranchesAmount = validAmountFieldsArr.reduce(function(acc, val) {

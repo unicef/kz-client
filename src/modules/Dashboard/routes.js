@@ -6,7 +6,7 @@ const UserSettings = () => import(/* webpackChunkName: "dashboard" */'./componen
 const CompanyDocumentsForm = () => import(/* webpackChunkName: "dashboard" */'./components/profile/CompanyDocumentsForm');
 const ProjectsPage = () => import(/* webpackChunkName: "dashboard" */'./containers/ProjectsPage');
 const MyProjects = () => import(/* webpackChunkName: "dashboard" */'./components/projects/MyProjects');
-const AllProjects = () => import(/* webpackChunkName: "dashboard" */'@/shared/components/AllProjects');
+const AllProjects = () => import(/* webpackChunkName: "dashboard" */'./components/projects/AllProjects');
 const ProjectForm = () => import(/* webpackChunkName: "dashboard" */'@/shared/components/ProjectForm');
 const PartnersPage = () => import(/* webpackChunkName: "dashboard" */'./containers/PartnersPage');
 const PartnersList = () => import(/* webpackChunkName: "dashboard" */'./components/partners/PartnersList');

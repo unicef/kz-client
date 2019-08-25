@@ -1,5 +1,5 @@
 <template>
-  <v-layout wrap class="container pt-0">
+  <v-layout wrap class="container px-0 py-0">
     <partner-navigation />
     <router-view/>
     <reject-company-dialog />

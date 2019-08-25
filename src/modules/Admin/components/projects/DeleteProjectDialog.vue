@@ -63,7 +63,7 @@
     methods: {
       async deleteProject() {
         this.areBtnsDisabled = true;
-        let data = await this.$store.dispatch('admin/projects/deleteProject', this.$route.params.id);
+        const data = await this.$store.dispatch('admin/projects/deleteProject', this.$route.params.id);
 
         if (data.data.success) {
           this.errorAlert.state = false;
