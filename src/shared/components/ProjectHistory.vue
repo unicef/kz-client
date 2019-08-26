@@ -33,11 +33,20 @@
           </td>
         </template>
       </v-data-table>
+      <v-layout wrap justify-end v-if="projectHistory.length">
+        <v-btn color="info mb-2 mt-2" depressed :loading="disabledBtn" @click="downloadProjectHistoryDocument()">
+          <v-icon class="pr-2">insert_drive_file</v-icon>
+          {{ $t('projectHistory.downloadHistory') }}
+        </v-btn>
+      </v-layout>
     </v-flex>
   </v-layout>
 </template>
 
 <script>
+  import { saveAs } from 'file-saver';
+  import { base64StringToBlob } from 'blob-util';
+
   export default {
     name: 'ProjectHistory',
     data() {
@@ -69,6 +78,15 @@
       }
     },
     methods: {
+      async downloadProjectHistoryDocument() {
+        this.disabledBtn = true;
+        const data = await this.$store.dispatch('projects/getProjectHistoryDocument', this.$route.params.id);
+        if (data.success) {
+          const blob = base64StringToBlob(data.data.doc, data.data.contentType);
+          saveAs(blob, data.data.filename);
+        }
+        this.disabledBtn = false;
+      },
     },
   };
 </script>

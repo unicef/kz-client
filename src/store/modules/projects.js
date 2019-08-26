@@ -307,6 +307,17 @@ const actions = {
       return error.response;
     }
   },
+  async getProjectHistoryDocument({ commit }, credentials) {
+    try {
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+      const data = await axios.get(`/project/document?id=${credentials}`, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
+
+      return data.data;
+    } catch (error) {
+      return error.response;
+    }
+  },
 };
 
 
