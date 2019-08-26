@@ -9,7 +9,7 @@
         </v-flex>
       </v-layout>
     </v-flex>
-    <v-flex v-if="projectData.id && isProjectInProgress" xs12 mb-2 sm6 :class="{ 'pl-4': $vuetify.breakpoint.smAndUp }">
+    <v-flex v-if="projectData.id && !isProjectTerminated && !isProjectCompleted" xs12 mb-2 sm6 :class="{ 'pl-4': $vuetify.breakpoint.smAndUp }">
       <v-layout wrap justify-end>
         <v-flex sm12>
           <v-text-field
@@ -69,6 +69,12 @@
       },
       isProjectInProgress() {
         return this.projectData.status === 'In progress';
+      },
+      isProjectTerminated() {
+        return this.projectData.status === 'Project termination';
+      },
+      isProjectCompleted() {
+        return this.projectData.status === 'Completed';
       },
     },
     async created() {
