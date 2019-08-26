@@ -78,7 +78,9 @@
       },
     },
     async created() {
+      if (this.$route.params.id) {
         await this.$store.dispatch('projects/getProjectLinks', this.$route.params.id);
+      }
     },
     methods: {
       async addProjectLink() {

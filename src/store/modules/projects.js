@@ -27,6 +27,7 @@ const initialState = {
   projectInfoDialogState: false,
   projectInfo: {},
   projectLinks: [],
+  projectHistory: [],
 };
 
 const getters = {
@@ -39,6 +40,7 @@ const getters = {
   getProjectInfoDialogState: state => state.projectInfoDialogState,
   getProjectInfo: state => state.projectInfo,
   getProjectLinks: state => state.projectLinks,
+  getProjectHistory: state => state.projectHistory,
 };
 
 const mutations = {
@@ -95,6 +97,9 @@ const mutations = {
   },
   setProjectLinks(state, data) {
     state.projectLinks = data;
+  },
+  setProjectHistory(state, data) {
+    state.projectHistory = data;
   },
 };
 
@@ -284,6 +289,19 @@ const actions = {
       const token = localStorage.getItem('token') || '';
       const lang = localStorage.getItem('language') || '';
       const data = await axios.post('/project/link', credentials, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
+
+      return data;
+    } catch (error) {
+      return error.response;
+    }
+  },
+  async getProjectHistory({ commit }, credentials) {
+    try {
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+      const data = await axios.get(`/project/history?id=${credentials}`, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
+
+      commit('setProjectHistory', data.data.data.history);
 
       return data;
     } catch (error) {

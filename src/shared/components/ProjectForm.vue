@@ -58,7 +58,7 @@
                     </v-tab-item>
                     <v-tab-item>
                       <!-- Project history -->
-                      Project history
+                      <project-history />
                     </v-tab-item>
                   </v-tabs>
                 </v-flex>
@@ -121,6 +121,7 @@
   import ProjectDetails from '@/shared/components/ProjectDetails';
   import ProjectDocuments from '@/shared/components/ProjectDocuments';
   import ProjectLinks from '@/shared/components/ProjectLinks';
+  import ProjectHistory from '@/shared/components/ProjectHistory';
   import SetIpDialog from '@/shared/components/SetIpDialog';
   import DeleteProjectDialog from '@/modules/Admin/components/projects/DeleteProjectDialog';
   import TerminateProjectDialog from '@/modules/Admin/components/projects/TerminateProjectDialog';
@@ -145,6 +146,7 @@
       ProjectDetails,
       ProjectDocuments,
       ProjectLinks,
+      ProjectHistory,
       SetIpDialog,
       DeleteProjectDialog,
       TerminateProjectDialog,
@@ -224,6 +226,8 @@
           this.$store.commit('projects/setProjectData', null);
           this.$store.commit('projects/setProjectProperties', {});
           this.$store.commit('projects/setProjectDocumentsData', []);
+          this.$store.commit('projects/setProjectLinks', []);
+          this.$store.commit('projects/setProjectHistory', []);
           this.$refs.projectForm.reset();
           await this.$store.dispatch('projects/getProjectProperties');
         }
