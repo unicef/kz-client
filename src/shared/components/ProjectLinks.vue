@@ -9,7 +9,7 @@
         </v-flex>
       </v-layout>
     </v-flex>
-    <v-flex xs12 mb-2 sm6 :class="{ 'pl-4': $vuetify.breakpoint.smAndUp }">
+    <v-flex v-if="projectData.id && isProjectInProgress" xs12 mb-2 sm6 :class="{ 'pl-4': $vuetify.breakpoint.smAndUp }">
       <v-layout wrap justify-end>
         <v-flex sm12>
           <v-text-field
@@ -64,9 +64,15 @@
       projectLinks() {
         return this.$store.getters['projects/getProjectLinks'];
       },
+      projectData() {
+        return this.$store.getters['projects/getProjectData'];
+      },
+      isProjectInProgress() {
+        return this.projectData.status === 'In progress';
+      },
     },
     async created() {
-        await this.$store.dispatch('projects/getProjectLinks', this.$route.params.id);
+        await this.$store.dispatch('projects/getProjectLinks', this.projectData.id);
     },
     methods: {
       async addProjectLink() {
@@ -76,11 +82,11 @@
 
         this.disabledBtn = true;
 
-        const response = await this.$store.dispatch('projects/addProjectLink', { link: this.link, projectId: this.$route.params.id });
+        const response = await this.$store.dispatch('projects/addProjectLink', { link: this.link, projectId: this.projectData.id });
 
           if (response.data.success) {
             this.link = '';
-            await this.$store.dispatch('projects/getProjectLinks', this.$route.params.id);
+            await this.$store.dispatch('projects/getProjectLinks', this.projectData.id);
             this.errorAlert.state = false;
             this.errorAlert.msg = '';
             this.successAlert.state = true;
