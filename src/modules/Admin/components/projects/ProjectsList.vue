@@ -29,7 +29,7 @@
             </v-layout>
             <v-data-table
               class="table-custom projectsList small mt-4 mb-4"
-              :items="projectsListData.partners"
+              :items="projectsListData.projects"
               :headers="headers"
               hide-actions
             >
@@ -50,16 +50,15 @@
                 <tr>
                   <td class="text-xs-left">{{ item.id }}</td>
                   <td class="text-xs-left">
-                    {{ item.title }}
                     <a class="project-title" @click="viewProjectInfo(item.id)">
-                      mv lms vlkdfnvlkd
+                      {{ item.title }}
                     </a>
                   </td>
                   <td class="text-xs-left">{{ item.createdAt }}</td>
                   <td class="text-xs-left">{{ item.deadline }}</td>
-                  <td class="text-xs-left">{{ item.code }}</td>
-                  <td class="text-xs-left">{{ item.partner }}</td>
-                  <td class="text-xs-left">{{ item.officer }}</td>
+                  <td class="text-xs-left">{{ item.programmeCode }}</td>
+                  <td class="text-xs-left">{{ item.partnerName }}</td>
+                  <td class="text-xs-left">{{ item.assistName }}</td>
                   <td class="text-xs-left">{{ item.status }}</td>
                   <td class="text-xs-left">
                     <router-link :to="'/admin/projects/project/'+item.id">

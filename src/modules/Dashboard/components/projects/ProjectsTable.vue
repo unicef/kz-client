@@ -24,7 +24,7 @@
             </v-layout>
             <v-data-table
               class="table-custom projectsList small mt-4 mb-4"
-              :items="projectsListData.partners"
+              :items="projectsListData.projects"
               :headers="headers"
               hide-actions
             >
@@ -36,23 +36,24 @@
                   <th class="text-xs-left">{{ $t('projectsList.tableHeaders.code') }}</th>
                   <th class="text-xs-left">{{ $t('projectsList.tableHeaders.partner') }}</th>
                   <th class="text-xs-left">{{ $t('projectsList.tableHeaders.officer') }}</th>
+                  <th class="text-xs-left">{{ $t('projectsList.tableHeaders.status') }}</th>
                   <th class="text-xs-left">{{ $t('projectsList.tableHeaders.actions') }}</th>
                 </tr>
               </template>
               <template slot="items" slot-scope="{ item }">
                 <tr>
                   <td class="text-xs-left">
-                    {{ item.title }}
                     <a
                       class="project-title"
                       @click="viewProjectInfo(item.id)"
-                    >mv lms vlkdfnvlkd</a>
+                    >{{ item.title }}</a>
                   </td>
                   <td class="text-xs-left">{{ item.createdAt }}</td>
                   <td class="text-xs-left">{{ item.deadline }}</td>
-                  <td class="text-xs-left">{{ item.code }}</td>
-                  <td class="text-xs-left">{{ item.partner }}</td>
-                  <td class="text-xs-left">{{ item.officer }}</td>
+                  <td class="text-xs-left">{{ item.programmeCode }}</td>
+                  <td class="text-xs-left">{{ item.partnerName }}</td>
+                  <td class="text-xs-left">{{ item.assistName }}</td>
+                  <td class="text-xs-left">{{ item.status }}</td>
                   <td class="text-xs-left">
                     <router-link :to="'/dashboard/projects/project/'+item.id">
                       <v-btn small color="primary">{{ $t('common.btns.view') }}</v-btn>

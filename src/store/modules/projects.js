@@ -238,7 +238,6 @@ const actions = {
   },
   async fetchProjectsListData({ commit } , credentials ) {
     try {
-      console.log(credentials);
       const token = localStorage.getItem('token') || '';
       const lang = localStorage.getItem('language') || '';
       const search = credentials.search ? encodeURIComponent(credentials.search) : '';
@@ -246,17 +245,17 @@ const actions = {
       let url;
       switch (credentials.type) {
         case 'all':
-          url = `/admin/partner/list?page=${page}&search=${search}`;
+          url = `/project/list?page=${page}&search=${search}`;
           break;
         case 'my':
-          url = `/admin/partner/list?page=${page}&search=${search}`;
+          url = `/project/my-list?page=${page}&search=${search}`;
           break;
         case 'company':
-          url = `/admin/partner/list?page=${page}&search=${search}&company=${credentials.companyId}`;
+          url = `/partner/projects?page=${page}&search=${search}&id=${credentials.companyId}`;
           break;
       
         default:
-          url = `/admin/partner/list?page=${page}&search=${search}`;
+          url = `/project/my-list?page=${page}&search=${search}`;
           break;
       }
       const data = await axios.get(url,  { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
