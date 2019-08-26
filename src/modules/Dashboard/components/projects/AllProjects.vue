@@ -13,8 +13,10 @@
 
   export default {
     name: 'AllProjects',
-    beforeRouteEnter(to, from, next) {
-      if (store.getters['global/getRoles'].indexOf('a') !== -1 || store.getters['global/getRoles'].indexOf('ro') !== -1 || store.getters['global/getRoles'].indexOf('bo') !== -1 || store.getters['global/getRoles'].indexOf('dr') !== -1 || store.getters['global/getRoles'].indexOf('om') !== -1) {
+    async beforeRouteEnter(to, from, next) {
+      await store.commit('global/setRoles', null, { root: true });
+
+      if (store.getters['global/getRoles'].indexOf('a') !== -1 || store.getters['global/getRoles'].indexOf('ro') !== -1 || store.getters['global/getRoles'].indexOf('bo') !== -1 || store.getters['global/getRoles'].indexOf('dr') !== -1 || store.getters['global/getRoles'].indexOf('om') !== -1 || store.getters['global/getRoles'].indexOf('d') !== -1) {
         next();
       } else {
         next('/dashboard/projects');

@@ -8,10 +8,20 @@
 </template>
 
 <script>
+  import store from '@/store';
   import ProjectsTable from '@/modules/Dashboard/components/projects/ProjectsTable';
 
   export default {
     name: 'MyProjects',
+    async beforeRouteEnter(to, from, next) {
+      await store.commit('global/setRoles', null, { root: true });
+
+      if (store.getters['global/getRoles'].indexOf('d') !== -1) {
+        next('/dashboard/projects/all-projects');
+      } else {
+        next();
+      }
+    },
     components: {
       ProjectsTable,
     },

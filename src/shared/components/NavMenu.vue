@@ -189,8 +189,8 @@
             link: '/dashboard/profile',
           },
           {
-            title: this.$t('header.myProjects'),
-            link: '/dashboard/projects',
+            title: this.$t('header.projects'),
+            link: '/dashboard/projects/all-projects',
           },
           {
             title: this.$t('header.finance'),

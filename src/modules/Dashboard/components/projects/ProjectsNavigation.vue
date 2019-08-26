@@ -1,7 +1,7 @@
 <template>
 	<div class="navigation projects">
       <v-list class="projects-nav-list">
-        <v-list-tile to="/dashboard/projects/my-projects" active-class="active">
+        <v-list-tile v-if="!isDonor" to="/dashboard/projects/my-projects" active-class="active">
           <v-list-tile-content>
             <v-layout row align-center>
               <!-- Name -->
@@ -9,7 +9,7 @@
             </v-layout>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile v-if="isUnicefUser" to="/dashboard/projects/all-projects" active-class="active">
+        <v-list-tile v-if="isUnicefUser || isDonor" to="/dashboard/projects/all-projects" active-class="active">
           <v-list-tile-content>
             <v-layout row align-center>
               <!-- Name -->
@@ -38,6 +38,9 @@
       },
       isUnicefUser() {
         return this.roles.indexOf('ro') !== -1 || this.roles.indexOf('bo') !== -1 || this.roles.indexOf('dr') !== -1 || this.roles.indexOf('om') !== -1;
+      },
+      isDonor() {
+        return this.roles.indexOf('d') !== -1;
       },
     },
   };
