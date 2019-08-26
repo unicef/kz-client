@@ -78,7 +78,7 @@
       },
     },
     async created() {
-        await this.$store.dispatch('projects/getProjectLinks', this.projectData.id);
+        await this.$store.dispatch('projects/getProjectLinks', this.$route.params.id);
     },
     methods: {
       async addProjectLink() {
@@ -88,11 +88,11 @@
 
         this.disabledBtn = true;
 
-        const response = await this.$store.dispatch('projects/addProjectLink', { link: this.link, projectId: this.projectData.id });
+        const response = await this.$store.dispatch('projects/addProjectLink', { link: this.link, projectId: this.$route.params.id });
 
           if (response.data.success) {
             this.link = '';
-            await this.$store.dispatch('projects/getProjectLinks', this.projectData.id);
+            await this.$store.dispatch('projects/getProjectLinks', this.$route.params.id);
             this.errorAlert.state = false;
             this.errorAlert.msg = '';
             this.successAlert.state = true;
