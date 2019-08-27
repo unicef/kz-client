@@ -257,8 +257,8 @@
           ></v-select>
         </v-flex>
       </v-layout>
-      <!-- Set IP btn  (show only when project status is created) -->
-      <v-layout row v-if="isProjectCreated">
+      <!-- Set IP btn  (show only when project status is created and only for UNICEF users) -->
+      <v-layout row v-if="isProjectCreated && isUnicefUser">
         <v-flex sm12>
           <v-btn
             block
@@ -270,7 +270,7 @@
           >{{ $t('common.btns.setIP') }}</v-btn>
         </v-flex>
       </v-layout>
-      <v-layout row v-if="isProjectCreated">
+      <v-layout row v-if="isProjectCreated && isUnicefUser">
         <v-flex sm12>{{ $t('setIP.warning') }}</v-flex>
       </v-layout>
     </v-flex>
@@ -354,6 +354,9 @@
       },
       isDonor() {
         return this.roles.indexOf('d') !== -1;
+      },
+      isUnicefUser() {
+        return this.roles.indexOf('ro') !== -1 || this.roles.indexOf('bo') !== -1 || this.roles.indexOf('dr') !== -1 || this.roles.indexOf('om') !== -1;
       },
       areFieldsDisabled() {
           return this.isPartner ||

@@ -9,7 +9,7 @@
         </v-flex>
       </v-layout>
     </v-flex>
-    <v-flex v-if="projectData.id && !isProjectTerminated && !isProjectCompleted" xs12 mb-2 sm6 :class="{ 'pl-4': $vuetify.breakpoint.smAndUp }">
+    <v-flex v-if="projectData.id && !isProjectTerminated && !isProjectCompleted && isUnicefUser" xs12 mb-2 sm6 :class="{ 'pl-4': $vuetify.breakpoint.smAndUp }">
       <v-layout wrap justify-end>
         <v-flex sm12>
           <v-text-field
@@ -75,6 +75,12 @@
       },
       isProjectCompleted() {
         return this.projectData.status === 'Completed';
+      },
+      roles() {
+        return this.$store.getters['global/getRoles'];
+      },
+      isUnicefUser() {
+        return this.roles.indexOf('ro') !== -1 || this.roles.indexOf('bo') !== -1 || this.roles.indexOf('dr') !== -1 || this.roles.indexOf('om') !== -1;
       },
     },
     async created() {
