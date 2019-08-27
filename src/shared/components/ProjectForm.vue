@@ -109,7 +109,7 @@
           </v-container>
         </v-card>
       </v-form>
-      <set-ip-dialog v-if="isProjectCreated" />
+      <set-ip-dialog v-if="isProjectCreated && isUnicefUser" />
       <delete-project-dialog v-if="isProjectCreated && isAdminPath && isAdmin" />
       <terminate-project-dialog v-if="isProjectInProgress && isAdminPath && isAdmin" />
     </v-flex>
