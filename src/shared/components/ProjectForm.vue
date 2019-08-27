@@ -53,8 +53,8 @@
                       Project FACE
                     </v-tab-item>
                     <v-tab-item>
-                      <!-- Project tranches -->
-                      Project tranches
+                      <!-- Project tranches tab -->
+                      <project-tranches />
                     </v-tab-item>
                     <v-tab-item>
                       <!-- Project history -->
@@ -122,6 +122,7 @@
   import ProjectDocuments from '@/shared/components/ProjectDocuments';
   import ProjectLinks from '@/shared/components/ProjectLinks';
   import ProjectHistory from '@/shared/components/ProjectHistory';
+  import ProjectTranches from '@/shared/components/ProjectTranches';
   import SetIpDialog from '@/shared/components/SetIpDialog';
   import DeleteProjectDialog from '@/modules/Admin/components/projects/DeleteProjectDialog';
   import TerminateProjectDialog from '@/modules/Admin/components/projects/TerminateProjectDialog';
@@ -147,6 +148,7 @@
       ProjectDocuments,
       ProjectLinks,
       ProjectHistory,
+      ProjectTranches,
       SetIpDialog,
       DeleteProjectDialog,
       TerminateProjectDialog,
@@ -241,6 +243,7 @@
           this.$store.commit('projects/setProjectDocumentsData', []);
           this.$store.commit('projects/setProjectLinks', []);
           this.$store.commit('projects/setProjectHistory', []);
+          this.$store.commit('projects/setProjectTranches', []);
           this.$refs.projectForm.reset();
           await this.$store.dispatch('projects/getProjectProperties');
         }
@@ -269,6 +272,7 @@
       this.$store.commit('admin/projects/setTerminateProjectReasons', []);
       this.$store.commit('projects/setProjectLinks', []);
       this.$store.commit('projects/setProjectHistory', []);
+      this.$store.commit('projects/setProjectTranches', []);
     },
     methods: {
       async saveProject() {

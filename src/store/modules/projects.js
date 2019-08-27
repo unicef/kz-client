@@ -28,6 +28,7 @@ const initialState = {
   projectInfo: {},
   projectLinks: [],
   projectHistory: [],
+  projectTranches: [],
 };
 
 const getters = {
@@ -41,6 +42,7 @@ const getters = {
   getProjectInfo: state => state.projectInfo,
   getProjectLinks: state => state.projectLinks,
   getProjectHistory: state => state.projectHistory,
+  getProjectTranches: state => state.projectTranches,
 };
 
 const mutations = {
@@ -100,6 +102,9 @@ const mutations = {
   },
   setProjectHistory(state, data) {
     state.projectHistory = data;
+  },
+  setProjectTranches(state, data) {
+    state.projectTranches = data;
   },
 };
 
@@ -314,6 +319,19 @@ const actions = {
       const data = await axios.get(`/project/history-file?id=${credentials}`, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
 
       return data.data;
+    } catch (error) {
+      return error.response;
+    }
+  },
+  async getProjectTranches({ commit }, credentials) {
+    try {
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+      const data = await axios.get(`/project/tranches?id=${credentials}`, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
+
+      commit('setProjectTranches', data.data.data.tranches);
+
+      return data;
     } catch (error) {
       return error.response;
     }
