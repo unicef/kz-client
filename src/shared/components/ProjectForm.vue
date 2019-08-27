@@ -84,7 +84,7 @@
                   type="button"
                   @click="saveProject"
                   :disabled="areBtnsDisabled"
-                  v-if="!areFieldsDisabled"
+                  v-if="!areFieldsDisabled || (isProjectInProgress && isUnicefUser)"
                   color="info mb-2 mt-2"
                   depressed
                 >{{ $t('common.btns.save') }}</v-btn>
@@ -206,6 +206,9 @@
       },
       isDonor() {
         return this.roles.indexOf('d') !== -1;
+      },
+      isUnicefUser() {
+        return this.roles.indexOf('ro') !== -1 || this.roles.indexOf('bo') !== -1 || this.roles.indexOf('dr') !== -1 || this.roles.indexOf('om') !== -1;
       },
       areFieldsDisabled() {
           return this.isPartner ||

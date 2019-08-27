@@ -74,7 +74,7 @@
             </v-flex>
           </v-layout>
         </v-flex>
-        <v-btn v-if="!areFieldsDisabled" color="info" @click="addRow">{{ $t('common.btns.addFile') }}</v-btn>
+        <v-btn v-if="!areFieldsDisabled || (isProjectInProgress && isUnicefUser)" color="info" @click="addRow">{{ $t('common.btns.addFile') }}</v-btn>
       </v-layout>
     </v-flex>
     <delete-document-dialog/>
@@ -143,6 +143,9 @@
       },
       isDonor() {
         return this.roles.indexOf('d') !== -1;
+      },
+      isUnicefUser() {
+        return this.roles.indexOf('ro') !== -1 || this.roles.indexOf('bo') !== -1 || this.roles.indexOf('dr') !== -1 || this.roles.indexOf('om') !== -1;
       },
       areFieldsDisabled() {
           return this.isPartner ||
