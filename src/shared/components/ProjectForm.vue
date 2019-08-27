@@ -4,7 +4,7 @@
       <v-toolbar
         class="headline justify-center"
         color="light-blue"
-      >{{ (isProjectCreationPath) ? $t('createProject.title') : $t('editProject.title') }}</v-toolbar>
+      >{{ title }}</v-toolbar>
       <v-form ref="projectForm" lazy-validation>
         <v-card class="project-form">
           <v-container :class="{ 'pt-4': $vuetify.breakpoint.xs }">
@@ -216,6 +216,16 @@
                  this.isProjectInProgress ||
                  this.isProjectTerminated ||
                  this.isProjectCompleted;
+      },
+      title() {
+        if (this.isProjectCreationPath) {
+          return this.$t('createProject.title');
+        }
+
+        if ((this.isProjectCreated || this.isProjectInProgress) && this.isUnicefUser) {
+          return this.$t('editProject.title');
+        }
+        return this.$t('viewProject.title');
       },
     },
     watch: {
