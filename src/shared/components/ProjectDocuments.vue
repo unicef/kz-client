@@ -7,6 +7,7 @@
       <v-alert
         value="true"
         type="info"
+        v-if="!areFieldsDisabled || (isProjectInProgress && isUnicefUser)"
       >{{ $t('companyDocuments.info') }}</v-alert>
     </v-flex>
     <v-flex mt-4 xs12 v-if="projectDocumentsData&&projectDocumentsData.length">
