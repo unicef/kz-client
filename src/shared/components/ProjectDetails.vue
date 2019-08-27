@@ -201,7 +201,7 @@
     </v-flex>
     <v-flex xs12 sm6 :class="{ 'pl-4': $vuetify.breakpoint.smAndUp }">
       <!-- PROJECT INFO -->
-      <v-card v-if="projectData.id" class="mb-4">
+      <v-card v-if="projectData.id" class="mb-4 project-details-info">
         <v-list dense>
           <v-list-tile v-if="projectData.projectCode">
             <v-list-tile-content>{{ $t('common.fields.projectCode') }}:</v-list-tile-content>

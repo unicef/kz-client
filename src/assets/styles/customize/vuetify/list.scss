@@ -1,4 +1,4 @@
-.company-users, .company-info, .project-info-dialog {
+.company-users, .company-info, .project-info-dialog, .project-details-info {
   .v-list__tile {
     padding: 15px 0;
     height: auto;
@@ -19,5 +19,11 @@
         height: auto;
       }
     }
+  }
+}
+
+.project-details-info {
+  .v-list__tile {
+    padding: 5px 15px;
   }
 }
