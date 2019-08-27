@@ -112,7 +112,11 @@
     async created() {
       await this.$store.dispatch('admin/users/getUnicefUserProperties');
       if (this.$route.params.id) {
-        await this.$store.dispatch('users/getUserInfo', this.$route.params.id);
+        const { data } = await this.$store.dispatch('users/getUserInfo', this.$route.params.id);
+
+        if (data && !data.success) {
+          return this.$router.push({ name: 'not-found' });
+        }
       }
     },
     destroyed() {

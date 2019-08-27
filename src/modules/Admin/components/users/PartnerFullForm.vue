@@ -166,6 +166,10 @@
       if (this.$route.params.id) {
         const user = await this.$store.dispatch('users/getUserInfo', this.$route.params.id);
 
+        if (!user.id) {
+          return this.$router.push({ name: 'not-found' });
+        }
+
         if (user.company) {
           await this.$store.dispatch('users/getCompanyInfo', user.company);
           await this.$store.dispatch('users/getCompanyDocuments', user.company);
