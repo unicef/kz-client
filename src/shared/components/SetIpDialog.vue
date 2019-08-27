@@ -166,6 +166,8 @@
         const that = this;
         if (response.data.success) {
           await this.$store.dispatch('projects/getProjectDocuments', this.credentials.id);
+          await this.$store.dispatch('projects/getProjectTranches', this.credentials.id);
+          await this.$store.dispatch('projects/getProjectHistory', this.credentials.id);
           this.errorAlert.state = false;
           this.errorAlert.msg = '';
           this.successAlert.state = true;
