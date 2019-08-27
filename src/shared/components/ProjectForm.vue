@@ -254,6 +254,8 @@
       this.$store.commit('projects/setProjectProperties', {});
       this.$store.commit('projects/setProjectDocumentsData', []);
       this.$store.commit('admin/projects/setTerminateProjectReasons', []);
+      this.$store.commit('projects/setProjectLinks', []);
+      this.$store.commit('projects/setProjectHistory', []);
     },
     methods: {
       async saveProject() {
