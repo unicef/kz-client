@@ -138,7 +138,7 @@
       <!-- ICE $ -->
       <v-layout row my-2 align-center>
         <v-flex xs10>{{ iceInUsd }}</v-flex>
-        <v-flex xs2>$</v-flex>
+        <v-flex xs2>USD</v-flex>
       </v-layout>
       <!-- Deadline -->
       <v-layout row>
