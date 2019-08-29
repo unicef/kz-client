@@ -1,0 +1,14 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+ name: blockchain-client-ingress
+ namespace: default
+spec:
+   rules:
+   - host: blockchain-client.iskytest.com
+     http:
+       paths:
+       - path: /
+         backend:
+           serviceName: service-blockchain-client
+           servicePort: 80

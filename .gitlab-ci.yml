@@ -7,7 +7,7 @@ Deploy:
   script:
      - git pull origin develop
      - rm -f -r /home/gitlab-runner/$CI_PROJECT_DIR/.git
-     - "/home/gitlab-runner/xeroxup1.sh $CI_PROJECT_DIR $CI_BUILD_REF $DOMAIN"
-     - ssh -p 5253 -tt sadist@95.216.36.104 'cd /home/sadist/kubernetes/blockchain-client/ && docker build -t sadist/blockchain-client . && docker login && docker push sadist/blockchain-client && kubectl delete deployment deployment-blockchain-client && kubectl apply -f deployment-blockchain-client.yaml'
+     - "/home/gitlab-runner/kubernetes.sh $CI_PROJECT_DIR $CI_BUILD_REF $DOMAIN"
+     - ssh -p 5253 -tt kubernetes@148.251.135.120 'cd /home/kubernetes/projects/blockchain-client/ && docker build -t sadist/blockchain-client . && docker login && docker push sadist/blockchain-client && kubectl delete deployment deployment-blockchain-client && kubectl apply -f ./deploy/deployment-blockchain-client.yaml'
   only:
     - develop
