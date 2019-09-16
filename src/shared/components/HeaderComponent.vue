@@ -123,7 +123,7 @@
           },
           {
             title: this.$t('header.help'),
-            link: '',
+            link: '/admin/docs',
           },
           {
             title: this.$t('header.settings'),

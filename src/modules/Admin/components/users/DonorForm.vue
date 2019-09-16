@@ -99,6 +99,7 @@
         return this.userData.status === 'blocked';
       },
     },
+    /* eslint-disable */
     async created() {
       if (this.$route.params.id) {
         const { data } = await this.$store.dispatch('users/getUserInfo', this.$route.params.id);
