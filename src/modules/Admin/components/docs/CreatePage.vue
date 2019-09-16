@@ -2,7 +2,9 @@
   <div>
     <!-- Content -->
       <h1>Creation of page</h1>
-      <div>To create a project you are kindly requested to fill up below fields. All fields are required to fill</div>
+      <div>
+        To create a project you are kindly requested to fill up below fields. All fields are required to fill
+      </div>
 
       <v-form
         ref="form"
@@ -26,7 +28,7 @@
               required
             />
           </v-flex>
-          <v-flex sm12>
+          <v-flex sm12 class="mb-3">
             <v-text-field
               v-model="URL"
               :rules="rules.fieldRequired"
@@ -34,6 +36,31 @@
               required
             />
           </v-flex>
+          <!-- Editors -->
+          <v-flex class="mb-4">
+            <editor-field
+              :value="textEN"
+              :validation="validationTextEN"
+              @input="onInputTextEN"
+            >
+              <template v-slot:title>
+                Description EN*
+              </template>
+            </editor-field>
+          </v-flex>
+
+          <v-flex class="mb-4">
+            <editor-field
+              :value="textRU"
+              :validation="validationTextRU"
+              @input="onInputTextRU"
+            >
+              <template v-slot:title>
+                Description RU*
+              </template>
+            </editor-field>
+          </v-flex>
+
           <v-flex sm12>
             <v-checkbox
               v-model="public"
@@ -57,9 +84,13 @@
 
 <script>
 import { mapActions } from 'vuex';
+import EditorField from '@/shared/components/EditorField';
 
 export default {
   name: 'CreatePage',
+  components: {
+    EditorField,
+  },
   data() {
     return {
       valid: true,
@@ -67,9 +98,16 @@ export default {
       titleEN: '',
       titleRU: '',
       URL: '',
-      textEN: 'text EN test',
-      textRU: 'text RU test',
+      textEN: '',
+      textRU: '',
       public: true,
+
+      validationTextEN: false,
+      validationTextRU: false,
+
+      // editor
+      editorConfig: {
+      },
 
       rules: {
         fieldRequired: [
@@ -80,11 +118,6 @@ export default {
           /* eslint-disable no-new */
           v => !!v || this.$t('common.fields.validation.field.required'),
         ],
-        numberRequired: [
-          /* eslint-disable no-new */
-          v => !!v || this.$t('common.fields.validation.field.required'),
-          v => /^\d*\.?\d{1,2}$/.test(v) || this.$t('common.fields.validation.field.onlyDigits'),
-        ],
       },
     };
   },
@@ -94,10 +127,37 @@ export default {
     }),
 
     /* eslint-disable */
+    onInputTextEN(value) {
+      this.textEN = value;
+    },
+    onInputTextRU(value) {
+      this.textRU = value;
+    },
+    validateTextEN() {
+      if (this.textEN.trim() === '') {
+        this.validationTextEN = true;
+        return true;
+      }
+
+      this.validateTextEN = false;
+      return false;
+    },
+    validateTextRU() {
+      if (this.textEN.trim() === '') {
+        this.validationTextRU = true;
+        return true;
+      }
+
+      this.validateTextRU = false;
+      return false;
+    },
+
     async onCreatePage() {
       const validate = this.$refs.form.validate();
+      const validateEN = this.validateTextEN();
+      const validateRU = this.validateTextRU();
 
-      if (!validate) {
+      if (!validate  || !validateEN || !validateRU) {
         return;
       }
 
@@ -110,7 +170,9 @@ export default {
         isPublic: this.public,
       };
 
-      const response = await this.createPage(pageObj);
+      console.log('text EN:', this.textEN);
+      // const response = await this.createPage(pageObj);
+      // console.log(response);
     },
   },
 };
