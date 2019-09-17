@@ -33,6 +33,7 @@ import VFooter from 'vuetify/es5/components/VFooter';
 import VAvatar from 'vuetify/es5/components/VAvatar';
 import VChip from 'vuetify/es5/components/VChip';
 import VMenu from 'vuetify/es5/components/VMenu';
+import VTooltip from 'vuetify/es5/components/VTooltip';
 import transitions from 'vuetify/es5/components/transitions';
 
 // directives
@@ -78,6 +79,7 @@ Vue.use(Vuetify, {
         VChip,
         VMenu,
         VAvatar,
+        VTooltip,
         transitions,
     },
     directives: {

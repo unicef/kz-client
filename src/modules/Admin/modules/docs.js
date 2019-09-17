@@ -2,13 +2,17 @@ import axios from '@/api/axiosInit';
 
 /* eslint-disable-next-line */
 const initialState = {
-  docs: [],
+  docs: {},
 };
 
 const getters = {
+  getDocs: state => state.docs,
 };
 
 const mutations = {
+  setDocs(state, payload) {
+    state.docs = payload;
+  },
 };
 
 const actions = {
@@ -16,7 +20,6 @@ const actions = {
     try {
       const token = localStorage.getItem('token') || '';
       const lang = localStorage.getItem('language') || '';
-
 
       const { data } = await axios.post('/admin/page',
         pageObj,
@@ -27,6 +30,29 @@ const actions = {
             Lang: lang,
           },
         });
+
+      return data;
+    } catch (error) {
+      const { data } = error.response;
+      return data;
+    }
+  },
+  async fetchDocs({ commit }, { page }) {
+    /* eslint-disable */
+    try {
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+
+      const { data } = await axios.get(`/admin/page/list?page=${page}`,
+        {
+          headers:
+          {
+            Authorization: `Bearer ${token}`,
+            Lang: lang,
+          },
+        });
+
+      commit('setDocs', data.data);
 
       return data;
     } catch (error) {
