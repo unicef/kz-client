@@ -49,7 +49,13 @@
                     <td class="text-xs-left table-actions">
                       <v-tooltip top>
                         <template v-slot:activator="{ on }">
-                          <v-btn icon flat color="primary" v-on="on">
+                          <v-btn
+                            icon
+                            flat
+                            color="primary"
+                            :to="'/admin/docs/edit/'+item.id"
+                            @on="on"
+                          >
                             <v-icon>edit</v-icon>
                           </v-btn>
                         </template>
@@ -59,7 +65,12 @@
                       </v-tooltip>
                       <v-tooltip top>
                         <template v-slot:activator="{ on }">
-                          <v-btn icon flat color="error" v-on="on">
+                          <v-btn 
+                            icon
+                            flat
+                            color="error"
+                            @on="on"
+                          >
                             <v-icon>delete</v-icon>
                           </v-btn>
                         </template>
