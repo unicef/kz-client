@@ -35,12 +35,6 @@ export default {
     value: {
       type: String,
     },
-    config: {
-      type: Object,
-      default() {
-        return {};
-      },
-    },
     validation: {
       type: Boolean,
     },
@@ -48,6 +42,20 @@ export default {
   data() {
     return {
       editor: ClassicEditor,
+      config: {
+        toolbar: [
+          'heading',
+          '|',
+          'bold',
+          'italic',
+          'link',
+          'bulletedList',
+          'numberedList',
+          'blockQuote',
+          'undo',
+          'redo',
+        ],
+      },
     };
   },
   methods: {

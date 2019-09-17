@@ -105,10 +105,6 @@ export default {
       validationTextEN: false,
       validationTextRU: false,
 
-      // editor
-      editorConfig: {
-      },
-
       rules: {
         fieldRequired: [
           /* eslint-disable no-new */
