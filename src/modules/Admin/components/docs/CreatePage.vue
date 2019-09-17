@@ -1,84 +1,104 @@
 <template>
-  <div>
+  <div class="create-page">
     <!-- Content -->
+    <div class="mb-3">
       <h1>Creation of page</h1>
       <div>
         To create a project you are kindly requested to fill up below fields. All fields are required to fill
       </div>
+    </div>
 
-      <v-form
-        ref="form"
-        v-model="valid"
-        lazy-validation
+    <div>
+      <v-alert
+        :value="successAlert.state"
+        type="success"
       >
-        <v-layout column>
-          <v-flex sm12>
-            <v-text-field
-              v-model="titleEN"
-              :rules="rules.fieldRequired"
-              label="Name page EN*"
-              required
-            />
-          </v-flex>
-          <v-flex sm12>
-            <v-text-field
-              v-model="titleRU"
-              :rules="rules.fieldRequired"
-              label="Name page EN*"
-              required
-            />
-          </v-flex>
-          <v-flex sm12 class="mb-3">
-            <v-text-field
-              v-model="URL"
-              :rules="rules.fieldRequired"
-              label="URL*"
-              required
-            />
-          </v-flex>
-          <!-- Editors -->
-          <v-flex class="mb-4">
-            <editor-field
-              :value="textEN"
-              :validation="validationTextEN"
-              @input="onInputTextEN"
-            >
-              <template v-slot:title>
-                Description EN*
-              </template>
-            </editor-field>
-          </v-flex>
+        {{ successAlert.msg }}
+      </v-alert>
+      <v-alert
+        :value="errorAlert.state"
+        type="error"
+      >
+        {{ errorAlert.msg }}
+      </v-alert>
+    </div>
 
-          <v-flex class="mb-4">
-            <editor-field
-              :value="textRU"
-              :validation="validationTextRU"
-              @input="onInputTextRU"
-            >
-              <template v-slot:title>
-                Description RU*
-              </template>
-            </editor-field>
-          </v-flex>
+    <!-- Form -->
+    <v-form
+      class="form"
+      ref="form"
+      v-model="valid"
+      lazy-validation
+    >
+      <v-layout column>
+        <v-flex sm12>
+          <v-text-field
+            v-model="titleEN"
+            :rules="rules.fieldRequired"
+            label="Name page EN*"
+            required
+          />
+        </v-flex>
+        <v-flex sm12>
+          <v-text-field
+            v-model="titleRU"
+            :rules="rules.fieldRequired"
+            label="Name page RU*"
+            required
+          />
+        </v-flex>
+        <v-flex sm12 class="mb-3">
+          <v-text-field
+            v-model="URL"
+            :rules="rules.fieldRequired"
+            label="URL*"
+            required
+          />
+        </v-flex>
+        <!-- Editors -->
+        <v-flex class="mb-4">
+          <editor-field
+            :value="textEN"
+            :validation="errorTextEN"
+            @input="onInputTextEN"
+          >
+            <template v-slot:title>
+              Description EN*
+            </template>
+          </editor-field>
+        </v-flex>
 
-          <v-flex sm12>
-            <v-checkbox
-              v-model="public"
-              color="primary"
-              label="To publish current article"
-              required
-            />
-          </v-flex>
-          <v-flex>
-            <v-btn
-              color="primary"
-              @click="onCreatePage"
-            >
-              Create
-            </v-btn>
-          </v-flex>
-        </v-layout>
-      </v-form>
+        <v-flex class="mb-2">
+          <editor-field
+            :value="textRU"
+            :validation="errorTextRU"
+            @input="onInputTextRU"
+          >
+            <template v-slot:title>
+              Description RU*
+            </template>
+          </editor-field>
+        </v-flex>
+
+        <v-flex class="mb-3" sm12>
+          <v-checkbox
+            v-model="public"
+            color="primary"
+            label="To publish current article"
+            required
+          />
+        </v-flex>
+        <v-flex>
+          <v-btn
+            :disabled="isCreate"
+            color="primary"
+            @click="onCreatePage"
+          >
+            Create
+          </v-btn>
+        </v-flex>
+      </v-layout>
+    </v-form>
   </div>
 </template>
 
@@ -102,8 +122,18 @@ export default {
       textRU: '',
       public: true,
 
-      validationTextEN: false,
-      validationTextRU: false,
+      errorTextEN: false,
+      errorTextRU: false,
+
+      isCreate: false,
+      successAlert: {
+        state: false,
+        msg: '',
+      },
+      errorAlert: {
+        state: false,
+        msg: '',
+      },
 
       rules: {
         fieldRequired: [
@@ -131,29 +161,28 @@ export default {
     },
     validateTextEN() {
       if (this.textEN.trim() === '') {
-        this.validationTextEN = true;
-        return true;
+        this.errorTextEN = true;
+        return;
       }
 
-      this.validateTextEN = false;
-      return false;
+      this.errorTextEN = false;
     },
     validateTextRU() {
       if (this.textEN.trim() === '') {
-        this.validationTextRU = true;
-        return true;
+        this.errorTextRU = true;
+        return;
       }
 
-      this.validateTextRU = false;
-      return false;
+      this.errorTextRU = false;
     },
 
     async onCreatePage() {
       const validate = this.$refs.form.validate();
-      const validateEN = this.validateTextEN();
-      const validateRU = this.validateTextRU();
+      this.validateTextEN();
+      this.validateTextRU();
 
-      if (!validate  || !validateEN || !validateRU) {
+      if (!validate  || this.errorTextEN || this.errorTextRU) {
+        console.log('validation failed!');
         return;
       }
 
@@ -166,9 +195,28 @@ export default {
         isPublic: this.public,
       };
 
-      console.log('text EN:', this.textEN);
-      // const response = await this.createPage(pageObj);
-      // console.log(response);
+      this.isCreate = true;
+      this.errorAlert.state = false;
+      this.errorAlert.msg = '';
+
+      const { success, data, error } = await this.createPage(pageObj);
+
+      if (!success) {
+        this.errorAlert.state = true;
+        this.errorAlert.msg = error.message;
+        this.isCreate = true;
+        this.$vuetify.goTo(0, 'easeInOutCubic');
+        return;
+      }
+
+      this.successAlert.state = true;
+      this.successAlert.msg = data.message;
+      this.isCreate = false;
+      this.$vuetify.goTo(0, 'easeInOutCubic');
+
+      setTimeout(() => {
+        this.$router.push({ name: 'docs-list' });
+      }, 2300);
     },
   },
 };
@@ -177,5 +225,11 @@ export default {
 <style lang="scss" scoped>
   .content {
     overflow-x: auto;
+  }
+
+  .create-page {
+    max-width: 840px;
+    width: 100%;
+    margin: 0 auto;
   }
 </style>

@@ -17,7 +17,8 @@ const actions = {
       const token = localStorage.getItem('token') || '';
       const lang = localStorage.getItem('language') || '';
 
-      const data = await axios.post('/admin/page',
+
+      const { data } = await axios.post('/admin/page',
         pageObj,
         {
           headers:
@@ -29,7 +30,8 @@ const actions = {
 
       return data;
     } catch (error) {
-      return error.response;
+      const { data } = error.response;
+      return data;
     }
   },
 };

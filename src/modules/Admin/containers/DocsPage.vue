@@ -1,7 +1,9 @@
 <template>
-  <v-layout wrap class="container">
+  <div
+    class="container pt-5"
+  >
     <router-view/>
-  </v-layout>
+  </div>
 </template>
 
 <script>
