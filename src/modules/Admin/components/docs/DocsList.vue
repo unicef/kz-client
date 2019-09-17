@@ -16,6 +16,24 @@
                 </v-btn>
               </v-layout>
 
+              <!-- Alerts -->
+              <v-layout class="my-3" justify-center>
+                <v-flex sm12 md5>
+                  <v-alert
+                    :value="successAlert.state"
+                    type="success"
+                  >
+                    {{ successAlert.msg }}
+                  </v-alert>
+                  <v-alert
+                    :value="errorAlert.state"
+                    type="error"
+                  >
+                    {{ errorAlert.msg }}
+                  </v-alert>
+                </v-flex>
+              </v-layout>
+
               <v-data-table
                 class="table-custom small mt-4 mb-4"
                 :items="docs.pages"
@@ -70,6 +88,7 @@
                             flat
                             color="error"
                             @on="on"
+                            @click="onDeleteDoc(item.id)"
                           >
                             <v-icon>delete</v-icon>
                           </v-btn>
@@ -109,54 +128,106 @@
         </v-container>
       </v-card>
     </v-flex>
+
+    <!-- Delete dialog -->
+    <docs-delete-dialog
+      :display="deleteDialog"
+      @delete='onDelete'
+      @close='onClose'
+    />
   </v-layout>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+  import { mapGetters, mapActions } from 'vuex';
+  import DocsDeleteDialog from './DocsDeleteDialog';
 
-export default {
-  name: 'DocsList',
-  data() {
-    return {
-      headers: [
-        { text: '', sortable: false },
-        { text: '', sortable: false },
-        { text: '', sortable: false },
-        { text: '', sortable: false },
-        { text: '', sortable: false },
-      ],
-    };
-  },
-  computed: {
-    ...mapGetters({
-      docs: 'admin/docs/getDocs',
-    }),
-
-    paginationLength() {
-      return this.docs.lastPage;
+  export default {
+    name: 'DocsList',
+    components: {
+      DocsDeleteDialog,
     },
-    paginationPage() {
-      if (this.docs.currentPage === 1 && this.docs.lastPage === 1) {
-        return 0;
-      }
+    data() {
+      return {
+        deleteDialog: false,
+        docId: null,
+        headers: [
+          { text: '', sortable: false },
+          { text: '', sortable: false },
+          { text: '', sortable: false },
+          { text: '', sortable: false },
+          { text: '', sortable: false },
+        ],
 
-      return this.docs.currentPage;
+        successAlert: {
+          state: false,
+          msg: '',
+        },
+        errorAlert: {
+          state: false,
+          msg: '',
+        },
+      };
     },
-  },
-  async created() {
-    await this.fetchDocs({ page: 1 });
-  },
-  methods: {
-    ...mapActions({
-      fetchDocs: 'admin/docs/fetchDocs',
-    }),
+    computed: {
+      ...mapGetters({
+        docs: 'admin/docs/getDocs',
+      }),
 
-    async choosePaginatorPage(page) {
-      this.fetchDocs({ page });
+      paginationLength() {
+        return this.docs.lastPage;
+      },
+      paginationPage() {
+        if (this.docs.currentPage === 1 && this.docs.lastPage === 1) {
+          return 0;
+        }
+
+        return this.docs.currentPage;
+      },
     },
-  },
-};
+    async created() {
+      await this.fetchDocs({ page: 1 });
+    },
+    methods: {
+      ...mapActions({
+        fetchDocs: 'admin/docs/fetchDocs',
+        deleteDoc: 'admin/docs/deleteDoc',
+      }),
+
+      async choosePaginatorPage(page) {
+        await this.fetchDocs({ page });
+        this.$vuetify.goTo(0, 'easeInOutCubic');
+      },
+      onDeleteDoc(id) {
+        this.docId = id;
+        this.deleteDialog = true;
+      },
+      async onDelete() {
+        this.deleteDialog = false;
+        this.errorAlert.state = false;
+        this.errorAlert.msg = '';
+
+        const { data, success, error } = await this.deleteDoc({ id: this.docId });
+
+        if (!success) {
+          this.errorAlert.state = true;
+          this.errorAlert.msg = error.message;
+          this.$vuetify.goTo(0, 'easeInOutCubic');
+          return;
+        }
+
+        this.successAlert.state = true;
+        this.successAlert.msg = data.message;
+        this.$vuetify.goTo(0, 'easeInOutCubic');
+
+        await this.fetchDocs({ page: 1 });
+      },
+      onClose() {
+        this.deleteDialog = false;
+        this.docId = null;
+      },
+    },
+  };
 </script>
 
 <style lang="scss" scoped>

@@ -38,7 +38,6 @@ const actions = {
     }
   },
   async fetchDocs({ commit }, { page }) {
-    /* eslint-disable */
     try {
       const token = localStorage.getItem('token') || '';
       const lang = localStorage.getItem('language') || '';
@@ -53,6 +52,26 @@ const actions = {
         });
 
       commit('setDocs', data.data);
+
+      return data;
+    } catch (error) {
+      const { data } = error.response;
+      return data;
+    }
+  },
+  async deleteDoc({ commit }, { id }) {
+    try {
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+
+      const { data } = await axios.delete(`/admin/page?id=${id}`,
+        {
+          headers:
+          {
+            Authorization: `Bearer ${token}`,
+            Lang: lang,
+          },
+        });
 
       return data;
     } catch (error) {
