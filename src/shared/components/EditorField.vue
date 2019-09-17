@@ -3,13 +3,15 @@
     <div class="subheading mb-2">
       <slot name="title"></slot>
     </div>
-    <ckeditor
-      :value="value"
-      tag-name="textarea"
-      :editor="editor"
-      :config="config"
-      @input="onEditorInput"
-    />
+    <div class="editor-field">
+      <ckeditor
+        :value="value"
+        tag-name="textarea"
+        :editor="editor"
+        :config="config"
+        @input="onEditorInput"
+      />
+    </div>
 
     <!-- Validation -->
     <transition name="slide-y-transition">
@@ -65,3 +67,13 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+  .editor-field {
+    & /deep/ {
+      .ck-content {
+        height: 250px;
+      }
+    }
+  }
+</style>
