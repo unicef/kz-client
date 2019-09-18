@@ -228,6 +228,11 @@
         this.$vuetify.goTo(0, 'easeInOutCubic');
 
         await this.fetchDocs({ page: 1 });
+
+        setTimeout(() => {
+          this.successAlert.state = false;
+          this.successAlert.msg = '';
+        }, 3000);
       },
       onClose() {
         this.deleteDialog = false;

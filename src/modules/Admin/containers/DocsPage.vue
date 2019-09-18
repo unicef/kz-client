@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="container pt-5"
-  >
+  <div class="container pt-5">
     <loader />
 
     <!-- Content -->
@@ -19,7 +17,3 @@ export default {
     },
 };
 </script>
-
-<style lang="scss" scoped>
-
-</style>

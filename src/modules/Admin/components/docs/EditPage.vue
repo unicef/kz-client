@@ -58,7 +58,11 @@
     async created() {
       const { id } = this.$route.params;
       this.id = id;
-      await this.getDoc({ id });
+      const { success, error } = await this.getDoc({ id });
+
+      if (!success && error.status === 404) {
+        this.$router.push({ path: '/admin/not-found' });
+      }
     },
     mounted() {
       this.$vuetify.goTo(0, 'easeInOutCubic');
@@ -94,6 +98,11 @@
         this.successAlert.state = true;
         this.successAlert.msg = data.message;
         this.$vuetify.goTo(0, 'easeInOutCubic');
+
+        setTimeout(() => {
+          this.successAlert.state = false;
+          this.successAlert.msg = '';
+        }, 3000);
       },
       clearAlerts() {
         this.errorAlert.state = false;

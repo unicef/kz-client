@@ -19,8 +19,12 @@ const CompanyUsers = () => import(/* webpackChunkName: "dashboard" */'./componen
 const CompanyDocuments = () => import(/* webpackChunkName: "dashboard" */'./components/partners/CompanyDocuments');
 const CompanyProjects = () => import(/* webpackChunkName: "dashboard" */'./components/partners/CompanyProjects');
 const UserForm = () => import(/* webpackChunkName: "dashboard" */'./components/profile/UserForm');
-const DocsPage = () => import(/* webpackChunkName: "dashboard" */'./containers/DocsPage');
 const NotFound = () => import(/* webpackChunkName: "admin" */'@/shared/components/NotFound');
+
+// dev Pages
+const DocsPage = () => import(/* webpackChunkName: "dashboard" */'./containers/DocsPage');
+const DocsList = () => import(/* webpackChunkName: "dashboard" */'./components/docs/DocsList');
+const DocDetails = () => import(/* webpackChunkName: "dashboard" */'./components/docs/DocDetails');
 
 export default {
   path: '/dashboard',
@@ -149,9 +153,20 @@ export default {
       ],
     },
     {
-      path: 'docs/:page',
-      name: 'docs',
+      path: 'docs',
       component: DocsPage,
+      children: [
+        {
+            path: '',
+            name: 'documents-list',
+            component: DocsList,
+        },
+        {
+            path: ':slug',
+            name: 'document-details',
+            component: DocDetails,
+        },
+      ],
     },
     {
       path: '*',

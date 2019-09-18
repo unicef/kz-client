@@ -1,24 +1,19 @@
 <template>
-    <div class="container">
-       <document />
-    </div>
+  <div class="container pt-5">
+    <loader />
+
+    <!-- Content -->
+    <router-view/>
+  </div>
 </template>
 
-
 <script>
-  import Document from '../components/docs/Document';
-  
-  export default {
-    name: 'DocsPage',
-    components: {
-      Document,
-    },
-    beforeRouteEnter(to, from, next) {
-      next(async (vm) => {
-        const document = vm.$route.params.page;
+import Loader from '@/shared/components/Loader';
 
-        await vm.$store.dispatch('dashboard/docs/fetchDocumentData', document);
-      });
+export default {
+    name: 'DocumentsPage',
+    components: {
+      Loader,
     },
-  };
+};
 </script>

@@ -1,52 +1,79 @@
 import axios from '@/api/axiosInit';
 
 const initialState = {
+  documents: [],
   document: {},
-  currentPage: null,
-  errorAlert: null,
 };
 
 const getters = {
+  getDocuments: state => state.documents,
   getDocument: state => state.document,
-  getCurrentPage: state => state.currentPage,
-  getErrorAlert: state => state.errorAlert,
 };
 
 const mutations = {
-  setDocument(state, document) {
-    state.document = document;
+  setDocuments(state, payload) {
+    state.documents = payload;
   },
-  setCurrentPage(state, page) {
-    state.currentPage = page;
-  },
-  toggleErrorAlert(state, alert) {
-    state.errorAlert = alert;
+  setDocument(state, payload) {
+    state.document = payload;
   },
 };
 
 const actions = {
-  async fetchDocumentData({ commit }, page) {
-    commit('toggleErrorAlert', false);
-
+  async fetchDocuments({ commit }) {
     try {
-      const lang = localStorage.getItem('language');
-      const { data } = await axios.post('/page', { lang, keyword: page });
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
 
-      if (!data.page) {
-        commit('toggleErrorAlert', true);
-        commit('setDocument', {});
-        return;
-      }
-      commit('setDocument', data.page);
-      commit('setCurrentPage', page);
+      const { data } = await axios.get('/page/list',
+        {
+          headers:
+          {
+            Authorization: `Bearer ${token}`,
+            Lang: lang,
+          },
+        });
 
-      /* eslint-disable */
+      const { pages } = data.data;
+      commit('setDocuments', pages);
+
       return data;
     } catch (err) {
-      commit('toggleErrorAlert', true);
-      commit('setDocument', '');
-      /* eslint-disable */
-      return err.response;
+      const { data } = err.response;
+      return data;
+    }
+  },
+  /* eslint-disable */
+  async fetchDocument({ commit }, { slug }) {
+    try {
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+
+      const { data } = await axios.get(`/page?key=${slug}`,
+        {
+          headers:
+          {
+            Authorization: `Bearer ${token}`,
+            Lang: lang,
+          },
+        });
+      
+      const { page } = data.data;
+      commit('setDocument', page);
+
+      // if (!data.page) {
+      //   commit('toggleErrorAlert', true);
+      //   commit('setDocument', {});
+      //   return;
+      // }
+      // commit('setDocument', data.page);
+      // commit('setCurrentPage', page);
+      return data;
+    } catch (err) {
+      // commit('toggleErrorAlert', true);
+      // commit('setDocument', '');
+      const { data } = err.response;
+      return data;
     }
   },
 };

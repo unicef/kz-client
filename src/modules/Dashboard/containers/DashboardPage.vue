@@ -1,7 +1,7 @@
 <template>
-	<dashboard-layout>
-		<router-view />
-	</dashboard-layout>
+  <dashboard-layout>
+    <router-view />
+  </dashboard-layout>
 </template>
 
 <script>
@@ -19,7 +19,9 @@
         localStorage.removeItem('me');
         store.commit('global/setRoles', null, { root: true });
       }
-      if (store.getters['auth/auth/isAuthenticated'] || (!store.getters['auth/auth/isAuthenticated'] && to.path.includes('agreements'))) {
+      if (store.getters['auth/auth/isAuthenticated'] ||
+          (!store.getters['auth/auth/isAuthenticated'] &&
+          to.path.includes('terms'))) {
         next();
       } else {
         next('/auth/login');
