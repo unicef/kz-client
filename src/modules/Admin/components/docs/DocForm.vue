@@ -3,32 +3,37 @@
   <v-form
     class="form"
     ref="form"
-    v-model="valid"
     lazy-validation
   >
     <v-layout column>
+      <!-- Titles -->
       <v-flex sm12>
         <v-text-field
-          v-model="titleEN"
+          :value="titleEN"
+          required
           :rules="rules.fieldRequired"
           :label='$t("common.fields.namePageEn") + "*"'
-          required
+          @input="onInputTitleEN"
         />
       </v-flex>
       <v-flex sm12>
         <v-text-field
-          v-model="titleRU"
+          :value="titleRU"
+          required
           :rules="rules.fieldRequired"
           :label='$t("common.fields.namePageRu") + "*"'
-          required
+          @input="onInputTitleRU"
         />
       </v-flex>
+
+      <!-- URL -->
       <v-flex sm12 class="mb-3">
         <v-text-field
-          v-model="URL"
-          :rules="rules.fieldRequired"
-          label="URL*"
+          :value="URL"
           required
+          label="URL*"
+          :rules="rules.fieldRequired"
+          @input="onInputURL"
         />
       </v-flex>
       <!-- Editors -->
@@ -58,38 +63,130 @@
 
       <v-flex class="mb3" sm12>
         <v-checkbox
-          v-model="public"
+          v-model="isPublic"
           color="primary"
-          :label='$t("common.fields.publicPage")'
           required
+          :label='$t("common.fields.publicPage")'
         />
-      </v-flex>
-
-      <!-- Alerts -->
-      <v-flex class="mb-3">
-        <v-alert
-          :value="successAlert.state"
-          type="success"
-        >
-          {{ successAlert.msg }}
-        </v-alert>
-        <v-alert
-          :value="errorAlert.state"
-          type="error"
-        >
-          {{ errorAlert.msg }}
-        </v-alert>
       </v-flex>
 
       <v-flex>
         <v-btn
-          :disabled="isCreate"
           color="primary"
-          @click="onCreatePage"
+          @click="onSubmit"
         >
-          {{ $t('common.btns.create') }}
+          <span v-if="buttonName === 'edit'">
+            {{ $t('common.btns.save') }}
+          </span>
+          <span v-if="buttonName === 'create'">
+            {{ $t('common.btns.create') }}
+          </span>
         </v-btn>
       </v-flex>
     </v-layout>
   </v-form>
 </template>
+
+<script>
+  // eslint-disable-next-line
+  import { mapGetters, mapMutations, mapActions } from 'vuex';
+  import EditorField from '@/shared/components/EditorField';
+
+  export default {
+    name: 'DocForm',
+    components: {
+      EditorField,
+    },
+    props: {
+      buttonName: {
+        type: String,
+      },
+    },
+    data() {
+      return {
+        errorTextEN: false,
+        errorTextRU: false,
+        rules: {
+          fieldRequired: [
+            /* eslint-disable no-new */
+            v => !!v.trim() || this.$t('common.fields.validation.field.required'),
+          ],
+        },
+      };
+    },
+    computed: {
+      ...mapGetters({
+        titleEN: 'admin/docs/getTitleEN',
+        titleRU: 'admin/docs/getTitleRU',
+        URL: 'admin/docs/getURL',
+        textEN: 'admin/docs/getTextEN',
+        textRU: 'admin/docs/getTextRU',
+      }),
+
+      isPublic: {
+        get() {
+          return this.$store.state.admin.docs.public;
+        },
+        set(value) {
+          this.setPublic(Boolean(value));
+        },
+      },
+    },
+    methods: {
+      ...mapMutations({
+        setTitleEN: 'admin/docs/setTitleEN',
+        setTitleRU: 'admin/docs/setTitleRU',
+        setURL: 'admin/docs/setURL',
+        setTextEN: 'admin/docs/setTextEN',
+        setTextRU: 'admin/docs/setTextRU',
+        setPublic: 'admin/docs/setPublic',
+      }),
+
+      /* eslint-disable */
+      onInputTitleEN(value) {
+        this.setTitleEN(value);
+      },
+      onInputTitleRU(value) {
+        this.setTitleRU(value);
+      },
+      onInputURL(value) {
+        this.setURL(value);
+      },
+      onInputTextEN(value) {
+        this.validateTextEN();
+        this.setTextEN(value);
+      },
+      onInputTextRU(value) {
+        this.validateTextRU();
+        this.setTextRU(value);
+      },
+      validateTextEN() {
+        if (this.textEN.trim() === '') {
+          this.errorTextEN = true;
+          return;
+        }
+
+        this.errorTextEN = false;
+      },
+      validateTextRU() {
+        if (this.textRU.trim() === '') {
+          this.errorTextRU = true;
+          return;
+        }
+
+        this.errorTextRU = false;
+      },
+      async onSubmit() {
+        const validate = this.$refs.form.validate();
+        this.validateTextEN();
+        this.validateTextRU();
+
+        if (!validate || this.errorTextEN || this.errorTextRU) {
+          return;
+        }
+
+        this.$emit('submit');
+      },
+    },
+  };
+</script>

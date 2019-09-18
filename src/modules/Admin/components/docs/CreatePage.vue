@@ -154,7 +154,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      createPage: 'admin/docs/createPage',
+      createDoc: 'admin/docs/createDoc',
     }),
 
     /* eslint-disable */
@@ -203,7 +203,7 @@ export default {
       this.errorAlert.state = false;
       this.errorAlert.msg = '';
 
-      const { success, data, error } = await this.createPage(pageObj);
+      const { success, data, error } = await this.createDoc(pageObj);
 
       if (!success) {
         this.errorAlert.state = true;
