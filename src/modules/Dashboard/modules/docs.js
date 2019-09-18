@@ -25,28 +25,37 @@ const mutations = {
 };
 
 const actions = {
-  async fetchDocumentData({ commit }, page) {
-    commit('toggleErrorAlert', false);
-
+  /* eslint-disable */
+  async fetchDocument({ commit }, { slug }) {
     try {
-      const lang = localStorage.getItem('language');
-      const { data } = await axios.post('/page', { lang, keyword: page });
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
 
-      if (!data.page) {
-        commit('toggleErrorAlert', true);
-        commit('setDocument', {});
-        return;
-      }
-      commit('setDocument', data.page);
-      commit('setCurrentPage', page);
+      const { data } = await axios.get(`/page?key=${slug}`,
+        {
+          headers:
+          {
+            Authorization: `Bearer ${token}`,
+            Lang: lang,
+          },
+        });
+      
+      const { page } = data.data;
+      commit('setDocument', page);
 
-      /* eslint-disable */
+      // if (!data.page) {
+      //   commit('toggleErrorAlert', true);
+      //   commit('setDocument', {});
+      //   return;
+      // }
+      // commit('setDocument', data.page);
+      // commit('setCurrentPage', page);
       return data;
     } catch (err) {
-      commit('toggleErrorAlert', true);
-      commit('setDocument', '');
-      /* eslint-disable */
-      return err.response;
+      // commit('toggleErrorAlert', true);
+      // commit('setDocument', '');
+      const { data } = err.response;
+      return data;
     }
   },
 };
