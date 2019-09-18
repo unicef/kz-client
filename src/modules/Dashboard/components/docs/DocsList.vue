@@ -5,6 +5,16 @@
         {{ $t('docs.allPages') }}
       </v-toolbar>
 
+      <!-- Alerts -->
+      <v-flex class="mb-3">
+        <v-alert
+          :value="errorAlert.state"
+          type="error"
+        >
+          {{ errorAlert.msg }}
+        </v-alert>
+      </v-flex>
+
       <v-card>
         <v-container :class="{ 'pt-4': $vuetify.breakpoint.xs }">
           <div
@@ -28,98 +38,43 @@
 </template>
 
 <script>
-/* eslint-disable */
+import { mapGetters, mapMutations, mapActions } from 'vuex';
+
 export default {
   name: 'DocumentList',
   data() {
     return {
-        documents: [
-          {
-              "id": 21,
-              "key": "dkdkkddkk",
-              "titleEn": "ldlkfkdlfsd99",
-              "titleRu": "9ddf9d9fd9",
-              "isPublic": true,
-              "createdAt": "2019-09-17 12:19"
-          },
-          {
-              "id": 19,
-              "key": "f9d9df9",
-              "titleEn": "dlklfkds ",
-              "titleRu": "kdfd f9d9",
-              "isPublic": false,
-              "createdAt": "2019-09-17 12:18"
-          },
-          {
-              "id": 16,
-              "key": "d9g9fdg9f",
-              "titleEn": "ldfgdf9g9df9",
-              "titleRu": "9g9fg9fg9",
-              "isPublic": true,
-              "createdAt": "2019-09-17 07:23"
-          },
-          {
-              "id": 11,
-              "key": "dlkfdljkfdjkl",
-              "titleEn": "klsdfljkdsjl",
-              "titleRu": "kldflkjdfjkl",
-              "isPublic": true,
-              "createdAt": "2019-09-17 06:27"
-          },
-          {
-              "id": 10,
-              "key": "dklfdjlkfj",
-              "titleEn": "slfsdlflkj",
-              "titleRu": "dlkfkljdjl",
-              "isPublic": true,
-              "createdAt": "2019-09-17 06:26"
-          },
-          {
-              "id": 8,
-              "key": "test1",
-              "titleEn": "test1",
-              "titleRu": "тест1",
-              "isPublic": true,
-              "createdAt": "2019-09-17 06:24"
-          },
-          {
-              "id": 7,
-              "key": "testpage1",
-              "titleEn": "Test page",
-              "titleRu": "Тестовая страница",
-              "isPublic": true,
-              "createdAt": "2019-09-17 06:04"
-          },
-          {
-              "id": 2,
-              "key": "agreements",
-              "titleEn": "Agreements",
-              "titleRu": "Соглашения",
-              "isPublic": true,
-              "createdAt": "2019-09-16 03:05"
-          },
-          {
-              "id": 1,
-              "key": "terms",
-              "titleEn": "Terms and conditions",
-              "titleRu": "Условия и положения",
-              "isPublic": true,
-              "createdAt": "2019-09-16 02:44"
-          }
-      ],
+      errorAlert: {
+        state: false,
+        msg: '',
+      },
     };
   },
-  // computed: {
-  //   document() {
-  //     return this.$store.getters['dashboard/docs/getDocument'];
-  //   },
-  //   currentPage() {
-  //       return this.$store.getters['dashboard/docs/getCurrentPage'];
-  //   },
-  //   alert() {
-  //     return this.$store.getters['dashboard/docs/getErrorAlert'];
-  //   },
-  // },
+  computed: {
+    ...mapGetters({
+      documents: 'dashboard/docs/getDocuments',
+    }),
+  },
+  async created() {
+    this.setLoader(true);
+    const { success, error } = await this.fetchDocuments();
+
+    if (!success) {
+      this.errorAlert.state = true;
+      this.errorAlert.msg = error.message;
+      this.setLoader(false);
+    }
+
+    this.setLoader(false);
+  },
+  methods: {
+    ...mapActions({
+      fetchDocuments: 'dashboard/docs/fetchDocuments',
+    }),
+    ...mapMutations({
+      setLoader: 'global/setLoader',
+    }),
+  },
 };
 </script>
 

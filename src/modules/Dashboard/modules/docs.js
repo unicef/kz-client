@@ -1,30 +1,48 @@
 import axios from '@/api/axiosInit';
 
 const initialState = {
+  documents: [],
   document: {},
-  currentPage: null,
-  errorAlert: null,
 };
 
 const getters = {
+  getDocuments: state => state.documents,
   getDocument: state => state.document,
-  getCurrentPage: state => state.currentPage,
-  getErrorAlert: state => state.errorAlert,
 };
 
 const mutations = {
-  setDocument(state, document) {
-    state.document = document;
+  setDocuments(state, payload) {
+    state.documents = payload;
   },
-  setCurrentPage(state, page) {
-    state.currentPage = page;
-  },
-  toggleErrorAlert(state, alert) {
-    state.errorAlert = alert;
+  setDocument(state, payload) {
+    state.document = payload;
   },
 };
 
 const actions = {
+  async fetchDocuments({ commit }) {
+    try {
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+
+      const { data } = await axios.get('/page/list',
+        {
+          headers:
+          {
+            Authorization: `Bearer ${token}`,
+            Lang: lang,
+          },
+        });
+
+      const { pages } = data.data;
+      commit('setDocuments', pages);
+
+      return data;
+    } catch (err) {
+      const { data } = err.response;
+      return data;
+    }
+  },
   /* eslint-disable */
   async fetchDocument({ commit }, { slug }) {
     try {
