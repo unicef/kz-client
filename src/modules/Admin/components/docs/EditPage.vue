@@ -58,7 +58,11 @@
     async created() {
       const { id } = this.$route.params;
       this.id = id;
-      await this.getDoc({ id });
+      const { success, error } = await this.getDoc({ id });
+
+      if (!success && error.status === 404) {
+        this.$router.push({ path: '/admin/not-found' });
+      }
     },
     mounted() {
       this.$vuetify.goTo(0, 'easeInOutCubic');
