@@ -11,7 +11,7 @@
         <v-text-field
           :value="titleEN"
           required
-          :rules="rules.fieldRequired"
+          :rules="nameRules"
           :label='$t("common.fields.namePageEn") + "*"'
           @input="onInputTitleEN"
         />
@@ -20,7 +20,7 @@
         <v-text-field
           :value="titleRU"
           required
-          :rules="rules.fieldRequired"
+          :rules="nameRules"
           :label='$t("common.fields.namePageRu") + "*"'
           @input="onInputTitleRU"
         />
@@ -32,7 +32,7 @@
           :value="URL"
           required
           label="URL*"
-          :rules="rules.fieldRequired"
+          :rules="urlRules"
           @input="onInputURL"
         />
       </v-flex>
@@ -105,12 +105,14 @@
       return {
         errorTextEN: false,
         errorTextRU: false,
-        rules: {
-          fieldRequired: [
-            /* eslint-disable no-new */
-            v => !!v.trim() || this.$t('common.fields.validation.field.required'),
-          ],
-        },
+
+        urlRules: [
+          v => !!v.trim() || this.$t('common.fields.validation.field.required'),
+        ],
+        nameRules: [
+          v => !!v.trim() || this.$t('common.fields.validation.field.required'),
+          v => v.length < 51 || `${this.$t('common.fields.validation.maxLetters')} - 50`,
+        ],
       };
     },
     computed: {
