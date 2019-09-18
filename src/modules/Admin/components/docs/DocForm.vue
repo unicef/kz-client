@@ -88,8 +88,7 @@
 </template>
 
 <script>
-  // eslint-disable-next-line
-  import { mapGetters, mapMutations, mapActions } from 'vuex';
+  import { mapGetters, mapMutations } from 'vuex';
   import EditorField from '@/shared/components/EditorField';
 
   export default {
@@ -142,7 +141,6 @@
         setPublic: 'admin/docs/setPublic',
       }),
 
-      /* eslint-disable */
       onInputTitleEN(value) {
         this.setTitleEN(value);
       },
@@ -153,12 +151,12 @@
         this.setURL(value);
       },
       onInputTextEN(value) {
-        this.validateTextEN();
         this.setTextEN(value);
+        this.validateTextEN();
       },
       onInputTextRU(value) {
-        this.validateTextRU();
         this.setTextRU(value);
+        this.validateTextRU();
       },
       validateTextEN() {
         if (this.textEN.trim() === '') {

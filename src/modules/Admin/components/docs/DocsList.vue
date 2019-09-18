@@ -72,7 +72,7 @@
                             flat
                             color="primary"
                             :to="'/admin/docs/edit/'+item.id"
-                            @on="on"
+                            v-on="on"
                           >
                             <v-icon>edit</v-icon>
                           </v-btn>
@@ -87,7 +87,7 @@
                             icon
                             flat
                             color="error"
-                            @on="on"
+                            v-on="on"
                             @click="onDeleteDoc(item.id)"
                           >
                             <v-icon>delete</v-icon>

@@ -60,6 +60,9 @@
       this.id = id;
       await this.getDoc({ id });
     },
+    mounted() {
+      this.$vuetify.goTo(0, 'easeInOutCubic');
+    },
     methods: {
       ...mapActions({
         getDoc: 'admin/docs/getDoc',
@@ -74,14 +77,12 @@
         if (!success) {
           this.errorAlert.state = true;
           this.errorAlert.msg = error.message;
-          this.isCreate = false;
           this.$vuetify.goTo(0, 'easeInOutCubic');
           return;
         }
 
         this.successAlert.state = true;
         this.successAlert.msg = data.message;
-        this.isCreate = false;
         this.$vuetify.goTo(0, 'easeInOutCubic');
       },
       clearAlerts() {

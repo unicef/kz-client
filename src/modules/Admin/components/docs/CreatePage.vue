@@ -13,215 +13,92 @@
           {{ $t('docs.createPageSubheading') }}
         </div>
 
+        <!-- Alerts -->
+        <v-flex class="mb-3">
+          <v-alert
+            :value="successAlert.state"
+            type="success"
+          >
+            {{ successAlert.msg }}
+          </v-alert>
+          <v-alert
+            :value="errorAlert.state"
+            type="error"
+          >
+            {{ errorAlert.msg }}
+          </v-alert>
+        </v-flex>
+
         <!-- Form -->
-        <v-form
-          class="form"
-          ref="form"
-          v-model="valid"
-          lazy-validation
-        >
-          <v-layout column>
-            <v-flex sm12>
-              <v-text-field
-                v-model="titleEN"
-                :rules="rules.fieldRequired"
-                :label='$t("common.fields.namePageEn") + "*"'
-                required
-              />
-            </v-flex>
-            <v-flex sm12>
-              <v-text-field
-                v-model="titleRU"
-                :rules="rules.fieldRequired"
-                :label='$t("common.fields.namePageRu") + "*"'
-                required
-              />
-            </v-flex>
-            <v-flex sm12 class="mb-3">
-              <v-text-field
-                v-model="URL"
-                :rules="rules.fieldRequired"
-                label="URL*"
-                required
-              />
-            </v-flex>
-            <!-- Editors -->
-            <v-flex class="mb-4">
-              <editor-field
-                :value="textEN"
-                :validation="errorTextEN"
-                @input="onInputTextEN"
-              >
-                <template v-slot:title>
-                  {{ $t('common.fields.descriptionEn') }}*
-                </template>
-              </editor-field>
-            </v-flex>
-
-            <v-flex class="mb-2">
-              <editor-field
-                :value="textRU"
-                :validation="errorTextRU"
-                @input="onInputTextRU"
-              >
-                <template v-slot:title>
-                  {{ $t('common.fields.descriptionRu') }}*
-                </template>
-              </editor-field>
-            </v-flex>
-
-            <v-flex class="mb3" sm12>
-              <v-checkbox
-                v-model="public"
-                color="primary"
-                :label='$t("common.fields.publicPage")'
-                required
-              />
-            </v-flex>
-
-            <!-- Alerts -->
-            <v-flex class="mb-3">
-              <v-alert
-                :value="successAlert.state"
-                type="success"
-              >
-                {{ successAlert.msg }}
-              </v-alert>
-              <v-alert
-                :value="errorAlert.state"
-                type="error"
-              >
-                {{ errorAlert.msg }}
-              </v-alert>
-            </v-flex>
-
-            <v-flex>
-              <v-btn
-                :disabled="isCreate"
-                color="primary"
-                @click="onCreatePage"
-              >
-                {{ $t('common.btns.create') }}
-              </v-btn>
-            </v-flex>
-          </v-layout>
-        </v-form>
+        <doc-form
+          button-name='create'
+          @submit="onCreate"
+        />
       </v-container>
     </v-card>
   </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex';
-import EditorField from '@/shared/components/EditorField';
+  import { mapMutations, mapActions } from 'vuex';
+  import DocForm from './DocForm';
 
-export default {
-  name: 'CreatePage',
-  components: {
-    EditorField,
-  },
-  data() {
-    return {
-      valid: true,
-
-      titleEN: '',
-      titleRU: '',
-      URL: '',
-      textEN: '',
-      textRU: '',
-      public: true,
-
-      errorTextEN: false,
-      errorTextRU: false,
-
-      isCreate: false,
-      successAlert: {
-        state: false,
-        msg: '',
-      },
-      errorAlert: {
-        state: false,
-        msg: '',
-      },
-
-      rules: {
-        fieldRequired: [
-          /* eslint-disable no-new */
-          v => !!v.trim() || this.$t('common.fields.validation.field.required'),
-        ],
-      },
-    };
-  },
-  methods: {
-    ...mapActions({
-      createDoc: 'admin/docs/createDoc',
-    }),
-
-    /* eslint-disable */
-    onInputTextEN(value) {
-      this.textEN = value;
+  export default {
+    name: 'CreatePage',
+    components: {
+      DocForm,
     },
-    onInputTextRU(value) {
-      this.textRU = value;
-    },
-    validateTextEN() {
-      if (this.textEN.trim() === '') {
-        this.errorTextEN = true;
-        return;
-      }
-
-      this.errorTextEN = false;
-    },
-    validateTextRU() {
-      if (this.textEN.trim() === '') {
-        this.errorTextRU = true;
-        return;
-      }
-
-      this.errorTextRU = false;
-    },
-
-    async onCreatePage() {
-      const validate = this.$refs.form.validate();
-      this.validateTextEN();
-      this.validateTextRU();
-
-      if (!validate  || this.errorTextEN || this.errorTextRU) {
-        return;
-      }
-
-      const pageObj = {
-        key: this.URL,
-        titleEn: this.titleEN,
-        titleRu: this.titleRU,
-        textEn: this.textEN,
-        textRu: this.textRU,
-        isPublic: this.public,
+    data() {
+      return {
+        successAlert: {
+          state: false,
+          msg: '',
+        },
+        errorAlert: {
+          state: false,
+          msg: '',
+        },
       };
-
-      this.isCreate = true;
-      this.errorAlert.state = false;
-      this.errorAlert.msg = '';
-
-      const { success, data, error } = await this.createDoc(pageObj);
-
-      if (!success) {
-        this.errorAlert.state = true;
-        this.errorAlert.msg = error.message;
-        this.isCreate = false;
-        return;
-      }
-
-      this.successAlert.state = true;
-      this.successAlert.msg = data.message;
-      this.isCreate = false;
-
-      setTimeout(() => {
-        this.$router.push({ name: 'docs-list' });
-      }, 3000);
     },
-  },
-};
+    created() {
+      this.clearDocData();
+    },
+    methods: {
+      ...mapActions({
+        createDoc: 'admin/docs/createDoc',
+      }),
+      ...mapMutations({
+        clearDocData: 'admin/docs/clearDocData',
+      }),
+
+      async onCreate() {
+        this.clearAlerts();
+
+        const { success, data, error } = await this.createDoc();
+
+        if (!success) {
+          this.errorAlert.state = true;
+          this.errorAlert.msg = error.message;
+          this.$vuetify.goTo(0, 'easeInOutCubic');
+          return;
+        }
+
+        this.successAlert.state = true;
+        this.successAlert.msg = data.message;
+        this.$vuetify.goTo(0, 'easeInOutCubic');
+
+        setTimeout(() => {
+          this.$router.push({ name: 'docs-list' });
+        }, 3000);
+      },
+      clearAlerts() {
+        this.errorAlert.state = false;
+        this.errorAlert.msg = '';
+        this.successAlert.state = false;
+        this.successAlert.msg = '';
+      },
+    },
+  };
 </script>
 
 <style lang="scss" scoped>

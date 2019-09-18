@@ -36,9 +36,6 @@ const mutations = {
   setDocs(state, payload) {
     state.docs = payload;
   },
-  setDoc(state, payload) {
-    state.doc = payload;
-  },
 
   setTitleEN(state, payload) {
     state.titleEN = payload;
@@ -57,6 +54,14 @@ const mutations = {
   },
   setPublic(state, payload) {
     state.public = payload;
+  },
+  clearDocData(state) {
+    state.titleEN = '';
+    state.titleRU = '';
+    state.URL = '';
+    state.textEN = '';
+    state.textRU = '';
+    state.public = true;
   },
 };
 
@@ -83,13 +88,15 @@ const actions = {
       return data;
     }
   },
-  async createDoc({ commit }, pageObj) {
+  async createDoc({ getters: storeGetters }) {
+    const docData = storeGetters.collectDocData;
+
     try {
       const token = localStorage.getItem('token') || '';
       const lang = localStorage.getItem('language') || '';
 
       const { data } = await axios.post('/admin/page',
-        pageObj,
+        docData,
         {
           headers:
           {
@@ -150,8 +157,6 @@ const actions = {
             Lang: lang,
           },
         });
-
-      commit('setDoc', data.data);
 
       return data;
     } catch (error) {
