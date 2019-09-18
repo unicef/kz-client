@@ -98,6 +98,11 @@
         this.successAlert.state = true;
         this.successAlert.msg = data.message;
         this.$vuetify.goTo(0, 'easeInOutCubic');
+
+        setTimeout(() => {
+          this.successAlert.state = false;
+          this.successAlert.msg = '';
+        }, 3000);
       },
       clearAlerts() {
         this.errorAlert.state = false;
