@@ -34,7 +34,7 @@
 </template>
 
 <script>
-  import { mapActions } from 'vuex';
+  import { mapMutations, mapActions } from 'vuex';
   import DocForm from './DocForm';
 
   export default {
@@ -63,24 +63,34 @@
     mounted() {
       this.$vuetify.goTo(0, 'easeInOutCubic');
     },
+    destroyed() {
+      this.clearDocData();
+    },
     methods: {
       ...mapActions({
         getDoc: 'admin/docs/getDoc',
         updateDoc: 'admin/docs/updateDoc',
       }),
+      ...mapMutations({
+        clearDocData: 'admin/docs/clearDocData',
+        setLoader: 'global/setLoader',
+      }),
 
       async onEdit() {
         this.clearAlerts();
+        this.setLoader(true);
 
         const { success, data, error } = await this.updateDoc({ id: this.id });
 
         if (!success) {
+          this.setLoader(false);
           this.errorAlert.state = true;
           this.errorAlert.msg = error.message;
           this.$vuetify.goTo(0, 'easeInOutCubic');
           return;
         }
 
+        this.setLoader(false);
         this.successAlert.state = true;
         this.successAlert.msg = data.message;
         this.$vuetify.goTo(0, 'easeInOutCubic');

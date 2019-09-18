@@ -69,27 +69,31 @@
       }),
       ...mapMutations({
         clearDocData: 'admin/docs/clearDocData',
+        setLoader: 'global/setLoader',
       }),
 
       async onCreate() {
         this.clearAlerts();
+        this.setLoader(true);
 
         const { success, data, error } = await this.createDoc();
 
         if (!success) {
+          this.setLoader(false);
           this.errorAlert.state = true;
           this.errorAlert.msg = error.message;
           this.$vuetify.goTo(0, 'easeInOutCubic');
           return;
         }
 
+        this.setLoader(false);
         this.successAlert.state = true;
         this.successAlert.msg = data.message;
         this.$vuetify.goTo(0, 'easeInOutCubic');
 
         setTimeout(() => {
           this.$router.push({ name: 'docs-list' });
-        }, 3000);
+        }, 2600);
       },
       clearAlerts() {
         this.errorAlert.state = false;

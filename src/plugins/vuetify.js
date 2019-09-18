@@ -34,6 +34,7 @@ import VAvatar from 'vuetify/es5/components/VAvatar';
 import VChip from 'vuetify/es5/components/VChip';
 import VMenu from 'vuetify/es5/components/VMenu';
 import VTooltip from 'vuetify/es5/components/VTooltip';
+import VProgressCircular from 'vuetify/es5/components/VProgressCircular';
 import transitions from 'vuetify/es5/components/transitions';
 
 // directives
@@ -80,6 +81,7 @@ Vue.use(Vuetify, {
         VMenu,
         VAvatar,
         VTooltip,
+        VProgressCircular,
         transitions,
     },
     directives: {

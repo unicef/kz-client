@@ -44,7 +44,7 @@
                 <template slot="headers" slot-scope="{ headers }">
                   <tr>
                     <th class="text-xs-left">{{ $t('projectsList.tableHeaders.id') }}</th>
-                    <th class="text-xs-left">{{ $t('projectsList.tableHeaders.title') }}</th>
+                    <th class="text-xs-left">{{ $t('docs.tableHeaders.pageTitle') }}</th>
                     <th class="text-xs-left">{{ $t('projectsList.tableHeaders.created') }}</th>
                     <th class="text-xs-left">URL</th>
                     <th class="text-xs-left">{{ $t('projectsList.tableHeaders.actions') }}</th>
@@ -139,7 +139,7 @@
 </template>
 
 <script>
-  import { mapGetters, mapActions } from 'vuex';
+  import { mapGetters, mapMutations, mapActions } from 'vuex';
   import DocsDeleteDialog from './DocsDeleteDialog';
 
   export default {
@@ -193,6 +193,9 @@
         fetchDocs: 'admin/docs/fetchDocs',
         deleteDoc: 'admin/docs/deleteDoc',
       }),
+      ...mapMutations({
+        setLoader: 'global/setLoader',
+      }),
 
       async choosePaginatorPage(page) {
         await this.fetchDocs({ page });
@@ -203,19 +206,23 @@
         this.deleteDialog = true;
       },
       async onDelete() {
+        this.setLoader(true);
         this.deleteDialog = false;
         this.errorAlert.state = false;
         this.errorAlert.msg = '';
+        this.setLoader(true);
 
         const { data, success, error } = await this.deleteDoc({ id: this.docId });
 
         if (!success) {
+          this.setLoader(false);
           this.errorAlert.state = true;
           this.errorAlert.msg = error.message;
           this.$vuetify.goTo(0, 'easeInOutCubic');
           return;
         }
 
+        this.setLoader(false);
         this.successAlert.state = true;
         this.successAlert.msg = data.message;
         this.$vuetify.goTo(0, 'easeInOutCubic');
