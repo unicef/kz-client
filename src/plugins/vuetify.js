@@ -25,6 +25,7 @@ import VDatePicker from 'vuetify/es5/components/VDatePicker';
 import VTabs from 'vuetify/es5/components/VTabs';
 import VToolbar from 'vuetify/es5/components/VToolbar';
 import VExpansionPanel from 'vuetify/es5/components/VExpansionPanel';
+import VProgressCircular from 'vuetify/es5/components/VProgressCircular';
 import VNavigationDrawer from 'vuetify/es5/components/VNavigationDrawer';
 import VList from 'vuetify/es5/components/VList';
 import VPagination from 'vuetify/es5/components/VPagination';
@@ -78,6 +79,7 @@ Vue.use(Vuetify, {
         VChip,
         VMenu,
         VAvatar,
+        VProgressCircular,
         transitions,
     },
     directives: {

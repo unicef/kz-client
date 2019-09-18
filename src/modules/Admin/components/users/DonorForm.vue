@@ -99,6 +99,7 @@
         return this.userData.status === 'blocked';
       },
     },
+    /* eslint-disable consistent-return */
     async created() {
       if (this.$route.params.id) {
         const { data } = await this.$store.dispatch('users/getUserInfo', this.$route.params.id);
@@ -108,6 +109,7 @@
         }
       }
     },
+    /* eslint-enable */
     destroyed() {
       this.$store.commit('users/setUserData', null);
     },

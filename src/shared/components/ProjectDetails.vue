@@ -273,6 +273,22 @@
       <v-layout row v-if="isProjectCreated && isUnicefUser">
         <v-flex sm12>{{ $t('setIP.warning') }}</v-flex>
       </v-layout>
+      <!-- Face Request (show only for assigned assistant with stage status waiting ) -->
+      <v-layout row v-if="showFaceRequestBtn">
+        <v-flex sm12>
+          <router-link :to="'/dashboard/projects/project/'+$route.params.id+'/create-face-request'">
+            <v-btn block color="info" depressed>{{ $t('common.btns.faceRequest') }}</v-btn>
+          </router-link>
+        </v-flex>
+      </v-layout>
+      <!-- Face Report (show only for assigned assistant with stage status waiting ) -->
+      <v-layout row v-if="showFaceReportBtn">
+        <v-flex sm12>
+          <router-link :to="'/dashboard/projects/project/'+$route.params.id+'/create-face-report'">
+            <v-btn block color="info" depressed>{{ $t('common.btns.faceReport') }}</v-btn>
+          </router-link>
+        </v-flex>
+      </v-layout>
     </v-flex>
   </v-layout>
 </template>
@@ -316,7 +332,7 @@
         rules: {
           fieldRequired: [
             /* eslint-disable no-new */
-            v => !!v.trim() || this.$t('common.fields.validation.field.required'),
+            v => (v && !!v.trim()) || this.$t('common.fields.validation.field.required'),
           ],
           selectFieldRequired: [
             /* eslint-disable no-new */
@@ -359,11 +375,11 @@
         return this.roles.indexOf('ro') !== -1 || this.roles.indexOf('bo') !== -1 || this.roles.indexOf('dr') !== -1 || this.roles.indexOf('om') !== -1;
       },
       areFieldsDisabled() {
-          return this.isPartner ||
-                 this.isDonor ||
-                 this.isProjectInProgress ||
-                 this.isProjectTerminated ||
-                 this.isProjectCompleted;
+        return this.isPartner ||
+               this.isDonor ||
+               this.isProjectInProgress ||
+               this.isProjectTerminated ||
+               this.isProjectCompleted;
       },
       officers() {
         return this.$store.getters['projects/getProjectProperties'].officers;
@@ -384,6 +400,18 @@
 
         // show ice in usd taking into account usd to kzt rate for the moment of project creation
         return (+this.credentials.ice / this.projectData.usdRate).toFixed(2);
+      },
+      showFaceRequestBtn() {
+        return this.roles.indexOf('ra') !== -1 &&
+               this.projectData.stage.type === 'request' &&
+               this.projectData.stage.status === 'waiting' &&
+               this.projectData.isMyStage;
+      },
+      showFaceReportBtn() {
+        return this.roles.indexOf('ra') !== -1 &&
+               this.projectData.stage.type === 'report' &&
+               this.projectData.stage.status === 'waiting' &&
+               this.projectData.isMyStage;
       },
     },
     watch: {

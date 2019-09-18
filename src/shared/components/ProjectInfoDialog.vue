@@ -38,7 +38,7 @@
             </v-list-tile>
             <v-list-tile v-if="projectInfo.ice">
               <v-list-tile-content>{{ $t('common.fields.ice') }}:</v-list-tile-content>
-              <v-list-tile-content class="align-end">{{ projectInfo.ice }}</v-list-tile-content>
+              <v-list-tile-content class="align-end">{{ projectInfo.ice }} KZT</v-list-tile-content>
             </v-list-tile>
             <v-list-tile v-if="projectInfo.description">
               <v-list-tile-content>{{ $t('common.fields.description') }}:</v-list-tile-content>

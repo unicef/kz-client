@@ -18,6 +18,7 @@ const initialState = {
     status: '',
     programme: {},
     projectCode: '',
+    stage: {},
   },
   projectProperties: {},
   projectDocumentsData: [],
@@ -29,6 +30,30 @@ const initialState = {
   projectLinks: [],
   projectHistory: [],
   projectTranches: [],
+  faceRequestProperties: {},
+  faceRequestActivities: {
+    activities: [],
+    total: {},
+  },
+  faceRequestData: {
+    id: null,
+    createdAt: '',
+    approvedAt: '',
+    statusId: '',
+    dateFrom: '',
+    dateTo: '',
+    type: 1,
+    successedAt: '',
+    isCertify: false,
+    isValid: false,
+    isAuthorised: false,
+    num: null,
+    nextUser: null,
+  },
+  myRequestStageState: false,
+  faceRequestDialogState: false,
+  submittedFaceRequestData: null,
+  faceRequestUsers: [],
 };
 
 const getters = {
@@ -43,6 +68,13 @@ const getters = {
   getProjectLinks: state => state.projectLinks,
   getProjectHistory: state => state.projectHistory,
   getProjectTranches: state => state.projectTranches,
+  getFaceRequestProperties: state => state.faceRequestProperties,
+  getFaceRequestActivities: state => state.faceRequestActivities,
+  getFaceRequestData: state => state.faceRequestData,
+  getMyRequestStageState: state => state.myRequestStageState,
+  getFaceRequestDialogState: state => state.faceRequestDialogState,
+  getSubmittedFaceRequestData: state => state.submittedFaceRequestData,
+  getFaceRequestUsers: state => state.faceRequestUsers,
 };
 
 const mutations = {
@@ -67,6 +99,7 @@ const mutations = {
         status: '',
         programme: {},
         projectCode: '',
+        stage: {},
       };
     }
   },
@@ -106,6 +139,58 @@ const mutations = {
   setProjectTranches(state, data) {
     state.projectTranches = data;
   },
+  setFaceRequestProperties(state, data) {
+    state.faceRequestProperties = data;
+  },
+  setFaceRequestActivities(state, data) {
+    state.faceRequestActivities = data;
+    // if no data to set (data === null) -> set faceRequestActivities data keys to empty values
+    if (data) {
+      state.faceRequestActivities = data;
+    } else {
+      state.faceRequestActivities =  {
+        activities: [],
+        total: {},
+      };
+    }
+  },
+  setFaceRequestData(state, data) {
+    // if no data to set (data === null) -> set all faceRequest data keys to empty values
+    if (data) {
+      state.faceRequestData = data;
+    } else {
+      state.faceRequestData = {
+        id: null,
+        createdAt: '',
+        approvedAt: '',
+        statusId: '',
+        dateFrom: '',
+        dateTo: '',
+        type: 1,
+        successedAt: '',
+        isCertify: false,
+        isValid: false,
+        isAuthorised: false,
+        num: null,
+        nextUser: null,
+      };
+    }
+  },
+  setMyRequestStageState(state, data) {
+    state.myRequestStageState = data;
+  },
+  toggleFaceRequestDialogState(state, data) {
+    state.faceRequestDialogState = data;
+  },
+  setSubmittedFaceRequestData(state, data) {
+    state.submittedFaceRequestData = data;
+  },
+  setSubmittedFaceRequestDataField(state, data) {
+    state.submittedFaceRequestData[data.fieldKey] = data.fieldValue;
+  },
+  setFaceRequestUsers(state, data) {
+    state.faceRequestUsers = data;
+  },
 };
 
 const actions = {
@@ -142,6 +227,7 @@ const actions = {
       const data = await axios.get(`/project/short?id=${credentials}`, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
 
       commit('setProjectInfo', data.data.data.project);
+      commit('setMyRequestStageState', data.data.data.project.isMyStage);
 
       return data.data.data;
     } catch (error) {
@@ -330,6 +416,81 @@ const actions = {
       const data = await axios.get(`/project/tranches?id=${credentials}`, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
 
       commit('setProjectTranches', data.data.data.tranches);
+
+      return data;
+    } catch (error) {
+      return error.response;
+    }
+  },
+  async getFaceRequestProperties({ commit }) {
+    try {
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+      const data = await axios.get('/request/properties', { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
+
+      commit('setFaceRequestProperties', data.data.data);
+
+      return data;
+    } catch (error) {
+      return error.response;
+    }
+  },
+  async getFaceRequestActivities({ commit }, credentials) {
+    try {
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+      const data = await axios.get(`/request/activities?projectId=${credentials.projectId}&requestId=${credentials.requestId}`, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
+
+      commit('setFaceRequestActivities', data.data.data);
+
+      return data;
+    } catch (error) {
+      return error.response;
+    }
+  },
+  async getFaceRequestData({ commit }, credentials) {
+    try {
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+      const data = await axios.get(`/request?id=${credentials}`, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
+
+      commit('setFaceRequestData', data.data.data.request);
+      commit('setMyRequestStageState', data.data.data.isMyStage);
+
+      return data.data.data;
+    } catch (error) {
+      return error.response;
+    }
+  },
+  async getFaceRequestUsers({ commit }, credentials) {
+    try {
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+      const data = await axios.get('/request/users', { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
+
+      commit('setFaceRequestUsers', data.data.data.users);
+
+      return data;
+    } catch (error) {
+      return error.response;
+    }
+  },
+  async createFaceRequest({ commit }, credentials) {
+    try {
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+      const data = await axios.post('/request', credentials, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
+
+      return data;
+    } catch (error) {
+      return error.response;
+    }
+  },
+  async approveFaceRequest({ commit }, credentials) {
+    try {
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+      const data = await axios.post('/request/approve', credentials, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
 
       return data;
     } catch (error) {

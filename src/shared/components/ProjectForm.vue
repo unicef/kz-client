@@ -236,18 +236,6 @@
         await this.$store.dispatch('projects/getProjectProperties');
         await this.$store.dispatch('projects/getAvailablePartners');
       },
-      '$route': async function() {
-        if (this.$route.name === 'create-project') {
-          this.$store.commit('projects/setProjectData', null);
-          this.$store.commit('projects/setProjectProperties', {});
-          this.$store.commit('projects/setProjectDocumentsData', []);
-          this.$store.commit('projects/setProjectLinks', []);
-          this.$store.commit('projects/setProjectHistory', []);
-          this.$store.commit('projects/setProjectTranches', []);
-          this.$refs.projectForm.reset();
-          await this.$store.dispatch('projects/getProjectProperties');
-        }
-      },
     },
     async created() {
       await this.$store.dispatch('projects/getProjectProperties');
@@ -263,6 +251,11 @@
         }
 
         await this.$store.dispatch('projects/getProjectDocuments', this.$route.params.id);
+      }
+    },
+    mounted() {
+      if (this.$route.name === 'create-project') {
+        this.$refs.projectForm.reset();
       }
     },
     destroyed() {
