@@ -66,7 +66,7 @@
                     required
                   ></v-checkbox>
                   <router-link
-                    to="/dashboard/docs/agreements"
+                    to="/dashboard/docs/terms"
                     target="_blank"
                   >{{ $t('common.btns.agreements') }}</router-link>
                 </v-flex>
