@@ -4,19 +4,17 @@
       <v-toolbar class="headline justify-center" color="light-blue">
         {{ $t('docs.allPages') }}
       </v-toolbar>
-
-      <!-- Alerts -->
-      <v-flex class="mb-3">
-        <v-alert
-          :value="errorAlert.state"
-          type="error"
-        >
-          {{ errorAlert.msg }}
-        </v-alert>
-      </v-flex>
-
       <v-card>
         <v-container :class="{ 'pt-4': $vuetify.breakpoint.xs }">
+          <!-- Alerts -->
+          <v-flex class="mb-3">
+            <v-alert
+              :value="errorAlert.state"
+              type="error"
+            >
+              {{ errorAlert.msg }}
+            </v-alert>
+          </v-flex>
           <div
             v-for="doc in documents"
             :key="doc.id"
@@ -79,7 +77,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .content {
-    overflow-x: auto;
-  }
 </style>
