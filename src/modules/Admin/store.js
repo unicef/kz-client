@@ -1,6 +1,7 @@
 import settings from './modules/settings';
 import users from './modules/users';
 import projects from './modules/projects';
+import docs from './modules/docs';
 
 /* eslint-disable */
 const initialState = {
@@ -26,6 +27,7 @@ export default {
     settings,
     users,
     projects,
+    docs,
   },
   state: initialState,
   getters,

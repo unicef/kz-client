@@ -9,6 +9,7 @@ const initialState = {
   roles: [],
   deleteDocumentDialogState: false,
   deleteDocumentData: null,
+  loader: false,
 };
 
 const getters = {
@@ -18,6 +19,7 @@ const getters = {
   getRoles: state => state.roles,
   getDeleteDocumentDialogState: state => state.deleteDocumentDialogState,
   getDeleteDocumentData: state => state.deleteDocumentData,
+  getLoader: state => state.loader,
 };
 
 const mutations = {
@@ -52,6 +54,9 @@ const mutations = {
   },
   setDeleteDocumentData(state, data) {
     state.deleteDocumentData = data;
+  },
+  setLoader(state, payload) {
+    state.loader = payload;
   },
 };
 

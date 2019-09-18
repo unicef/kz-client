@@ -9,6 +9,8 @@
     "svg": "./node_modules/.bin/vsvg -s static/icons/svg -t static/icons/compiled-svg"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^12.4.0",
+    "@ckeditor/ckeditor5-vue": "^1.0.0-beta.2",
     "axios": "^0.18.0",
     "blob-util": "^2.0.2",
     "crypto-js": "^3.1.9-1",

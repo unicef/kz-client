@@ -14,6 +14,12 @@ const Localization = () => import(/* webpackChunkName: "admin" */'./components/s
 const PasswordSettings = () => import(/* webpackChunkName: "admin" */'./components/settings/PasswordSettings');
 const NotFound = () => import(/* webpackChunkName: "admin" */'@/shared/components/NotFound');
 
+// dev Pages
+const DocsPage = () => import(/* webpackChunkName: "admin" */'./containers/DocsPage');
+const DocsList = () => import(/* webpackChunkName: "admin" */'./components/docs/DocsList');
+const CreatePage = () => import(/* webpackChunkName: "admin" */'./components/docs/CreatePage');
+const EditPage = () => import(/* webpackChunkName: "admin" */'./components/docs/EditPage');
+
 export default {
     path: '/admin',
     name: 'admin',
@@ -104,6 +110,27 @@ export default {
                     path: 'create-project',
                     name: 'create-new-project',
                     component: ProjectForm,
+                },
+            ],
+        },
+        {
+            path: 'docs',
+            component: DocsPage,
+            children: [
+                {
+                    path: '',
+                    name: 'docs-list',
+                    component: DocsList,
+                },
+                {
+                    path: 'create',
+                    name: 'create-page',
+                    component: CreatePage,
+                },
+                {
+                    path: 'edit/:id',
+                    name: 'edit-page',
+                    component: EditPage,
                 },
             ],
         },
