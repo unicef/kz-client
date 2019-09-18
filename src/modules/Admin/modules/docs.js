@@ -3,15 +3,20 @@ import axios from '@/api/axiosInit';
 /* eslint-disable-next-line */
 const initialState = {
   docs: {},
+  doc: {},
 };
 
 const getters = {
   getDocs: state => state.docs,
+  getDoc: state => state.doc,
 };
 
 const mutations = {
   setDocs(state, payload) {
     state.docs = payload;
+  },
+  setDoc(state, payload) {
+    state.doc = payload;
   },
 };
 
@@ -52,6 +57,28 @@ const actions = {
         });
 
       commit('setDocs', data.data);
+
+      return data;
+    } catch (error) {
+      const { data } = error.response;
+      return data;
+    }
+  },
+  async getDoc({ commit }, { id }) {
+    try {
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+
+      const { data } = await axios.get(`/admin/page?id=${id}`,
+        {
+          headers:
+          {
+            Authorization: `Bearer ${token}`,
+            Lang: lang,
+          },
+        });
+
+      commit('setDoc', data.data);
 
       return data;
     } catch (error) {
