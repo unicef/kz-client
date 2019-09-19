@@ -3,7 +3,7 @@
     <div class="container">
       <v-layout wrap>
           <v-flex class="xs-12 sm3 md3 lg2 py-2" v-if="isClientPath && isAuthenticated">
-              <router-link class='link' to='/dashboard/docs/agreements' >
+              <router-link class='link' to='/dashboard/docs/terms' >
                 {{ $t('common.btns.agreements') }}
               </router-link>
           </v-flex>

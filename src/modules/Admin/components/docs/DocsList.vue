@@ -81,7 +81,7 @@
                           {{ $t('common.btns.edit') }}
                         </span>
                       </v-tooltip>
-                      <v-tooltip top>
+                      <v-tooltip top v-if="item.key !== 'terms'">
                         <template v-slot:activator="{ on }">
                           <v-btn 
                             icon

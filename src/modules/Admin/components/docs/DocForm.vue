@@ -10,6 +10,7 @@
       <v-flex sm12>
         <v-text-field
           :value="titleEN"
+          :disabled="URL === 'terms'"
           required
           :rules="nameRules"
           :label='$t("common.fields.namePageEn") + "*"'
@@ -19,6 +20,7 @@
       <v-flex sm12>
         <v-text-field
           :value="titleRU"
+          :disabled="URL === 'terms'"
           required
           :rules="nameRules"
           :label='$t("common.fields.namePageRu") + "*"'
@@ -30,6 +32,7 @@
       <v-flex sm12 class="mb-3">
         <v-text-field
           :value="URL"
+          :disabled="URL === 'terms'"
           required
           label="URL*"
           :rules="urlRules"
