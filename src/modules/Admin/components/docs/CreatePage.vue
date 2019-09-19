@@ -1,42 +1,27 @@
 <template>
-  <div class="create-page">
-    <!-- Content -->
-    <v-toolbar class="headline justify-center" color="light-blue">
-      <div>
-        {{ $t('docs.createPageTitle') }}
-      </div>
-    </v-toolbar>
+  <v-layout wrap>
+    <v-flex xs12>
+      <!-- Content -->
+      <v-toolbar class="headline justify-center" color="light-blue">
+        <div>{{ $t('docs.createPageTitle') }}</div>
+      </v-toolbar>
 
-    <v-card>
-      <v-container :class="{ 'pt-4': $vuetify.breakpoint.xs }">
-        <div>
-          {{ $t('docs.createPageSubheading') }}
-        </div>
+      <v-card>
+        <v-container :class="{ 'pt-4': $vuetify.breakpoint.xs }">
+          <div>{{ $t('docs.createPageSubheading') }}</div>
 
-        <!-- Alerts -->
-        <v-flex class="mb-3">
-          <v-alert
-            :value="successAlert.state"
-            type="success"
-          >
-            {{ successAlert.msg }}
-          </v-alert>
-          <v-alert
-            :value="errorAlert.state"
-            type="error"
-          >
-            {{ errorAlert.msg }}
-          </v-alert>
-        </v-flex>
+          <!-- Alerts -->
+          <v-flex class="mb-3">
+            <v-alert :value="successAlert.state" type="success">{{ successAlert.msg }}</v-alert>
+            <v-alert :value="errorAlert.state" type="error">{{ errorAlert.msg }}</v-alert>
+          </v-flex>
 
-        <!-- Form -->
-        <doc-form
-          button-name='create'
-          @submit="onCreate"
-        />
-      </v-container>
-    </v-card>
-  </div>
+          <!-- Form -->
+          <doc-form button-name="create" @submit="onCreate" />
+        </v-container>
+      </v-card>
+    </v-flex>
+  </v-layout>
 </template>
 
 <script>
@@ -106,13 +91,7 @@
 </script>
 
 <style lang="scss" scoped>
-  .content {
-    overflow-x: auto;
-  }
-
-  .create-page {
-    max-width: 880px;
-    width: 100%;
-    margin: 0 auto;
-  }
+.content {
+  overflow-x: auto;
+}
 </style>

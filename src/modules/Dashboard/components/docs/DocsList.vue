@@ -1,32 +1,17 @@
 <template>
-  <v-layout wrap justify-center>
-    <v-flex xs12 md8 mt-4>
-      <v-toolbar class="headline justify-center" color="light-blue">
-        {{ $t('docs.allPages') }}
-      </v-toolbar>
+  <v-layout wrap>
+    <v-flex xs12>
+      <v-toolbar class="headline justify-center" color="light-blue">{{ $t('docs.allPages') }}</v-toolbar>
       <v-card>
         <v-container :class="{ 'pt-4': $vuetify.breakpoint.xs }">
           <!-- Alerts -->
           <v-flex class="mb-3">
-            <v-alert
-              :value="errorAlert.state"
-              type="error"
-            >
-              {{ errorAlert.msg }}
-            </v-alert>
+            <v-alert :value="errorAlert.state" type="error">{{ errorAlert.msg }}</v-alert>
           </v-flex>
-          <div
-            v-for="doc in documents"
-            :key="doc.id"
-            class="mb-2"
-          >
+          <div v-for="doc in documents" :key="doc.id" class="mb-2">
             <router-link :to="'/dashboard/docs/' + doc.key">
-              <div v-if="$i18n.locale === 'en'">
-                {{ doc.titleEn }}
-              </div>
-              <div v-if="$i18n.locale === 'ru'">
-                {{ doc.titleRu }}
-              </div>
+              <div v-if="$i18n.locale === 'en'">{{ doc.titleEn }}</div>
+              <div v-if="$i18n.locale === 'ru'">{{ doc.titleRu }}</div>
             </router-link>
           </div>
         </v-container>

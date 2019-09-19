@@ -1,6 +1,6 @@
 <template>
   <v-layout wrap>
-    <v-flex xs12 mt-4>
+    <v-flex xs12>
       <v-toolbar class="headline justify-center" color="light-blue">
         {{ $t('docs.allPages') }}
       </v-toolbar>

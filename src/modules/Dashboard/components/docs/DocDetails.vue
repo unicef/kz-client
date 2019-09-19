@@ -1,6 +1,6 @@
 <template>
   <v-layout wrap justify-center>
-    <v-flex v-show="isShow" sm12 md8>
+    <v-flex v-show="isShow" sm12>
       <!-- Title -->
       <h1 class="mb-3">
         <span v-show="$i18n.locale === 'en'">
