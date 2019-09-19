@@ -87,24 +87,19 @@
     <v-flex xs12>
       <!-- Activities -->
       <v-layout justify-end wrap>
-        <v-flex
-          xs12
-          :class="{ 'mb-4 mt-4': $vuetify.breakpoint.xsOnly }"
-          v-for="(row, index) in activities.length"
-          :key="index"
-        >
+        <!-- Activities header (hidden at mobile) -->
+        <v-flex v-if="$vuetify.breakpoint.smAndUp">
           <v-layout wrap>
+            <!-- Description header -->
             <v-flex d-flex xs12 sm4 md4 :class="{ 'pr-2': $vuetify.breakpoint.smAndUp }">
-              <v-text-field
-                :label="$t('common.fields.activityDescription')"
-                :placeholder="$t('common.fields.typeActivity')"
-                v-model="activities[index].title"
-                :ref="'activityDescription' + index"
-                type="text"
-                :disabled="!(isMyStage && (faceRequestStatus === 'reject' || faceRequestStatus === 'waiting'))"
-                :rules="(activities[index].id || activities[index].amountE || (index===0 && !activitiesToSubmit.length)) ? rules.fieldRequired : []"
-              />
+              <v-tooltip top>
+                <template v-slot:activator="{ on }">
+                  <span v-on="on">{{ $t('common.fields.activityDescription') }}</span>
+                </template>
+                <span>{{ $t('common.fields.activityDescription') }}</span>
+              </v-tooltip>
             </v-flex>
+            <!-- Coding header -->
             <v-flex
               d-flex
               xs12
@@ -112,13 +107,14 @@
               md1
               :class="{ 'pl-2': $vuetify.breakpoint.smAndUp, 'pr-2': $vuetify.breakpoint.smAndUp }"
             >
-              <v-text-field
-                :label="$t('common.fields.coding')"
-                placeholder=" "
-                disabled
-                type="text"
-              />
+              <v-tooltip top>
+                <template v-slot:activator="{ on }">
+                  <span v-on="on">{{ $t('common.fields.codingShort') }}</span>
+                </template>
+                <span>{{ $t('common.fields.coding') }}</span>
+              </v-tooltip>
             </v-flex>
+            <!-- Amount E header -->
             <v-flex
               d-flex
               xs12
@@ -126,24 +122,127 @@
               md3
               :class="{ 'pl-2': $vuetify.breakpoint.smAndUp, 'pr-2': $vuetify.breakpoint.smAndUp }"
             >
-              <v-layout column>
+              <v-tooltip top>
+                <template v-slot:activator="{ on }">
+                  <span v-on="on">{{ $t('common.fields.newAmount') }}</span>
+                </template>
+                <span>{{ $t('common.fields.newAmount') }}</span>
+              </v-tooltip>
+            </v-flex>
+            <!-- Amount F header -->
+            <v-flex
+              d-flex
+              xs12
+              sm2
+              :class="{ 'pl-2': $vuetify.breakpoint.smAndUp, 'pr-2': $vuetify.breakpoint.smAndUp }"
+            >
+              <v-tooltip top>
+                <template v-slot:activator="{ on }">
+                  <span
+                    v-on="on"
+                  >{{ ($vuetify.breakpoint.mdAndUp) ? $t('common.fields.authorisedAmount') : $t('common.fields.authorisedAmountShort') }}</span>
+                </template>
+                <span>{{ $t('common.fields.authorisedAmount') }}</span>
+              </v-tooltip>
+            </v-flex>
+            <!-- Amount G header -->
+            <v-flex d-flex xs12 sm2 :class="{ 'pl-2': $vuetify.breakpoint.smAndUp }">
+              <v-tooltip top>
+                <template v-slot:activator="{ on }">
+                  <span
+                    v-on="on"
+                  >{{ ($vuetify.breakpoint.mdAndUp) ? $t('common.fields.outstandingAmount') : $t('common.fields.outstandingAmountShort') }}</span>
+                </template>
+                <span>{{ $t('common.fields.outstandingAmount') }}</span>
+              </v-tooltip>
+            </v-flex>
+          </v-layout>
+        </v-flex>
+        <!-- Activities rows -->
+        <v-flex
+          xs12
+          :class="{ 'mb-4 mt-4': $vuetify.breakpoint.xsOnly }"
+          v-for="(row, index) in activities.length"
+          :key="index"
+        >
+          <v-layout wrap>
+            <!-- Description -->
+            <v-flex d-flex xs12 sm4 md4 :class="{ 'pr-2': $vuetify.breakpoint.smAndUp }">
+              <v-layout column class="mb-2" :class="{ 'pr-2': $vuetify.breakpoint.smAndUp }">
+                <v-layout
+                  v-if="$vuetify.breakpoint.xsOnly"
+                  class="caption"
+                  :class="{ 'grey--text': !(isMyStage && (faceRequestStatus === 'reject' || faceRequestStatus === 'waiting')) }"
+                >{{ $t('common.fields.activityDescription') }}</v-layout>
                 <v-layout>
                   <v-text-field
-                    :label="$t('common.fields.newAmount')"
+                    class="pt-0"
+                    :placeholder="$t('common.fields.typeActivity')"
+                    v-model="activities[index].title"
+                    :ref="'activityDescription' + index"
+                    type="text"
+                    :disabled="!(isMyStage && (faceRequestStatus === 'reject' || faceRequestStatus === 'waiting'))"
+                    :rules="(activities[index].id || activities[index].amountE || (index===0 && !activitiesToSubmit.length)) ? rules.fieldRequired : []"
+                  />
+                </v-layout>
+              </v-layout>
+            </v-flex>
+            <!-- Coding -->
+            <v-flex
+              d-flex
+              xs12
+              sm2
+              md1
+              :class="{ 'pl-2': $vuetify.breakpoint.smAndUp, 'pr-2': $vuetify.breakpoint.smAndUp }"
+            >
+              <v-layout
+                class="mb-2"
+                :class="{ 'pl-2': $vuetify.breakpoint.smAndUp, 'pr-2': $vuetify.breakpoint.smAndUp }"
+                column
+              >
+                <v-layout
+                  v-if="$vuetify.breakpoint.xsOnly"
+                  class="caption grey--text"
+                >{{ $t('common.fields.coding') }}</v-layout>
+                <v-layout>
+                  <v-text-field class="pt-0" placeholder=" " disabled type="text" />
+                </v-layout>
+              </v-layout>
+            </v-flex>
+            <!-- Amount E -->
+            <v-flex
+              d-flex
+              xs12
+              sm2
+              md3
+              :class="{ 'pl-2': $vuetify.breakpoint.smAndUp, 'pr-2': $vuetify.breakpoint.smAndUp }"
+            >
+              <v-layout
+                class="mb-2"
+                :class="{ 'pl-2': $vuetify.breakpoint.smAndUp, 'pr-2': $vuetify.breakpoint.smAndUp }"
+                column
+              >
+                <v-layout
+                  v-if="$vuetify.breakpoint.xsOnly"
+                  class="caption"
+                  :class="{ 'grey--text': !(isMyStage && (faceRequestStatus === 'reject' || faceRequestStatus === 'waiting')) }"
+                >{{ $t('common.fields.newAmount') }}</v-layout>
+                <v-layout>
+                  <v-text-field
+                    class="pt-0"
                     v-model="activities[index].amountE"
                     :placeholder="$t('common.fields.typeAmount')"
-                    class="activity-amountE"
                     :ref="'activityAmountE' + index"
                     type="text"
                     @input="changeAmountE(index)"
                     :rules="(activities[index].id || activities[index].title || (index===0 && !activitiesToSubmit.length)) ? rules.numberRequired : rules.onlyDigitsOrEmpty"
                     :disabled="!(isMyStage && (faceRequestStatus === 'reject' || faceRequestStatus === 'waiting'))"
                   />
-                  <!-- <v-layout> -->
                   <v-btn
                     class="my-0 approve-btn"
                     flat
                     icon
+                    v-show="!($vuetify.breakpoint.smOnly || $vuetify.breakpoint.mdOnly)"
                     v-if="isMyStage && !isResponsibleAssistant  && !activities[index].isRejected && !activities[index].isApproved"
                     @click="approveActivity(index)"
                   >
@@ -153,12 +252,12 @@
                     class="my-0 reject-btn"
                     flat
                     icon
+                    v-show="!($vuetify.breakpoint.smOnly || $vuetify.breakpoint.mdOnly)"
                     v-if="isMyStage && !isResponsibleAssistant && !activities[index].isRejected && !activities[index].isApproved"
                     @click="rejectActivity(index)"
                   >
                     <svgicon class="svg-icon" width="10" height="10" color="red" name="close" />
                   </v-btn>
-                  <!-- </v-layout> -->
 
                   <v-icon
                     v-show="activities[index].isApproved"
@@ -171,10 +270,30 @@
                     :ref="'activityAmountERejectIcon' + index"
                   >clear</v-icon>
                 </v-layout>
+                <v-layout justify-end v-show="$vuetify.breakpoint.smOnly || $vuetify.breakpoint.mdOnly">
+                  <v-btn
+                    class="my-0 approve-btn mb-4"
+                    flat
+                    icon
+                    v-if="isMyStage && !isResponsibleAssistant  && !activities[index].isRejected && !activities[index].isApproved"
+                    @click="approveActivity(index)"
+                  >
+                    <v-icon color="success">check</v-icon>
+                  </v-btn>
+                  <v-btn
+                    class="my-0 reject-btn mb-4"
+                    flat
+                    icon
+                    v-if="isMyStage && !isResponsibleAssistant && !activities[index].isRejected && !activities[index].isApproved"
+                    @click="rejectActivity(index)"
+                  >
+                    <svgicon class="svg-icon" width="10" height="10" color="red" name="close" />
+                  </v-btn>
+                </v-layout>
                 <v-layout>
                   <p
                     class="red--text approval-error mb-4"
-                    v-if="activities[index] && activities[index].approvalError"
+                    v-if="(activities[index] && activities[index].approvalError)"
                   >{{ $t('common.fields.approvalError') }}</p>
                 </v-layout>
 
@@ -193,35 +312,59 @@
                 </v-layout>
               </v-layout>
             </v-flex>
+            <!-- Amount F -->
             <v-flex
               d-flex
               xs12
               sm2
               :class="{ 'pl-2': $vuetify.breakpoint.smAndUp, 'pr-2': $vuetify.breakpoint.smAndUp }"
             >
-              <v-text-field
-                :label="$t('common.fields.authorisedAmount')"
-                v-model="activities[index].amountF"
-                :ref="'activityAmountF' + index"
-                placeholder=" "
-                disabled
-                type="text"
-              />
+              <v-layout
+                class="mb-2"
+                :class="{ 'pl-2': $vuetify.breakpoint.smAndUp, 'pr-2': $vuetify.breakpoint.smAndUp }"
+                column
+              >
+                <v-layout
+                  v-if="$vuetify.breakpoint.xsOnly"
+                  class="caption grey--text"
+                >{{ $t('common.fields.authorisedAmount') }}</v-layout>
+                <v-layout>
+                  <v-text-field
+                    v-model="activities[index].amountF"
+                    :ref="'activityAmountF' + index"
+                    placeholder=" "
+                    disabled
+                    class="pt-0"
+                    type="text"
+                  />
+                </v-layout>
+              </v-layout>
             </v-flex>
+            <!-- Amount G -->
             <v-flex d-flex xs12 sm2 :class="{ 'pl-2': $vuetify.breakpoint.smAndUp }">
-              <v-text-field
-                :label="$t('common.fields.outstandingAmount')"
-                v-model="activities[index].amountG"
-                :ref="'activityAmountG' + index"
-                placeholder=" "
-                disabled
-                type="text"
-              />
+              <v-layout class="mb-2" :class="{ 'pl-2': $vuetify.breakpoint.smAndUp }" column>
+                <v-layout
+                  v-if="$vuetify.breakpoint.xsOnly"
+                  class="caption grey--text"
+                >{{ $t('common.fields.outstandingAmount') }}</v-layout>
+                <v-layout>
+                  <v-text-field
+                    v-model="activities[index].amountG"
+                    :ref="'activityAmountG' + index"
+                    placeholder=" "
+                    class="pt-0"
+                    disabled
+                    type="text"
+                  />
+                </v-layout>
+              </v-layout>
             </v-flex>
           </v-layout>
         </v-flex>
+        <!-- Total row -->
         <v-flex xs12>
           <v-layout wrap>
+            <!-- Add activity btn -->
             <v-flex mb-4 d-flex xs12 sm4 md4 :class="{ 'pr-2': $vuetify.breakpoint.smAndUp }">
               <v-btn
                 color="info"
@@ -229,6 +372,7 @@
                 @click="addActivity"
               >{{ $t('common.btns.addActivity') }}</v-btn>
             </v-flex>
+            <!-- Total -->
             <v-flex
               d-flex
               xs12
@@ -236,7 +380,16 @@
               md1
               class="font-weight-bold"
               :class="{ 'pl-2': $vuetify.breakpoint.smAndUp, 'pr-2': $vuetify.breakpoint.smAndUp }"
-            >{{ $t('common.fields.total') }}:</v-flex>
+            >
+              <v-layout
+                class="mb-4"
+                :class="{ 'pl-2': $vuetify.breakpoint.smAndUp, 'pr-2': $vuetify.breakpoint.smAndUp }"
+                column
+              >
+                <v-layout>{{ $t('common.fields.total') }}:</v-layout>
+              </v-layout>
+            </v-flex>
+            <!-- Total E -->
             <v-flex
               d-flex
               xs12
@@ -244,33 +397,61 @@
               md3
               :class="{ 'pl-2': $vuetify.breakpoint.smAndUp, 'pr-2': $vuetify.breakpoint.smAndUp }"
             >
-              <v-text-field
-                :label="$t('common.fields.newAmount')"
-                v-model="total.totalE"
-                type="text"
-                disabled
-              />
+              <v-layout
+                class="mb-2"
+                :class="{ 'pl-2': $vuetify.breakpoint.smAndUp, 'pr-2': $vuetify.breakpoint.smAndUp }"
+                column
+              >
+                <v-layout
+                  v-if="$vuetify.breakpoint.xsOnly"
+                  class="caption grey--text"
+                >{{ $t('common.fields.newAmount') }}</v-layout>
+                <v-layout>
+                  <v-text-field v-model="total.totalE" type="text" disabled class="pt-0" />
+                </v-layout>
+              </v-layout>
             </v-flex>
+            <!-- Total F -->
             <v-flex
               d-flex
               xs12
               sm2
               :class="{ 'pl-2': $vuetify.breakpoint.smAndUp, 'pr-2': $vuetify.breakpoint.smAndUp }"
             >
-              <v-text-field
-                :label="$t('common.fields.authorisedAmount')"
-                v-model="total.totalF"
-                disabled
-                type="text"
-              />
+              <v-layout
+                class="mb-2"
+                :class="{ 'pl-2': $vuetify.breakpoint.smAndUp, 'pr-2': $vuetify.breakpoint.smAndUp }"
+                column
+              >
+                <v-layout
+                  v-if="$vuetify.breakpoint.xsOnly"
+                  class="caption grey--text"
+                >{{ $t('common.fields.authorisedAmount') }}</v-layout>
+                <v-layout>
+                  <v-text-field v-model="total.totalF" disabled type="text" class="pt-0" />
+                </v-layout>
+              </v-layout>
             </v-flex>
+            <!-- Total G -->
             <v-flex d-flex xs12 sm2 :class="{ 'pl-2': $vuetify.breakpoint.smAndUp }">
-              <v-text-field
-                :label="$t('common.fields.outstandingAmount')"
-                v-model="total.totalG"
-                disabled
-                type="text"
-              />
+              <v-layout
+                class="mb-2"
+                :class="{ 'pl-2': $vuetify.breakpoint.smAndUp }"
+                column
+              >
+                <v-layout
+                  v-if="$vuetify.breakpoint.xsOnly"
+                  class="caption grey--text"
+                >{{ $t('common.fields.outstandingAmount') }}</v-layout>
+                <v-layout>
+                  <v-text-field
+                    v-model="total.totalG"
+                    disabled
+                    type="text"
+                    class="pt-0"
+                  />
+                </v-layout>
+              </v-layout>
             </v-flex>
           </v-layout>
         </v-flex>
@@ -295,9 +476,7 @@
     </v-flex>
     <v-flex xs12 v-if="faceRequestData.isValid">
       <!-- Validation block (by authorised person) -->
-      <h3>
-        {{ $t('common.fields.validationText') }}
-      </h3>
+      <h3>{{ $t('common.fields.validationText') }}</h3>
       <div class="mt-2">
         <v-icon color="success">done_outline</v-icon>
         <span class="subheading green--text ml-2">{{ $t('common.fields.approvedCheckboxText') }}</span>
@@ -305,9 +484,7 @@
     </v-flex>
     <v-flex xs12 class="mt-4" v-if="faceRequestData.isAuthorised">
       <!-- Authorization block (by UNICEF) -->
-      <h3>
-        {{ $t('common.fields.authorizationText') }}
-      </h3>
+      <h3>{{ $t('common.fields.authorizationText') }}</h3>
       <div class="mt-2">
         <v-icon color="success">done_outline</v-icon>
         <span class="subheading green--text ml-2">{{ $t('common.fields.approvedCheckboxText') }}</span>
@@ -575,9 +752,6 @@
 .reject-btn {
   width: 36px;
   min-width: 36px;
-}
-.activity-amountE {
-  margin-top: 12px;
 }
 .approval-error {
   font-size: 12px;
