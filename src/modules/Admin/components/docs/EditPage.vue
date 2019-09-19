@@ -89,6 +89,7 @@
         setTimeout(() => {
           this.successAlert.state = false;
           this.successAlert.msg = '';
+          this.$router.push({ name: 'docs-list' });
         }, 3000);
       },
       clearAlerts() {
@@ -105,10 +106,4 @@
 .content {
   overflow-x: auto;
 }
-
-// .edit-page {
-//   max-width: 880px;
-//   width: 100%;
-//   margin: 0 auto;
-// }
 </style>
