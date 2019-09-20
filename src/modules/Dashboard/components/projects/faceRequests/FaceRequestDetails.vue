@@ -489,6 +489,9 @@
         <v-icon color="success">done_outline</v-icon>
         <span class="subheading green--text ml-2">{{ $t('common.fields.approvedCheckboxText') }}</span>
       </div>
+      <v-layout justify-end class="mt-4" v-if="faceRequestData.successedAt">
+        {{ $t('common.fields.date') }}: {{ faceRequestData.successedAt }}
+      </v-layout>
     </v-flex>
   </v-layout>
 </template>
