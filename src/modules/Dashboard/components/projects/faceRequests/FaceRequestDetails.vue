@@ -29,7 +29,7 @@
             :max="projectInfo.deadline"
             :allowed-dates="allowedDatesFrom"
             :locale="$i18n.locale"
-            :disabled="!isMyStage && isFaceRequestPath"
+            :disabled="!(isMyStage && (faceRequestStatus === 'reject' || faceRequestStatus === 'waiting'))"
             width="260"
             @input="$refs.menuDateFrom.save(credentials.dateFrom)"
           ></v-date-picker>
@@ -59,7 +59,7 @@
             :max="projectInfo.deadline"
             :allowed-dates="allowedDatesTo"
             :locale="$i18n.locale"
-            :disabled="!isMyStage && isFaceRequestPath"
+            :disabled="!(isMyStage && (faceRequestStatus === 'reject' || faceRequestStatus === 'waiting'))"
             width="260"
             @input="$refs.menuDateTo.save(credentials.dateTo)"
           ></v-date-picker>
