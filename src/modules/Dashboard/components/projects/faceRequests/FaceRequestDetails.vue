@@ -182,7 +182,7 @@
                     :ref="'activityDescription' + index"
                     type="text"
                     :disabled="!(isMyStage && (faceRequestStatus === 'reject' || faceRequestStatus === 'waiting'))"
-                    :rules="(activities[index].id || activities[index].amountE || (index===0 && !activitiesToSubmit.length)) ? rules.fieldRequired : []"
+                    :rules="(activities[index].id || activities[index].amountE || (index===0 && !activitiesToSubmit.length)) ? rules.activityDescriptionRequired : []"
                   />
                 </v-layout>
               </v-layout>
@@ -544,6 +544,10 @@
           onlyDigitsOrEmpty: [
             /* eslint-disable no-new */
             v => /^(\d*\.?\d{1,2})?$/.test(v) || this.$t('common.fields.validation.field.onlyDigits'),
+          ],
+          activityDescriptionRequired: [
+            v => (v && !!v.trim()) || this.$t('common.fields.validation.field.required'),
+            v => v.length < 101 || `${this.$t('common.fields.validation.maxLetters')} - 100`,
           ],
         },
       };
