@@ -111,6 +111,7 @@
 
         urlRules: [
           v => !!v.trim() || this.$t('common.fields.validation.field.required'),
+          v => /^[A-Za-z\d-]{3,}$/.test(v) || this.$root.$t('common.fields.validation.url'),
         ],
         nameRules: [
           v => !!v.trim() || this.$t('common.fields.validation.field.required'),
