@@ -105,7 +105,10 @@
       /* eslint-disable */
       '$i18n.locale': async function() {
         await this.$store.dispatch('projects/getFaceRequestProperties');
-        await this.$store.dispatch('projects/getFaceRequestUsers');
+        await this.$store.dispatch('projects/getProjectShortInfo', this.$route.params.id);
+        if (this.isUnicefUser) {
+          await this.$store.dispatch('projects/getFaceRequestUsers');
+        }
       },
     },
     async created() {
