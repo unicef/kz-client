@@ -469,7 +469,7 @@
         color="info"
         v-model="credentials.isCertify"
         :rules="rules.radioRequired"
-        :disabled="!(isMyStage && faceRequestStatus ==='waiting')"
+        :disabled="!(isMyStage && (faceRequestStatus ==='waiting' || faceRequestStatus ==='reject'))"
         :label="$t('common.fields.certificationCheckboxText')"
         required
       ></v-checkbox>

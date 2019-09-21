@@ -107,6 +107,36 @@
       faceRequestUsers() {
         return this.$store.getters['projects/getFaceRequestUsers'];
       },
+      storeMethodForRequest() {
+        let storeMethod = 'projects/createFaceRequest';
+
+        switch (this.faceRequestStatus) {
+          case 'waiting':
+            storeMethod = 'projects/createFaceRequest';
+            break;
+          case 'confirm':
+            storeMethod = 'projects/approveFaceRequest';
+            break;
+          case 'validate':
+            storeMethod = 'projects/approveFaceRequest';
+            break;
+          case 'certify':
+            storeMethod = 'projects/approveFaceRequest';
+            break;
+          case 'approve':
+            storeMethod = 'projects/approveFaceRequest';
+            break;
+          case 'verify':
+            storeMethod = 'projects/approveFaceRequest';
+            break;
+          case 'reject':
+            storeMethod = 'projects/createFaceRequestAfterReject';
+            break;
+          default:
+            break;
+        }
+        return storeMethod;
+      },
     },
     methods: {
       async sendFace() {
@@ -118,8 +148,7 @@
 
           this.areBtnsDisabled = true;
 
-          const storeMethod = this.faceRequestStatus === 'waiting' ? 'projects/createFaceRequest' : 'projects/approveFaceRequest';
-          const data = await this.$store.dispatch(storeMethod, this.submittedFaceRequestData);
+          const data = await this.$store.dispatch(this.storeMethodForRequest, this.submittedFaceRequestData);
 
           if (data.data.success) {
             if (this.$refs.nextUserForm) {

@@ -486,6 +486,17 @@ const actions = {
       return error.response;
     }
   },
+  async createFaceRequestAfterReject({ commit }, credentials) {
+    try {
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+      const data = await axios.put('/request', credentials, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
+
+      return data;
+    } catch (error) {
+      return error.response;
+    }
+  },
   async approveFaceRequest({ commit }, credentials) {
     try {
       const token = localStorage.getItem('token') || '';
