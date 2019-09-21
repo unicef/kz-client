@@ -455,6 +455,20 @@
             </v-flex>
           </v-layout>
         </v-flex>
+        <!-- Budget left (for UNICEF users) -->
+        <v-flex xs12 v-if="isMyStage && (faceRequestStatus === 'validate' || faceRequestStatus === 'certify' || faceRequestStatus === 'approve' || faceRequestStatus === 'verify')">
+          <v-layout wrap class="mt-4 mb-4 font-weight-bold">
+            <v-flex d-flex xs12 sm2 md1 offset-xs0 offset-sm4 offset-md4 v-if="$vuetify.breakpoint.smAndUp">
+              {{ $t('common.fields.iceLeft') }}:
+            </v-flex>
+            <v-flex d-flex xs12 sm6 md7 v-if="$vuetify.breakpoint.smAndUp">
+              {{ projectInfo.iceLeft }} KZT
+            </v-flex>
+            <v-flex d-flex xs12 v-if="$vuetify.breakpoint.xsOnly">
+              {{ $t('common.fields.iceLeft') }}: {{ projectInfo.iceLeft }} KZT
+            </v-flex>
+          </v-layout>
+        </v-flex>
       </v-layout>
     </v-flex>
     <!-- Certification block (for assistant) -->
