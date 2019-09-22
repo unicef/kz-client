@@ -315,7 +315,7 @@
                     :placeholder="$t('common.fields.rejectReason')"
                     :disabled="!isMyStage || (isMyStage && (faceRequestStatus === 'waiting' || faceRequestStatus === 'reject'))"
                     :ref="'rejectReason' + index"
-                    :rules="rules.fieldRequired"
+                    :rules="rules.rejectReasonRequired"
                     type="text"
                   />
                 </v-layout>
@@ -419,7 +419,7 @@
                     :placeholder="$t('common.fields.rejectReason')"
                     :disabled="!isMyStage || (isMyStage && (faceRequestStatus === 'waiting' || faceRequestStatus === 'reject'))"
                     :ref="'rejectReason' + index"
-                    :rules="rules.fieldRequired"
+                    :rules="rules.rejectReason"
                     type="text"
                   />
                 </v-layout>
@@ -656,6 +656,10 @@
             v => /^(\d*\.?\d{1,2})?$/.test(v) || this.$t('common.fields.validation.field.onlyDigits'),
           ],
           activityDescriptionRequired: [
+            v => (v && !!v.trim()) || this.$t('common.fields.validation.field.required'),
+            v => v.length < 101 || `${this.$t('common.fields.validation.maxLetters')} - 100`,
+          ],
+          rejectReasonRequired: [
             v => (v && !!v.trim()) || this.$t('common.fields.validation.field.required'),
             v => v.length < 101 || `${this.$t('common.fields.validation.maxLetters')} - 100`,
           ],
