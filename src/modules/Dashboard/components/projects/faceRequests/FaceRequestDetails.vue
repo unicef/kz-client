@@ -533,7 +533,7 @@
         <!-- Budget left (for UNICEF users) -->
         <v-flex
           xs12
-          v-if="isMyStage && (faceRequestStatus === 'validate' || faceRequestStatus === 'certify' || faceRequestStatus === 'approve' || faceRequestStatus === 'verify')"
+          v-if="isUnicefStage"
         >
           <v-layout wrap class="mt-4 mb-4 font-weight-bold">
             <v-flex
@@ -693,10 +693,10 @@
       },
       isUnicefStage() {
         return this.isMyStage &&
-               this.faceRequestStatus === 'validate' &&
-               this.faceRequestStatus === 'certify' &&
-               this.faceRequestStatus === 'approve' &&
-               this.faceRequestStatus === 'verify';
+               (this.faceRequestStatus === 'validate' ||
+               this.faceRequestStatus === 'certify' ||
+               this.faceRequestStatus === 'approve' ||
+               this.faceRequestStatus === 'verify');
       },
       activitiesToSubmit() {
         /* eslint-disable */
