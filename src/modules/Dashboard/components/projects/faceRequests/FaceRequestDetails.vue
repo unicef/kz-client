@@ -304,7 +304,7 @@
                     :label="$t('common.fields.rejectReason')"
                     v-model="activities[index].rejectReason"
                     :placeholder="$t('common.fields.rejectReason')"
-                    :disabled="!isMyStage || (isMyStage && activities[index].isRejected)"
+                    :disabled="!isMyStage || (isMyStage && (faceRequestStatus === 'waiting' || faceRequestStatus === 'reject'))"
                     :ref="'rejectReason' + index"
                     :rules="rules.fieldRequired"
                     type="text"
