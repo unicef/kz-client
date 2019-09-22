@@ -305,7 +305,7 @@
                 </v-layout>
 
                 <v-layout
-                  v-if="(isAuthorizedPersonStage && activities[index].isRejected) || (!isMyStage && faceRequestStatus === 'reject' && activities[index].isRejected)"
+                  v-if="(isMyStage && !isUnicefStage && activities[index].isRejected) || (!isMyStage && faceRequestStatus === 'reject' && activities[index].isRejected)"
                 >
                   <v-textarea
                     auto-grow
