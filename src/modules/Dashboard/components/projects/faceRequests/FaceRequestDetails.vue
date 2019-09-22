@@ -119,8 +119,7 @@
               d-flex
               xs12
               sm2
-              md3
-              :class="{ 'pl-2': $vuetify.breakpoint.smAndUp, 'pr-2': $vuetify.breakpoint.smAndUp }"
+              :class="{ 'pl-2': $vuetify.breakpoint.smAndUp, 'pr-2': $vuetify.breakpoint.smAndUp, 'md3': !isUnicefStage }"
             >
               <v-tooltip top>
                 <template v-slot:activator="{ on }">
@@ -134,7 +133,7 @@
               d-flex
               xs12
               sm2
-              :class="{ 'pl-2': $vuetify.breakpoint.smAndUp, 'pr-2': $vuetify.breakpoint.smAndUp }"
+              :class="{ 'pl-2': $vuetify.breakpoint.smAndUp, 'pr-2': $vuetify.breakpoint.smAndUp, 'md3': isUnicefStage }"
             >
               <v-tooltip top>
                 <template v-slot:activator="{ on }">
@@ -175,7 +174,10 @@
                   :class="{ 'grey--text': !(isMyStage && (faceRequestStatus === 'reject' || faceRequestStatus === 'waiting')) }"
                 >{{ $t('common.fields.activityDescription') }}</v-layout>
                 <v-layout>
-                  <v-text-field
+                  <v-textarea
+                    auto-grow
+                    outlined
+                    rows="1"
                     class="pt-0"
                     :placeholder="$t('common.fields.typeActivity')"
                     v-model="activities[index].title"
@@ -214,8 +216,7 @@
               d-flex
               xs12
               sm2
-              md3
-              :class="{ 'pl-2': $vuetify.breakpoint.smAndUp, 'pr-2': $vuetify.breakpoint.smAndUp }"
+              :class="{ 'pl-2': $vuetify.breakpoint.smAndUp, 'pr-2': $vuetify.breakpoint.smAndUp, 'md3': !isUnicefStage }"
             >
               <v-layout
                 class="mb-2"
@@ -243,7 +244,7 @@
                     flat
                     icon
                     v-show="!($vuetify.breakpoint.smOnly || $vuetify.breakpoint.mdOnly)"
-                    v-if="isMyStage && !isResponsibleAssistant  && !activities[index].isRejected && !activities[index].isApproved"
+                    v-if="isAuthorizedPersonStage && !activities[index].isRejected && !activities[index].isApproved"
                     @click="approveActivity(index)"
                   >
                     <v-icon color="success">check</v-icon>
@@ -253,29 +254,35 @@
                     flat
                     icon
                     v-show="!($vuetify.breakpoint.smOnly || $vuetify.breakpoint.mdOnly)"
-                    v-if="isMyStage && !isResponsibleAssistant && !activities[index].isRejected && !activities[index].isApproved"
+                    v-if="isAuthorizedPersonStage && !activities[index].isRejected && !activities[index].isApproved"
                     @click="rejectActivity(index)"
                   >
                     <svgicon class="svg-icon" width="10" height="10" color="red" name="close" />
                   </v-btn>
 
                   <v-icon
+                    v-if="isAuthorizedPersonStage"
                     v-show="activities[index].isApproved"
                     color="success"
                     :ref="'activityAmountEApproveIcon' + index"
                   >done_outline</v-icon>
                   <v-icon
+                    v-if="!isUnicefStage"
                     v-show="activities[index].isRejected"
                     color="error"
                     :ref="'activityAmountERejectIcon' + index"
                   >clear</v-icon>
                 </v-layout>
-                <v-layout justify-end v-show="$vuetify.breakpoint.smOnly || $vuetify.breakpoint.mdOnly">
+                <v-layout
+                  justify-end
+                  v-if="isAuthorizedPersonStage"
+                  v-show="$vuetify.breakpoint.smOnly || $vuetify.breakpoint.mdOnly"
+                >
                   <v-btn
                     class="my-0 approve-btn mb-4"
                     flat
                     icon
-                    v-if="isMyStage && !isResponsibleAssistant  && !activities[index].isRejected && !activities[index].isApproved"
+                    v-if="isAuthorizedPersonStage &&  !activities[index].isRejected && !activities[index].isApproved"
                     @click="approveActivity(index)"
                   >
                     <v-icon color="success">check</v-icon>
@@ -284,13 +291,13 @@
                     class="my-0 reject-btn mb-4"
                     flat
                     icon
-                    v-if="isMyStage && !isResponsibleAssistant && !activities[index].isRejected && !activities[index].isApproved"
+                    v-if="isAuthorizedPersonStage && !activities[index].isRejected && !activities[index].isApproved"
                     @click="rejectActivity(index)"
                   >
                     <svgicon class="svg-icon" width="10" height="10" color="red" name="close" />
                   </v-btn>
                 </v-layout>
-                <v-layout>
+                <v-layout v-if="isAuthorizedPersonStage">
                   <p
                     class="red--text approval-error mb-4"
                     v-if="(activities[index] && activities[index].approvalError)"
@@ -298,9 +305,11 @@
                 </v-layout>
 
                 <v-layout
-                  v-if="(isMyStage && activities[index].isRejected) || (!isMyStage && faceRequestStatus === 'reject' && activities[index].isRejected)"
+                  v-if="(isAuthorizedPersonStage && activities[index].isRejected) || (!isMyStage && faceRequestStatus === 'reject' && activities[index].isRejected)"
                 >
-                  <v-text-field
+                  <v-textarea
+                    auto-grow
+                    rows="1"
                     :label="$t('common.fields.rejectReason')"
                     v-model="activities[index].rejectReason"
                     :placeholder="$t('common.fields.rejectReason')"
@@ -317,7 +326,7 @@
               d-flex
               xs12
               sm2
-              :class="{ 'pl-2': $vuetify.breakpoint.smAndUp, 'pr-2': $vuetify.breakpoint.smAndUp }"
+              :class="{ 'pl-2': $vuetify.breakpoint.smAndUp, 'pr-2': $vuetify.breakpoint.smAndUp, 'md3': isUnicefStage }"
             >
               <v-layout
                 class="mb-2"
@@ -335,6 +344,82 @@
                     placeholder=" "
                     disabled
                     class="pt-0"
+                    type="text"
+                  />
+                  <v-btn
+                    class="my-0 approve-btn"
+                    flat
+                    icon
+                    v-show="!($vuetify.breakpoint.smOnly || $vuetify.breakpoint.mdOnly)"
+                    v-if="isUnicefStage && !activities[index].isRejected && !activities[index].isApproved"
+                    @click="approveActivity(index)"
+                  >
+                    <v-icon color="success">check</v-icon>
+                  </v-btn>
+                  <v-btn
+                    class="my-0 reject-btn"
+                    flat
+                    icon
+                    v-show="!($vuetify.breakpoint.smOnly || $vuetify.breakpoint.mdOnly)"
+                    v-if="isUnicefStage && !activities[index].isRejected && !activities[index].isApproved"
+                    @click="rejectActivity(index)"
+                  >
+                    <svgicon class="svg-icon" width="10" height="10" color="red" name="close" />
+                  </v-btn>
+
+                  <v-icon
+                    v-if="isUnicefStage"
+                    v-show="activities[index].isApproved"
+                    color="success"
+                    :ref="'activityAmountEApproveIcon' + index"
+                  >done_outline</v-icon>
+                  <v-icon
+                    v-if="isUnicefStage"
+                    v-show="activities[index].isRejected"
+                    color="error"
+                    :ref="'activityAmountERejectIcon' + index"
+                  >clear</v-icon>
+                </v-layout>
+                <v-layout
+                  justify-end
+                  v-if="isUnicefStage"
+                  v-show="$vuetify.breakpoint.smOnly || $vuetify.breakpoint.mdOnly"
+                >
+                  <v-btn
+                    class="my-0 approve-btn mb-4"
+                    flat
+                    icon
+                    v-if="isUnicefStage &&  !activities[index].isRejected && !activities[index].isApproved"
+                    @click="approveActivity(index)"
+                  >
+                    <v-icon color="success">check</v-icon>
+                  </v-btn>
+                  <v-btn
+                    class="my-0 reject-btn mb-4"
+                    flat
+                    icon
+                    v-if="isUnicefStage && !activities[index].isRejected && !activities[index].isApproved"
+                    @click="rejectActivity(index)"
+                  >
+                    <svgicon class="svg-icon" width="10" height="10" color="red" name="close" />
+                  </v-btn>
+                </v-layout>
+                <v-layout v-if="isUnicefStage">
+                  <p
+                    class="red--text approval-error mb-4"
+                    v-if="(activities[index] && activities[index].approvalError)"
+                  >{{ $t('common.fields.approvalError') }}</p>
+                </v-layout>
+                <v-layout v-if="(isUnicefStage && activities[index].isRejected)">
+                  <v-textarea
+                    auto-grow
+                    rows="1"
+                    :label="$t('common.fields.rejectReason')"
+                    v-model="activities[index].rejectReason"
+                    :placeholder="$t('common.fields.rejectReason')"
+                    :disabled="!isMyStage || (isMyStage && (faceRequestStatus === 'waiting' || faceRequestStatus === 'reject'))"
+                    :ref="'rejectReason' + index"
+                    :rules="rules.fieldRequired"
                     type="text"
                   />
                 </v-layout>
@@ -394,8 +479,7 @@
               d-flex
               xs12
               sm2
-              md3
-              :class="{ 'pl-2': $vuetify.breakpoint.smAndUp, 'pr-2': $vuetify.breakpoint.smAndUp }"
+              :class="{ 'pl-2': $vuetify.breakpoint.smAndUp, 'pr-2': $vuetify.breakpoint.smAndUp, 'md3': !isUnicefStage }"
             >
               <v-layout
                 class="mb-2"
@@ -416,7 +500,7 @@
               d-flex
               xs12
               sm2
-              :class="{ 'pl-2': $vuetify.breakpoint.smAndUp, 'pr-2': $vuetify.breakpoint.smAndUp }"
+              :class="{ 'pl-2': $vuetify.breakpoint.smAndUp, 'pr-2': $vuetify.breakpoint.smAndUp, 'md3': isUnicefStage }"
             >
               <v-layout
                 class="mb-2"
@@ -434,39 +518,46 @@
             </v-flex>
             <!-- Total G -->
             <v-flex d-flex xs12 sm2 :class="{ 'pl-2': $vuetify.breakpoint.smAndUp }">
-              <v-layout
-                class="mb-2"
-                :class="{ 'pl-2': $vuetify.breakpoint.smAndUp }"
-                column
-              >
+              <v-layout class="mb-2" :class="{ 'pl-2': $vuetify.breakpoint.smAndUp }" column>
                 <v-layout
                   v-if="$vuetify.breakpoint.xsOnly"
                   class="caption grey--text"
                 >{{ $t('common.fields.outstandingAmount') }}</v-layout>
                 <v-layout>
-                  <v-text-field
-                    v-model="total.totalG"
-                    disabled
-                    type="text"
-                    class="pt-0"
-                  />
+                  <v-text-field v-model="total.totalG" disabled type="text" class="pt-0" />
                 </v-layout>
               </v-layout>
             </v-flex>
           </v-layout>
         </v-flex>
         <!-- Budget left (for UNICEF users) -->
-        <v-flex xs12 v-if="isMyStage && (faceRequestStatus === 'validate' || faceRequestStatus === 'certify' || faceRequestStatus === 'approve' || faceRequestStatus === 'verify')">
+        <v-flex
+          xs12
+          v-if="isMyStage && (faceRequestStatus === 'validate' || faceRequestStatus === 'certify' || faceRequestStatus === 'approve' || faceRequestStatus === 'verify')"
+        >
           <v-layout wrap class="mt-4 mb-4 font-weight-bold">
-            <v-flex d-flex xs12 sm2 md1 offset-xs0 offset-sm4 offset-md4 v-if="$vuetify.breakpoint.smAndUp">
-              {{ $t('common.fields.iceLeft') }}:
-            </v-flex>
-            <v-flex d-flex xs12 sm6 md7 v-if="$vuetify.breakpoint.smAndUp">
-              {{ projectInfo.iceLeft }} KZT
-            </v-flex>
-            <v-flex d-flex xs12 v-if="$vuetify.breakpoint.xsOnly">
-              {{ $t('common.fields.iceLeft') }}: {{ projectInfo.iceLeft }} KZT
-            </v-flex>
+            <v-flex
+              d-flex
+              xs12
+              sm2
+              md1
+              offset-xs0
+              offset-sm4
+              offset-md4
+              v-if="$vuetify.breakpoint.smAndUp"
+            >{{ $t('common.fields.iceLeft') }}:</v-flex>
+            <v-flex
+              d-flex
+              xs12
+              sm6
+              md7
+              v-if="$vuetify.breakpoint.smAndUp"
+            >{{ projectInfo.iceLeft }} KZT</v-flex>
+            <v-flex
+              d-flex
+              xs12
+              v-if="$vuetify.breakpoint.xsOnly"
+            >{{ $t('common.fields.iceLeft') }}: {{ projectInfo.iceLeft }} KZT</v-flex>
           </v-layout>
         </v-flex>
       </v-layout>
@@ -503,9 +594,11 @@
         <v-icon color="success">done_outline</v-icon>
         <span class="subheading green--text ml-2">{{ $t('common.fields.approvedCheckboxText') }}</span>
       </div>
-      <v-layout justify-end class="mt-4" v-if="faceRequestData.successedAt">
-        {{ $t('common.fields.date') }}: {{ faceRequestData.successedAt }}
-      </v-layout>
+      <v-layout
+        justify-end
+        class="mt-4"
+        v-if="faceRequestData.successedAt"
+      >{{ $t('common.fields.date') }}: {{ faceRequestData.successedAt }}</v-layout>
     </v-flex>
   </v-layout>
 </template>
@@ -593,6 +686,17 @@
       },
       isResponsibleAssistant() {
         return this.roles.indexOf('ra') !== -1;
+      },
+      isAuthorizedPersonStage() {
+        return this.isMyStage &&
+               this.faceRequestStatus === 'confirm';
+      },
+      isUnicefStage() {
+        return this.isMyStage &&
+               this.faceRequestStatus === 'validate' &&
+               this.faceRequestStatus === 'certify' &&
+               this.faceRequestStatus === 'approve' &&
+               this.faceRequestStatus === 'verify';
       },
       activitiesToSubmit() {
         /* eslint-disable */
