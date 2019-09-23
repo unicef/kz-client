@@ -73,9 +73,9 @@
             <v-list-tile-content>{{ $t('common.fields.appliedAt') }}:</v-list-tile-content>
             <v-list-tile-content class="align-end">{{ faceRequestData.createdAt }}</v-list-tile-content>
           </v-list-tile>
-          <v-list-tile v-if="faceRequestData.submittedAt">
+          <v-list-tile v-if="faceRequestData.approvedAt">
             <v-list-tile-content>{{ $t('common.fields.submittedAt') }}:</v-list-tile-content>
-            <v-list-tile-content class="align-end">{{ faceRequestData.submittedAt }}</v-list-tile-content>
+            <v-list-tile-content class="align-end">{{ faceRequestData.approvedAt }}</v-list-tile-content>
           </v-list-tile>
         </v-list>
       </v-card>
