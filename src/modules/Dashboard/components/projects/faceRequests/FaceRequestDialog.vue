@@ -16,7 +16,7 @@
           <div class="title mb-4" v-if="!activitiesRejectedToSubmit.length && faceRequestStatus === 'approve'">{{ $t('faceFormDialog.approveStageTitle') }}</div>
           <div class="title mb-4" v-if="!activitiesRejectedToSubmit.length && faceRequestStatus === 'verify'">{{ $t('faceFormDialog.verifyStageTitle') }}</div>
           <div class="title mb-4" v-if="activitiesRejectedToSubmit.length && faceRequestStatus !== 'reject'">{{ $t('faceFormDialog.rejectStageTitle') }}</div>
-          <div class="title mb-4" v-if="!activitiesRejectedToSubmit.length && faceRequestStatus === 'validate' || faceRequestStatus === 'certify' || faceRequestStatus === 'approve'">{{ $t('faceFormDialog.chooseUserTitle') }}</div>
+          <div class="title mb-4" v-if="!activitiesRejectedToSubmit.length && (faceRequestStatus === 'validate' || faceRequestStatus === 'certify' || faceRequestStatus === 'approve')">{{ $t('faceFormDialog.chooseUserTitle') }}</div>
           <v-form ref="nextUserForm" lazy-validation v-if="!activitiesRejectedToSubmit.length && (faceRequestStatus === 'validate' || faceRequestStatus === 'certify' || faceRequestStatus === 'approve')">
             <v-layout row>
               <v-flex sm12>
