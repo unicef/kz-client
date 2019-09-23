@@ -10,12 +10,12 @@
       <v-card class="face-request-dialog px-4 py-4">
         <v-card-title class="headline">{{ $t('faceFormDialog.title') }}</v-card-title>
         <v-card-text>
-          <div class="title mb-4" v-if="faceRequestStatus === 'waiting'">{{ $t('faceFormDialog.waitingStageTitle') }}</div>
+          <div class="title mb-4" v-if="faceRequestStatus === 'waiting' || faceRequestStatus === 'reject'">{{ $t('faceFormDialog.waitingStageTitle') }}</div>
           <div class="title mb-4" v-if="!activitiesRejectedToSubmit.length && faceRequestStatus === 'confirm'">{{ $t('faceFormDialog.confirmStageTitle') }}</div>
           <div class="title mb-4" v-if="!activitiesRejectedToSubmit.length && faceRequestStatus === 'validate'">{{ $t('faceFormDialog.validateStageTitle') }}</div>
           <div class="title mb-4" v-if="!activitiesRejectedToSubmit.length && faceRequestStatus === 'approve'">{{ $t('faceFormDialog.approveStageTitle') }}</div>
           <div class="title mb-4" v-if="!activitiesRejectedToSubmit.length && faceRequestStatus === 'verify'">{{ $t('faceFormDialog.verifyStageTitle') }}</div>
-          <div class="title mb-4" v-if="activitiesRejectedToSubmit.length">{{ $t('faceFormDialog.rejectStageTitle') }}</div>
+          <div class="title mb-4" v-if="activitiesRejectedToSubmit.length && faceRequestStatus !== 'reject'">{{ $t('faceFormDialog.rejectStageTitle') }}</div>
           <div class="title mb-4" v-if="!activitiesRejectedToSubmit.length && faceRequestStatus === 'validate' || faceRequestStatus === 'certify' || faceRequestStatus === 'approve'">{{ $t('faceFormDialog.chooseUserTitle') }}</div>
           <v-form ref="nextUserForm" lazy-validation v-if="!activitiesRejectedToSubmit.length && (faceRequestStatus === 'validate' || faceRequestStatus === 'certify' || faceRequestStatus === 'approve')">
             <v-layout row>
