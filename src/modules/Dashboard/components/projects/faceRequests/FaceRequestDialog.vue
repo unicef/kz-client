@@ -11,12 +11,13 @@
         <v-card-title class="headline">{{ $t('faceFormDialog.title') }}</v-card-title>
         <v-card-text>
           <div class="title mb-4" v-if="faceRequestStatus === 'waiting'">{{ $t('faceFormDialog.waitingStageTitle') }}</div>
-          <div class="title mb-4" v-if="faceRequestStatus === 'confirm'">{{ $t('faceFormDialog.confirmStageTitle') }}</div>
-          <div class="title mb-4" v-if="faceRequestStatus === 'validate'">{{ $t('faceFormDialog.validateStageTitle') }}</div>
-          <div class="title mb-4" v-if="faceRequestStatus === 'approve'">{{ $t('faceFormDialog.approveStageTitle') }}</div>
-          <div class="title mb-4" v-if="faceRequestStatus === 'verify'">{{ $t('faceFormDialog.verifyStageTitle') }}</div>
-          <div class="title mb-4" v-if="faceRequestStatus === 'validate' || faceRequestStatus === 'certify' || faceRequestStatus === 'approve'">{{ $t('faceFormDialog.chooseUserTitle') }}</div>
-          <v-form ref="nextUserForm" lazy-validation v-if="faceRequestStatus === 'validate' || faceRequestStatus === 'certify' || faceRequestStatus === 'approve'">
+          <div class="title mb-4" v-if="!activitiesRejectedToSubmit.length && faceRequestStatus === 'confirm'">{{ $t('faceFormDialog.confirmStageTitle') }}</div>
+          <div class="title mb-4" v-if="!activitiesRejectedToSubmit.length && faceRequestStatus === 'validate'">{{ $t('faceFormDialog.validateStageTitle') }}</div>
+          <div class="title mb-4" v-if="!activitiesRejectedToSubmit.length && faceRequestStatus === 'approve'">{{ $t('faceFormDialog.approveStageTitle') }}</div>
+          <div class="title mb-4" v-if="!activitiesRejectedToSubmit.length && faceRequestStatus === 'verify'">{{ $t('faceFormDialog.verifyStageTitle') }}</div>
+          <div class="title mb-4" v-if="activitiesRejectedToSubmit.length">{{ $t('faceFormDialog.rejectStageTitle') }}</div>
+          <div class="title mb-4" v-if="!activitiesRejectedToSubmit.length && faceRequestStatus === 'validate' || faceRequestStatus === 'certify' || faceRequestStatus === 'approve'">{{ $t('faceFormDialog.chooseUserTitle') }}</div>
+          <v-form ref="nextUserForm" lazy-validation v-if="!activitiesRejectedToSubmit.length && (faceRequestStatus === 'validate' || faceRequestStatus === 'certify' || faceRequestStatus === 'approve')">
             <v-layout row>
               <v-flex sm12>
                 <v-select
@@ -100,6 +101,17 @@
       },
       submittedFaceRequestData() {
         return this.$store.getters['projects/getSubmittedFaceRequestData'];
+      },
+      activitiesRejectedToSubmit() {
+        let activitiesRejected = [];
+        /* eslint-disable */
+        if (this.submittedFaceRequestData) {
+          activitiesRejected = this.submittedFaceRequestData.activities.filter((item) => {
+            return item.isRejected && item.rejectReason;
+          });
+        }
+        /* eslint-disable */
+        return activitiesRejected;
       },
       faceRequestStatus() {
         return (this.$store.getters['projects/getProjectInfo'].stage) ? this.$store.getters['projects/getProjectInfo'].stage.status : '';
