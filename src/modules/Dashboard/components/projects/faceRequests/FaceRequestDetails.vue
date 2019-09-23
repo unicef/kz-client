@@ -419,7 +419,7 @@
                     :placeholder="$t('common.fields.rejectReason')"
                     :disabled="!isMyStage || (isMyStage && (faceRequestStatus === 'waiting' || faceRequestStatus === 'reject'))"
                     :ref="'rejectReason' + index"
-                    :rules="rules.rejectReason"
+                    :rules="rules.rejectReasonRequired"
                     type="text"
                   />
                 </v-layout>
