@@ -673,6 +673,9 @@
       faceRequestStatus() {
         return (this.$store.getters['projects/getProjectInfo'].stage) ? this.$store.getters['projects/getProjectInfo'].stage.status : '';
       },
+      isFirstRequest() {
+        return (this.$store.getters['projects/getProjectInfo'].stage) ? this.$store.getters['projects/getProjectInfo'].stage.num === 1 : false;
+      },
       requestTypes() {
         return this.$store.getters['projects/getFaceRequestProperties'].type;
       },
@@ -750,6 +753,23 @@
           });
           this.activities.push(activityObj);
         });
+        if (!this.faceRequestActivities.activities.length && this.isFaceRequestCreationPath && this.isFirstRequest) {
+          // add 5 rows for activities if create face request
+          for (let i = 0; i < 5; i++) {
+            const activityObj = {
+              id: null,
+              title: '',
+              amountE: '',
+              amountF: '',
+              amountG: '',
+              isRejected: false,
+              rejectReason: '',
+              isApproved: false,
+              approvalError: '',
+            };
+            that.activities.push(activityObj);
+          }
+        }
       },
     },
     created() {
@@ -777,23 +797,6 @@
         });
         this.activities.push(activityObj);
       });
-      if (!this.faceRequestActivities.activities.length && this.isFaceRequestCreationPath) {
-          // add 5 rows for activities if create face request
-          for (let i = 0; i < 5; i++) {
-            const activityObj = {
-              id: null,
-              title: '',
-              amountE: '',
-              amountF: '',
-              amountG: '',
-              isRejected: false,
-              rejectReason: '',
-              isApproved: false,
-              approvalError: '',
-            };
-            that.activities.push(activityObj);
-          }
-      }
     },
     methods: {
       getFaceRequestDetails() {
