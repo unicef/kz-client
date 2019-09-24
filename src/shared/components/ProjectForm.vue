@@ -42,7 +42,7 @@
                     </v-tab-item>
                     <v-tab-item>
                       <!-- Project reports -->
-                      Project reports
+                      <project-reports />
                     </v-tab-item>
                     <v-tab-item>
                       <!-- Project links tab -->
@@ -124,6 +124,7 @@
   import ProjectHistory from '@/shared/components/ProjectHistory';
   import ProjectTranches from '@/shared/components/ProjectTranches';
   import ProjectFace from '@/shared/components/ProjectFace';
+  import ProjectReports from '@/shared/components/ProjectReports';
   import SetIpDialog from '@/shared/components/SetIpDialog';
   import DeleteProjectDialog from '@/modules/Admin/components/projects/DeleteProjectDialog';
   import TerminateProjectDialog from '@/modules/Admin/components/projects/TerminateProjectDialog';
@@ -151,6 +152,7 @@
       ProjectHistory,
       ProjectTranches,
       ProjectFace,
+      ProjectReports,
       SetIpDialog,
       DeleteProjectDialog,
       TerminateProjectDialog,
