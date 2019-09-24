@@ -50,7 +50,7 @@
                     </v-tab-item>
                     <v-tab-item>
                       <!-- Project FACE -->
-                      Project FACE
+                      <project-face />
                     </v-tab-item>
                     <v-tab-item>
                       <!-- Project tranches tab -->
@@ -123,6 +123,7 @@
   import ProjectLinks from '@/shared/components/ProjectLinks';
   import ProjectHistory from '@/shared/components/ProjectHistory';
   import ProjectTranches from '@/shared/components/ProjectTranches';
+  import ProjectFace from '@/shared/components/ProjectFace';
   import SetIpDialog from '@/shared/components/SetIpDialog';
   import DeleteProjectDialog from '@/modules/Admin/components/projects/DeleteProjectDialog';
   import TerminateProjectDialog from '@/modules/Admin/components/projects/TerminateProjectDialog';
@@ -149,6 +150,7 @@
       ProjectLinks,
       ProjectHistory,
       ProjectTranches,
+      ProjectFace,
       SetIpDialog,
       DeleteProjectDialog,
       TerminateProjectDialog,
@@ -266,6 +268,8 @@
       this.$store.commit('projects/setProjectLinks', []);
       this.$store.commit('projects/setProjectHistory', []);
       this.$store.commit('projects/setProjectTranches', []);
+      this.$store.commit('projects/setProjectFaces', []);
+      this.$store.commit('projects/setProjectReports', []);
     },
     methods: {
       async saveProject() {

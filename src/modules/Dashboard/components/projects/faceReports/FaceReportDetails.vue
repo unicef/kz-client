@@ -661,7 +661,7 @@
         return (this.$store.getters['projects/getProjectInfo'].stage) ? this.$store.getters['projects/getProjectInfo'].stage.status : '';
       },
       isLastReport() {
-        return (this.$store.getters['projects/getProjectInfo'].stage) ? this.$store.getters['projects/getProjectInfo'].stage.isLast : false;        
+        return (this.$store.getters['projects/getProjectInfo'].stage) ? this.$store.getters['projects/getProjectInfo'].stage.isLast : false;
       },
       requestTypes() {
         return this.$store.getters['projects/getFaceReportProperties'].type;

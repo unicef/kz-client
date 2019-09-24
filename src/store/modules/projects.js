@@ -30,6 +30,8 @@ const initialState = {
   projectLinks: [],
   projectHistory: [],
   projectTranches: [],
+  projectFaces: [],
+  projectReports: [],
   faceRequestProperties: {},
   faceRequestActivities: {
     activities: [],
@@ -96,6 +98,8 @@ const getters = {
   getProjectLinks: state => state.projectLinks,
   getProjectHistory: state => state.projectHistory,
   getProjectTranches: state => state.projectTranches,
+  getProjectFaces: state => state.projectFaces,
+  getProjectReports: state => state.projectReports,
   getFaceRequestProperties: state => state.faceRequestProperties,
   getFaceRequestActivities: state => state.faceRequestActivities,
   getFaceRequestData: state => state.faceRequestData,
@@ -174,6 +178,12 @@ const mutations = {
   },
   setProjectTranches(state, data) {
     state.projectTranches = data;
+  },
+  setProjectFaces(state, data) {
+    state.projectFaces = data;
+  },
+  setProjectReports(state, data) {
+    state.projectReports = data;
   },
   setFaceRequestProperties(state, data) {
     state.faceRequestProperties = data;
@@ -518,6 +528,32 @@ const actions = {
       const data = await axios.get(`/project/tranches?id=${credentials}`, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
 
       commit('setProjectTranches', data.data.data.tranches);
+
+      return data;
+    } catch (error) {
+      return error.response;
+    }
+  },
+  async getProjectFaces({ commit }, credentials) {
+    try {
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+      const data = await axios.get(`/project/faces?id=${credentials}`, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
+
+      commit('setProjectFaces', data.data.data.faces);
+
+      return data;
+    } catch (error) {
+      return error.response;
+    }
+  },
+  async getProjectReports({ commit }, credentials) {
+    try {
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+      const data = await axios.get(`/project/reports?id=${credentials}`, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
+
+      commit('setProjectReports', data.data.data.reports);
 
       return data;
     } catch (error) {
