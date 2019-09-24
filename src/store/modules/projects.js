@@ -66,8 +66,8 @@ const initialState = {
     createdAt: '',
     approvedAt: '',
     statusId: '',
-    dateFrom: '2019-10-09',
-    dateTo: '2019-12-10',
+    dateFrom: '',
+    dateTo: '',
     type: 1,
     successedAt: '',
     isCertify: false,
@@ -654,7 +654,7 @@ const actions = {
 
       commit('setFaceReportProperties', data.data.data);
       commit('setFaceReportDataField', { fieldKey: 'dateFrom', fieldValue: data.data.data.dateFrom });
-      commit('setFaceReportDataField', { fieldKey: 'dateFrom', fieldValue: data.data.data.dateTo });
+      commit('setFaceReportDataField', { fieldKey: 'dateTo', fieldValue: data.data.data.dateTo });
       commit('setFaceReportDataField', { fieldKey: 'type', fieldValue: data.data.data.typeId });
 
       return data;

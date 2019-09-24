@@ -663,6 +663,9 @@
       isLastReport() {
         return (this.$store.getters['projects/getProjectInfo'].stage) ? this.$store.getters['projects/getProjectInfo'].stage.isLast : false;
       },
+      faceReportProperties() {
+        return this.$store.getters['projects/getFaceReportProperties'];
+      },
       requestTypes() {
         return this.$store.getters['projects/getFaceReportProperties'].type;
       },
@@ -717,6 +720,11 @@
           that.credentials[key] = that.faceReportData[key];
         });
       },
+      faceReportProperties() {
+        this.credentials.dateFrom = this.faceReportProperties.dateFrom;
+        this.credentials.dateTo = this.faceReportProperties.dateTo;
+        this.credentials.type = this.faceReportProperties.typeId;
+      },
       faceReportActivities() {
         const that = this;
         Object.keys(this.faceReportActivities.total).forEach((key) => {
@@ -748,6 +756,7 @@
       Object.keys(this.faceReportData).forEach((key) => {
         that.credentials[key] = that.faceReportData[key];
       });
+
       Object.keys(this.faceReportActivities.total).forEach((key) => {
         that.total[key] = that.faceReportActivities.total[key];
       });
