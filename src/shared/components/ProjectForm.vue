@@ -29,7 +29,16 @@
                     <v-tab>{{ $t('common.projectTabs.documents') }}</v-tab>
                     <v-tab>{{ $t('common.projectTabs.reports') }}</v-tab>
                     <v-tab>{{ $t('common.projectTabs.links') }}</v-tab>
-                    <v-tab>{{ $t('common.projectTabs.face') }}</v-tab>
+                    <v-tab>
+                      {{ $t('common.projectTabs.face') }}
+                      <v-chip
+                        v-if="showNewInTab"
+                        disabled
+                        color="success"
+                        text-color="white"
+                        class="tab-lable text-capitalize font-weight-thin mb-3"
+                      >{{ $t('common.fields.new') }}</v-chip>
+                    </v-tab>
                     <v-tab>{{ $t('common.projectTabs.tranches') }}</v-tab>
                     <v-tab>{{ $t('common.projectTabs.history') }}</v-tab>
                     <v-tab-item>
@@ -233,6 +242,9 @@
         }
         return this.$t('viewProject.title');
       },
+      showNewInTab() {
+        return this.projectData.isMyStage && this.projectData.stage.status !== 'waiting';
+      }
     },
     watch: {
       /* eslint-disable */
