@@ -660,6 +660,9 @@
       faceReportStatus() {
         return (this.$store.getters['projects/getProjectInfo'].stage) ? this.$store.getters['projects/getProjectInfo'].stage.status : '';
       },
+      isLastReport() {
+        return (this.$store.getters['projects/getProjectInfo'].stage) ? this.$store.getters['projects/getProjectInfo'].stage.isLast : false;        
+      },
       requestTypes() {
         return this.$store.getters['projects/getFaceReportProperties'].type;
       },
@@ -818,8 +821,8 @@
         /* eslint-disable */
       },
       changeJustificationDocRequiredState() {
-        // if totalB 20% more than totalA make justification doc required
-        if ((((+this.total.totalB / +this.total.totalA) * 100) - 100) >= 20) {
+        // if totalB 20% more than totalA and not last report make justification doc required
+        if (((((+this.total.totalB / +this.total.totalA) * 100) - 100) >= 20) && !this.isLastReport) {
           this.$store.commit('projects/setFaceReportJustificationDocRequiredState', true);
         } else {
           this.$store.commit('projects/setFaceReportJustificationDocRequiredState', false);
