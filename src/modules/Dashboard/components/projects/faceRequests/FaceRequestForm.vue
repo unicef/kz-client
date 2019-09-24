@@ -163,9 +163,6 @@
         console.log('face request data in parent: ', faceRequestData);
         this.credentials = faceRequestData;
       },
-    //   getProjectDocuments(projectDocumetsData) {
-    //     this.credentials.documents = projectDocumetsData;
-    //   },
     },
   };
 </script>

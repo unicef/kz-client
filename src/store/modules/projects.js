@@ -54,6 +54,34 @@ const initialState = {
   faceRequestDialogState: false,
   submittedFaceRequestData: null,
   faceRequestUsers: [],
+  faceReportProperties: {},
+  faceReportActivities: {
+    activities: [],
+    total: {},
+  },
+  faceReportData: {
+    id: null,
+    createdAt: '',
+    approvedAt: '',
+    statusId: '',
+    dateFrom: '2019-10-09',
+    dateTo: '2019-12-10',
+    type: 1,
+    successedAt: '',
+    isCertify: false,
+    isValid: false,
+    isAuthorised: false,
+    num: null,
+    nextUser: null,
+    analyticalDocId: null,
+    financialDocId: null,
+    justificationDocId: null,
+  },
+  myReportStageState: false,
+  faceReportDialogState: false,
+  submittedFaceReportData: null,
+  faceReportUsers: [],
+  isFaceReportJustificationDocRequired: false,
 };
 
 const getters = {
@@ -75,6 +103,14 @@ const getters = {
   getFaceRequestDialogState: state => state.faceRequestDialogState,
   getSubmittedFaceRequestData: state => state.submittedFaceRequestData,
   getFaceRequestUsers: state => state.faceRequestUsers,
+  getFaceReportProperties: state => state.faceReportProperties,
+  getFaceReportActivities: state => state.faceReportActivities,
+  getFaceReportData: state => state.faceReportData,
+  getMyReportStageState: state => state.myReportStageState,
+  getFaceReportDialogState: state => state.faceReportDialogState,
+  getSubmittedFaceReportData: state => state.submittedFaceReportData,
+  getFaceReportUsers: state => state.faceReportUsers,
+  getFaceReportJustificationDocRequiredState: state => state.isFaceReportJustificationDocRequired,
 };
 
 const mutations = {
@@ -191,6 +227,67 @@ const mutations = {
   setFaceRequestUsers(state, data) {
     state.faceRequestUsers = data;
   },
+  setFaceReportProperties(state, data) {
+    state.faceReportProperties = data;
+  },
+  setFaceReportActivities(state, data) {
+    state.faceReportActivities = data;
+    // if no data to set (data === null) -> set faceReportActivities data keys to empty values
+    if (data) {
+      state.faceReportActivities = data;
+    } else {
+      state.faceReportActivities =  {
+        activities: [],
+        total: {},
+      };
+    }
+  },
+  setFaceReportData(state, data) {
+    // if no data to set (data === null) -> set all faceReport data keys to empty values
+    if (data) {
+      state.faceReportData = data;
+    } else {
+      state.faceReportData = {
+        id: null,
+        createdAt: '',
+        approvedAt: '',
+        statusId: '',
+        dateFrom: '',
+        dateTo: '',
+        type: 1,
+        successedAt: '',
+        isCertify: false,
+        isValid: false,
+        isAuthorised: false,
+        num: null,
+        nextUser: null,
+        analyticalDocId: null,
+        financialDocId: null,
+        justificationDocId: null,
+      };
+    }
+  },
+  setFaceReportDataField(state, data) {
+    state.faceReportData[data.fieldKey] = data.fieldValue;
+  },
+  setMyReportStageState(state, data) {
+    state.myReportStageState = data;
+  },
+  toggleFaceReportDialogState(state, data) {
+    state.faceReportDialogState = data;
+  },
+  setSubmittedFaceReportData(state, data) {
+    state.submittedFaceReportData = data;
+  },
+  setSubmittedFaceReportDataField(state, data) {
+    state.submittedFaceReportData[data.fieldKey] = data.fieldValue;
+  },
+  setFaceReportUsers(state, data) {
+    state.faceReportUsers = data;
+  },
+  setFaceReportJustificationDocRequiredState(state, data) {
+    state.isFaceReportJustificationDocRequired = data;
+  },
 };
 
 const actions = {
@@ -227,7 +324,12 @@ const actions = {
       const data = await axios.get(`/project/short?id=${credentials}`, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
 
       commit('setProjectInfo', data.data.data.project);
-      commit('setMyRequestStageState', data.data.data.project.isMyStage);
+      if (data.data.data.project.stage.type === 'request') {
+        commit('setMyRequestStageState', data.data.data.project.isMyStage);
+      }
+      if (data.data.data.project.stage.type === 'report') {
+        commit('setMyReportStageState', data.data.data.project.isMyStage);
+      }
 
       return data.data.data;
     } catch (error) {
@@ -502,6 +604,129 @@ const actions = {
       const token = localStorage.getItem('token') || '';
       const lang = localStorage.getItem('language') || '';
       const data = await axios.post('/request/approve', credentials, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
+
+      return data;
+    } catch (error) {
+      return error.response;
+    }
+  },
+  async getFaceReportProperties({ commit }, projectId) {
+    try {
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+      const data = await axios.get(`/report/properties?projectId=${projectId}`, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
+
+      commit('setFaceReportProperties', data.data.data);
+      commit('setFaceReportDataField', { fieldKey: 'dateFrom', fieldValue: data.data.data.dateFrom });
+      commit('setFaceReportDataField', { fieldKey: 'dateFrom', fieldValue: data.data.data.dateTo });
+      commit('setFaceReportDataField', { fieldKey: 'type', fieldValue: data.data.data.typeId });
+
+      return data;
+    } catch (error) {
+      return error.response;
+    }
+  },
+  async getFaceReportActivities({ commit }, credentials) {
+    try {
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+      const data = await axios.get(`/report/activities?projectId=${credentials.projectId}&reportId=${credentials.reportId}`, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
+
+      commit('setFaceReportActivities', data.data.data);
+
+      return data;
+    } catch (error) {
+      console.log(error);
+      return error.response;
+    }
+  },
+  async getFaceReportData({ commit }, credentials) {
+    try {
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+      const data = await axios.get(`/report?id=${credentials}`, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
+
+      commit('setFaceReportData', data.data.data.report);
+      commit('setMyReportStageState', data.data.data.isMyStage);
+
+      return data.data.data;
+    } catch (error) {
+      return error.response;
+    }
+  },
+  async getFaceReportUsers({ commit }, credentials) {
+    try {
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+      const data = await axios.get('/report/users', { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
+
+      commit('setFaceReportUsers', data.data.data.users);
+
+      return data;
+    } catch (error) {
+      return error.response;
+    }
+  },
+  async createFaceReport({ commit }, credentials) {
+    try {
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+      const data = await axios.post('/report', credentials, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
+
+      return data;
+    } catch (error) {
+      return error.response;
+    }
+  },
+  async createFaceReportAfterReject({ commit }, credentials) {
+    try {
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+      const data = await axios.put('/report', credentials, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
+
+      return data;
+    } catch (error) {
+      return error.response;
+    }
+  },
+  async approveFaceReport({ commit }, credentials) {
+    try {
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+      const data = await axios.post('/report/approve', credentials, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
+
+      return data;
+    } catch (error) {
+      return error.response;
+    }
+  },
+  async uploadFaceReportDocument({ commit }, document) {
+    try {
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+      const data = await axios.post(`/report/document`, document, { headers: { Authorization: `Bearer ${token}`, Lang: lang, 'Content-Type': 'multipart/form-data' } });
+
+      return data;
+    } catch (error) {
+      return error.response;
+    }
+  },
+  async getFaceReportDocument({ commit }, credentials) {
+    try {
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+      const data = await axios.get(`/report/document?id=${credentials}`, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
+
+      return data.data;
+    } catch (error) {
+      return error.response;
+    }
+  },
+  async deleteFaceReportDocument({ commit }, credentials) {
+    try {
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+      const data = await axios.delete(`/report/document?id=${credentials.id}&reportId=${credentials.reportId}`, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
 
       return data;
     } catch (error) {

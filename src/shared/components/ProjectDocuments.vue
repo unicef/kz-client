@@ -13,7 +13,6 @@
     <v-flex mt-4 xs12 v-if="projectDocumentsData&&projectDocumentsData.length">
       <!-- Company already loaded documents -->
       <v-layout wrap mb-2 v-for="(doc, index) in projectDocumentsData" :key="index">
-        <!-- <v-flex xs12 sm6 md6>{{ doc.title }}</v-flex> -->
         <v-flex xs12 sm6 md6>
           <v-layout wrap align-content-start>
             <v-flex xs9>

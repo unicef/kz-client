@@ -11,6 +11,7 @@ const MyProjects = () => import(/* webpackChunkName: "dashboard" */'./components
 const AllProjects = () => import(/* webpackChunkName: "dashboard" */'./components/projects/AllProjects');
 const ProjectForm = () => import(/* webpackChunkName: "dashboard" */'@/shared/components/ProjectForm');
 const FaceRequestForm = () => import(/* webpackChunkName: "dashboard" */'./components/projects/faceRequests/FaceRequestForm');
+const FaceReportForm = () => import(/* webpackChunkName: "dashboard" */'./components/projects/faceReports/FaceReportForm');
 const PartnersPage = () => import(/* webpackChunkName: "dashboard" */'./containers/PartnersPage');
 const PartnersList = () => import(/* webpackChunkName: "dashboard" */'./components/partners/PartnersList');
 const PartnerPage = () => import(/* webpackChunkName: "dashboard" */'./containers/PartnerPage');
@@ -106,6 +107,15 @@ export default {
                 {
                   path: 'face-request/:faceRequestId',
                   component: FaceRequestForm,
+                },
+                {
+                  path: 'create-face-report',
+                  name: 'create-face-report',
+                  component: FaceReportForm,
+                },
+                {
+                  path: 'face-report/:faceReportId',
+                  component: FaceReportForm,
                 },
               ],
             },
