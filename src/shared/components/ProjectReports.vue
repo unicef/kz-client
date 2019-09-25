@@ -3,8 +3,8 @@
     <v-flex xs12 mb-2 :class="{ 'pr-4': $vuetify.breakpoint.smAndUp }">
       <h3 class="title mb-3">{{ $t('projectReports.title') }}</h3>
       {{ (projectReports.length) ? '' : $t('projectFaces.noData') }}
-      <v-layout v-if="projectReports.length">
-        <v-layout wrap v-for="(report, index) in projectReports" :key="index">
+      
+        <v-layout wrap v-if="projectReports.length" v-for="(report, index) in projectReports" :key="index">
           <v-flex xs12 v-if="report.analyticalDocId">
             <a
               @click="downloadDocument(report.analyticalDocId)"
@@ -21,7 +21,7 @@
             >{{ $t('common.fields.justificationReport') }} FACE {{report.num}}</a>
           </v-flex>
         </v-layout>
-      </v-layout>
+      
     </v-flex>
   </v-layout>
 </template>
