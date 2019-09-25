@@ -244,7 +244,7 @@
       },
       showNewInTab() {
         return this.projectData.isMyStage && this.projectData.stage.status !== 'waiting';
-      }
+      },
     },
     watch: {
       /* eslint-disable */
