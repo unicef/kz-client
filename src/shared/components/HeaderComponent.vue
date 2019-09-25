@@ -123,7 +123,7 @@
           },
           {
             title: this.$t('header.help'),
-            link: '/admin/docs',
+            link: '',
           },
           {
             title: this.$t('header.settings'),
@@ -148,7 +148,7 @@
           },
           {
             title: this.$t('header.help'),
-            link: '/dashboard/docs',
+            link: '',
           },
           {
             title: this.$t('header.partners'),
@@ -173,7 +173,7 @@
           },
           {
             title: this.$t('header.help'),
-            link: '/dashboard/docs',
+            link: '',
           },
         ];
         return routes;
@@ -194,7 +194,7 @@
           },
           {
             title: this.$t('header.help'),
-            link: '/dashboard/docs',
+            link: '',
           },
         ];
         return routes;
