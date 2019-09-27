@@ -8,9 +8,9 @@
           <v-layout wrap v-if="face.requestId">
             <v-flex xs6>{{ face.requestDate }}</v-flex>
             <v-flex xs6>
-              <a
-                :href="`/dashboard/projects/project/${$route.params.id}/face-request/${face.requestId}`"
-              >{{ $t('projectFaces.faceRequest') }} {{face.num}}</a>
+              <router-link :to="`/dashboard/projects/project/${$route.params.id}/face-request/${face.requestId}`">
+                {{ $t('projectFaces.faceRequest') }} {{face.num}}  
+              </router-link>
             </v-flex>
           </v-layout>
         </v-flex>
@@ -18,9 +18,9 @@
           <v-layout wrap v-if="face.reportId">
             <v-flex xs6>{{ face.requestDate }}</v-flex>
             <v-flex xs6>
-              <a
-                :href="`/dashboard/projects/project/${$route.params.id}/face-report/${face.reportId}`"
-              >{{ $t('projectFaces.faceReport') }} {{face.num}}</a>
+              <router-link :to="`/dashboard/projects/project/${$route.params.id}/face-report/${face.reportId}`">
+                {{ $t('projectFaces.faceReport') }} {{face.num}}  
+              </router-link>
             </v-flex>
           </v-layout>
         </v-flex>

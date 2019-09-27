@@ -114,6 +114,9 @@
       faceReportData() {
         return this.$store.getters['projects/getFaceReportData'];
       },
+      isJustificationDocRequired() {
+        return this.$store.getters['projects/getFaceReportJustificationDocRequiredState'];
+      },
       projectInfo() {
         return this.$store.getters['projects/getProjectInfo'];
       },
@@ -203,6 +206,10 @@
         faceReportsDocumentsData.forEach((item, index) => {
           this.credentials[item.key] = item.id;
         });
+
+        if (!this.isJustificationDocRequired) {
+          this.credentials.justificationDocId = null;
+        }
       },
     },
   };

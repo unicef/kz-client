@@ -143,6 +143,17 @@
       faceReportData() {
         this.updateFilesIds();
       },
+      docAmount() {
+        const that = this;
+        if (this.docAmount !== 3) {
+          this.files.forEach((item, index) => {
+            if (item.key === 'justificationDocId') {
+              that.files[index].id = null;
+            }
+          });
+          this.$store.commit('projects/setFaceReportDataField', { fieldKey: 'justificationDocId', fieldValue: null });
+        }
+      },
     },
     created() {
       this.updateFilesIds();
