@@ -12,6 +12,8 @@ const AllProjects = () => import(/* webpackChunkName: "admin" */'./components/pr
 const ProjectForm = () => import(/* webpackChunkName: "dashboard" */'@/shared/components/ProjectForm');
 const Localization = () => import(/* webpackChunkName: "admin" */'./components/settings/Localization');
 const PasswordSettings = () => import(/* webpackChunkName: "admin" */'./components/settings/PasswordSettings');
+const FinancePage = () => import(/* webpackChunkName: "admin" */'./containers/FinancePage');
+const TransactionsList = () => import(/* webpackChunkName: "admin" */'@/shared/components/TransactionsList');
 const NotFound = () => import(/* webpackChunkName: "admin" */'@/shared/components/NotFound');
 
 // dev Pages
@@ -132,6 +134,18 @@ export default {
                     name: 'edit-page',
                     component: EditPage,
                 },
+            ],
+        },
+        {
+            path: 'finance',
+            component: FinancePage,
+            redirect: { name: 'transactions-list' },
+            children: [
+              {
+                  path: '',
+                  name: 'transactions-list',
+                  component: TransactionsList,
+              },
             ],
         },
         {

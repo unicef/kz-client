@@ -119,7 +119,7 @@
           },
           {
             title: this.$t('header.finance'),
-            link: '',
+            link: '/admin/finance',
           },
           {
             title: this.$t('header.help'),
@@ -144,7 +144,7 @@
           },
           {
             title: this.$t('header.finance'),
-            link: '',
+            link: '/dashboard/finance',
           },
           {
             title: this.$t('header.help'),
@@ -169,7 +169,7 @@
           },
           {
             title: this.$t('header.finance'),
-            link: '',
+            link: '/dashboard/finance',
           },
           {
             title: this.$t('header.help'),
@@ -190,7 +190,7 @@
           },
           {
             title: this.$t('header.finance'),
-            link: '',
+            link: '/dashboard/finance',
           },
           {
             title: this.$t('header.help'),

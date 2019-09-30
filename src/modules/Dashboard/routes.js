@@ -20,6 +20,8 @@ const CompanyUsers = () => import(/* webpackChunkName: "dashboard" */'./componen
 const CompanyDocuments = () => import(/* webpackChunkName: "dashboard" */'./components/partners/CompanyDocuments');
 const CompanyProjects = () => import(/* webpackChunkName: "dashboard" */'./components/partners/CompanyProjects');
 const UserForm = () => import(/* webpackChunkName: "dashboard" */'./components/profile/UserForm');
+const FinancePage = () => import(/* webpackChunkName: "dashboard" */'./containers/FinancePage');
+const TransactionsList = () => import(/* webpackChunkName: "dashboard" */'@/shared/components/TransactionsList');
 const NotFound = () => import(/* webpackChunkName: "admin" */'@/shared/components/NotFound');
 
 // dev Pages
@@ -175,6 +177,18 @@ export default {
             path: ':slug',
             name: 'document-details',
             component: DocDetails,
+        },
+      ],
+    },
+    {
+      path: 'finance',
+      component: FinancePage,
+      redirect: { name: 'transactions' },
+      children: [
+        {
+            path: '',
+            name: 'transactions',
+            component: TransactionsList,
         },
       ],
     },
