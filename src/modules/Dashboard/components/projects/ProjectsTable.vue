@@ -118,6 +118,7 @@
           type: this.searchProjectsType,
           companyId: this.companyId
         });
+        this.$vuetify.goTo(0, 'easeInOutCubic');
       },
     },
     computed: {
@@ -181,6 +182,7 @@
             type: this.searchProjectsType,
             companyId: this.companyId
         });
+        this.$vuetify.goTo(0, 'easeInOutCubic');
       },
       async viewProjectInfo(id) {
         await this.$store.dispatch('projects/getProjectShortInfo', id);

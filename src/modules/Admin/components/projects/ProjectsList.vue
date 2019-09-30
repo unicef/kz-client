@@ -121,6 +121,7 @@
       /* eslint-disable */
       '$i18n.locale': async function() {
         await this.$store.dispatch('projects/fetchProjectsListData', { page: this.paginationPage, search: this.search, type: 'all' });
+        this.$vuetify.goTo(0, 'easeInOutCubic');
       },
     },
     computed: {
@@ -146,6 +147,7 @@
       },
       async choosePaginatorPage(page) {
         await this.$store.dispatch('projects/fetchProjectsListData', { page, search: this.search, type: 'all' });
+        this.$vuetify.goTo(0, 'easeInOutCubic');
       },
       async viewProjectInfo(id) {
         await this.$store.dispatch('projects/getProjectShortInfo', id);

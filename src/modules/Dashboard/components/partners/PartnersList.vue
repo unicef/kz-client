@@ -101,6 +101,7 @@
       /* eslint-disable */
       '$i18n.locale': async function() {
         await this.$store.dispatch('dashboard/users/fetchPartnersListData', { page: this.paginationPage, search: this.search });
+        this.$vuetify.goTo(0, 'easeInOutCubic');
       },
     },
     computed: {
@@ -126,6 +127,7 @@
       },
       async choosePaginatorPage(page) {
         await this.$store.dispatch('dashboard/users/fetchPartnersListData', { page, search: this.search });
+        this.$vuetify.goTo(0, 'easeInOutCubic');
       },
     },
   };
