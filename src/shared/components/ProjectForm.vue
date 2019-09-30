@@ -250,7 +250,9 @@
       /* eslint-disable */
       '$i18n.locale': async function() {
         await this.$store.dispatch('projects/getProjectProperties');
-        await this.$store.dispatch('projects/getAvailablePartners');
+        if (this.isProjectCreated && this.isUnicefUser) {
+          await this.$store.dispatch('projects/getAvailablePartners');
+        }
       },
     },
     async created() {
