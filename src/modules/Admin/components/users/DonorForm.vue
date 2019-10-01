@@ -11,6 +11,10 @@
                 class="px-0 pb-0"
                 :class="{ 'px-0': $vuetify.breakpoint.xs }"
               >
+                <!-- Dublicate Btn -->
+                <v-layout wrap justify-end v-if="isDataLoaded && !isUserBlocked">
+                  <v-btn type="button" @click="dublicateFields" :disabled="areBtnsDisabled" class="info mb-2 mt-2 mx-2" depressed>{{ $t('common.btns.dublicate') }} {{ dublicateBtnLanguage }}</v-btn>
+                </v-layout>
                 <!-- User details -->
                 <user-details
                   ref="userDetails"
@@ -71,6 +75,7 @@
           msg: '',
         },
         areBtnsDisabled: false,
+        isDataLoaded: false,
       };
     },
     computed: {
@@ -98,6 +103,9 @@
       isUserBlocked() {
         return this.userData.status === 'blocked';
       },
+      dublicateBtnLanguage() {
+        return (this.$i18n.locale === 'en') ? 'Ru' : 'En';
+      },
     },
     /* eslint-disable consistent-return */
     async created() {
@@ -107,6 +115,9 @@
         if (data && !data.success) {
           return this.$router.push({ name: 'not-found' });
         }
+        this.isDataLoaded = true;
+      } else {
+        this.isDataLoaded = true;
       }
     },
     /* eslint-enable */
@@ -153,6 +164,9 @@
       blockUser() {
         this.$store.commit('admin/users/setBlockedUser', { user: { id: this.userData.id, name: this.userName } });
         this.$store.commit('admin/users/toggleBlockDonorDialogState', true);
+      },
+      dublicateFields() {
+        this.$refs.userDetails.dublicateUserDetailsFields();
       },
     },
   };

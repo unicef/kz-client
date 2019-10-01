@@ -453,6 +453,8 @@
   import RejectCompanyDialog from '@/shared/components/RejectCompanyDialog';
   import ApproveCompanyDialog from '@/shared/components/ApproveCompanyDialog';
   import { chipColor } from '@/shared/helpers/chipColor';
+  import { dublicateIntoDifferentLocale } from '@/shared/helpers/dublicateIntoDifferentLocale';
+
 
   export default {
     name: 'CompanyDetails',
@@ -645,6 +647,12 @@
       },
       searchCountry(val) {
         return this.countries.filter(country => country.title.indexOf(val) !== -1);
+      },
+      dublicateCompanyDetailsFields() {
+        dublicateIntoDifferentLocale(this.$i18n.locale, this.credentials);
+        if (this.isClientPath && this.isResponsibleAssistant) {
+          dublicateIntoDifferentLocale(this.$i18n.locale, this.authorisedPerson);
+        }
       },
     },
   };

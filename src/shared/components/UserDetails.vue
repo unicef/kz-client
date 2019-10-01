@@ -238,6 +238,8 @@
 </template>
 
 <script>
+  import { dublicateIntoDifferentLocale } from '@/shared/helpers/dublicateIntoDifferentLocale';
+
   export default {
     name: 'UserDetails',
     components: {
@@ -391,6 +393,9 @@
       setCompany() {
         this.$store.dispatch('users/getCompanyInfo', this.credentials.company.id);
         this.$store.commit('users/toggleCompanyFieldsDisabled', false);
+      },
+      dublicateUserDetailsFields() {
+        dublicateIntoDifferentLocale(this.$i18n.locale, this.credentials);
       },
     },
   };

@@ -8,6 +8,10 @@
             <v-container grid-list-md class="px-0 pb-0" :class="{ 'px-0': $vuetify.breakpoint.xs }">
               <!-- User details -->
               <v-form ref="userDetailsForm" v-show="step===1" lazy-validation>
+                <!-- Dublicate Btn -->
+                <v-layout wrap justify-end v-if="isDataLoaded">
+                  <v-btn type="button" @click="dublicateFields" :disabled="areBtnsDisabled" class="info mb-2 mt-2 mx-2" depressed>{{ $t('common.btns.dublicate') }} {{ dublicateBtnLanguage }}</v-btn>
+                </v-layout>
                 <user-details
                   ref="userDetails"
                   :companies="companies"
@@ -19,6 +23,10 @@
 
               <!-- Company details -->
               <v-form ref="companyDetailsForm" v-show="step===2"  v-if="isPartner" lazy-validation>
+                <!-- Dublicate Btn -->
+                <v-layout wrap justify-end v-if="isDataLoaded">
+                  <v-btn type="button" @click="dublicateFields" :disabled="areBtnsDisabled" class="info mb-2 mt-2 mx-2" depressed>{{ $t('common.btns.dublicate') }} {{ dublicateBtnLanguage }}</v-btn>
+                </v-layout>
                 <company-details
                   ref="companyDetails"
                   :countries="countries"
@@ -125,6 +133,7 @@
           msg: '',
         },
         areBtnsDisabled: false,
+        isDataLoaded: false,
       };
     },
     computed: {
@@ -170,6 +179,9 @@
       showSeed() {
         return this.$store.getters['dashboard/profile/showSeed'];
       },
+      dublicateBtnLanguage() {
+        return (this.$i18n.locale === 'en') ? 'Ru' : 'En';
+      },
     },
     watch: {
       /* eslint-disable */
@@ -187,6 +199,9 @@
         if (companyInfo.authorisedId) {
           await this.$store.dispatch('users/getAuthorisedPersonInfo', companyInfo.authorisedId);
         }
+        this.isDataLoaded = true;
+      } else {
+        this.isDataLoaded = true;
       }
     },
     destroyed() {
@@ -259,6 +274,14 @@
       },
       getCompanyDocuments(companyDocumentsData) {
         this.credentials.documents = companyDocumentsData;
+      },
+      dublicateFields() {
+        if (this.step === 1) {
+          this.$refs.userDetails.dublicateUserDetailsFields();
+        }
+        if (this.step === 2) {
+          this.$refs.companyDetails.dublicateCompanyDetailsFields();
+        }
       },
     },
   };
