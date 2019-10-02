@@ -72,10 +72,14 @@
         return this.$store.getters['global/getRoles'];
       },
       isAdminPath() {
-        return this.$route.path.indexOf('admin') !== -1;
+        const adminUrl = `${location.protocol}//${location.host}/admin`;
+        const currentLocation = `${window.location}`;
+        return currentLocation.indexOf(adminUrl) !== -1;
       },
       isClientPath() {
-        return this.$route.path.indexOf('dashboard') !== -1;
+        const clientUrl = `${location.protocol}//${location.host}/dashboard`;
+        const currentLocation = `${window.location}`;
+        return currentLocation.indexOf(clientUrl) !== -1;
       },
       isNotFoundAdminPath() {
         return this.$route.name === 'not-found';
