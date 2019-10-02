@@ -47,8 +47,8 @@
                 <tr>
                   <td class="text-xs-left">{{ item.id }}</td>
                   <td class="text-xs-left">
-                      <v-icon v-if="item.type === 'outcome'" color="error">arrow_downward</v-icon>
-                      <v-icon v-if="item.type === 'income'" color="success">arrow_upward</v-icon>
+                      <v-icon v-if="item.type === 'outcome'" color="error">arrow_upward</v-icon>
+                      <v-icon v-if="item.type === 'income'" color="success">arrow_downward</v-icon>
                   </td>
                   <td class="text-xs-left">
                     <a
