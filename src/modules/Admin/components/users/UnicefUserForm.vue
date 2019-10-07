@@ -13,7 +13,13 @@
               >
                 <!-- Dublicate Btn -->
                 <v-layout wrap justify-end v-if="isDataLoaded && !isUserBlocked">
-                  <v-btn type="button" @click="dublicateFields" :disabled="areBtnsDisabled" class="info mb-2 mt-2 mx-2" depressed>{{ $t('common.btns.dublicate') }} {{ dublicateBtnLanguage }}</v-btn>
+                  <v-btn
+                    type="button"
+                    @click="dublicateFields"
+                    :disabled="areBtnsDisabled"
+                    class="info mb-2 mt-2 mx-2"
+                    depressed
+                  >{{ $t('common.btns.dublicate') }} {{ dublicateBtnLanguage }}</v-btn>
                 </v-layout>
                 <!-- User details -->
                 <user-details
@@ -40,8 +46,31 @@
 
             <v-card-actions>
               <v-layout align-center class="btns-wrapper">
-                <v-btn type="button" @click="saveUnicefUser" v-if="!isUserBlocked" :disabled="areBtnsDisabled" class="info mb-2 mt-2 mx-2" depressed>{{ $t('common.btns.save') }}</v-btn>
-                <v-btn type="button" v-if="userData.status === 'active'" @click="blockUser" :disabled="areBtnsDisabled" class="error mb-2 mt-2 mx-2" depressed>{{ $t('common.btns.block') }}</v-btn>
+                <v-btn
+                  type="button"
+                  @click="saveUnicefUser"
+                  v-if="!isUserBlocked"
+                  :disabled="areBtnsDisabled"
+                  class="info mb-2 mt-2 mx-2"
+                  depressed
+                >{{ $t('common.btns.save') }}</v-btn>
+                <v-btn
+                  type="button"
+                  @click="changeAdminRole"
+                  v-if="userData.status === 'active'"
+                  :disabled="areBtnsDisabled"
+                  class="mb-2 mt-2 mx-2"
+                  :class="{ 'info': !userData.isAdmin, 'error': userData.isAdmin }"
+                  depressed
+                >{{ userData.isAdmin ? $t('common.btns.unmakeAdmin') : $t('common.btns.makeAdmin') }}</v-btn>
+                <v-btn
+                  type="button"
+                  v-if="userData.status === 'active'"
+                  @click="blockUser"
+                  :disabled="areBtnsDisabled"
+                  class="error mb-2 mt-2 mx-2"
+                  depressed
+                >{{ $t('common.btns.block') }}</v-btn>
               </v-layout>
             </v-card-actions>
           </v-container>
@@ -49,18 +78,21 @@
       </v-form>
     </v-flex>
     <block-user-dialog />
+    <change-admin-role-dialog />
   </v-layout>
 </template>
 
 <script>
   import UserDetails from '@/shared/components/UserDetails';
   import BlockUserDialog from './BlockUserDialog';
+  import ChangeAdminRoleDialog from './ChangeAdminRoleDialog';
 
   export default {
     name: 'UnicefUserForm',
     components: {
       UserDetails,
       BlockUserDialog,
+      ChangeAdminRoleDialog,
     },
     data() {
       return {
@@ -174,6 +206,9 @@
       blockUser() {
         this.$store.commit('admin/users/setBlockedUser', { user: { id: this.userData.id, name: this.userName }, type: 'unicef' });
         this.$store.commit('admin/users/toggleBlockUserDialogState', true);
+      },
+      changeAdminRole() {
+        this.$store.commit('admin/users/toggleChangeAdminRoleDialogState', true);
       },
       dublicateFields() {
         this.$refs.userDetails.dublicateUserDetailsFields();

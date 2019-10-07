@@ -9,6 +9,7 @@ const initialState = {
     blockUserDialogState: false,
     blockDonorDialogState: false,
     blockedUser: null,
+    changeAdminRoleDialogState: false,
 };
 
 const getters = {
@@ -19,6 +20,7 @@ const getters = {
   getBlockUserDialogState: state => state.blockUserDialogState,
   getBlockDonorDialogState: state => state.blockDonorDialogState,
   getBlockedUser: state => state.blockedUser,
+  getChangeAdminRoleDialogState: state => state.changeAdminRoleDialogState,
 };
 
 const mutations = {
@@ -42,6 +44,9 @@ const mutations = {
   },
   setBlockedUser(state, data) {
     state.blockedUser = data;
+  },
+  toggleChangeAdminRoleDialogState(state, data) {
+    state.changeAdminRoleDialogState = data;
   },
 };
 
@@ -174,6 +179,19 @@ const actions = {
       const token = localStorage.getItem('token') || '';
       const lang = localStorage.getItem('language') || '';
       const data = await axios.patch('/admin/donor/block', blockDonorData, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
+
+      return data;
+    } catch (error) {
+      return error.response;
+    }
+  },
+  async changeAdminRole({ commit }, adminRoleCredentials) {
+    console.log(adminRoleCredentials);
+    try {
+      const token = localStorage.getItem('token') || '';
+      const lang = localStorage.getItem('language') || '';
+      const requestUrl = adminRoleCredentials.isAdmin ? '/admin/unicef/unmake-admin' : '/admin/unicef/make-admin';
+      const data = await axios.patch(requestUrl, adminRoleCredentials.user, { headers: { Authorization: `Bearer ${token}`, Lang: lang } });
 
       return data;
     } catch (error) {
