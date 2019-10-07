@@ -15,6 +15,3 @@ npm run dev
 ```
 npm run build
 ```
-
-
-Test test test
