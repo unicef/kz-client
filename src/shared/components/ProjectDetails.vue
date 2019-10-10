@@ -215,6 +215,10 @@
             <v-list-tile-content>{{ $t('common.fields.projectStatus') }}:</v-list-tile-content>
             <v-list-tile-content class="align-end">{{ projectData.status }}</v-list-tile-content>
           </v-list-tile>
+          <v-list-tile v-if="projectData.terminationReason">
+            <v-list-tile-content>{{ $t('common.fields.terminationReason') }}:</v-list-tile-content>
+            <v-list-tile-content class="align-end">{{ projectData.terminationReason }}</v-list-tile-content>
+          </v-list-tile>
           <v-list-tile v-if="projectData.partnerName">
             <v-list-tile-content>{{ $t('common.fields.ip') }}:</v-list-tile-content>
             <v-list-tile-content class="align-end">{{ projectData.partnerName }}</v-list-tile-content>
