@@ -64,8 +64,6 @@ const actions = {
       commit('setPartnersListData', partnersListData);
       return partnersListData;
     } catch (err) {
-      /* eslint-disable */
-      console.log(err);
       return err.response;
     }
   },
@@ -82,8 +80,6 @@ const actions = {
       commit('setUnicefUsersListData', unicefUsersListData);
       return unicefUsersListData;
     } catch (err) {
-      /* eslint-disable */
-      console.log(err);
       return err.response;
     }
   },
@@ -100,8 +96,6 @@ const actions = {
       commit('setDonorsListData', donorsListData);
       return donorsListData;
     } catch (err) {
-      /* eslint-disable */
-      console.log(err);
       return err.response;
     }
   },

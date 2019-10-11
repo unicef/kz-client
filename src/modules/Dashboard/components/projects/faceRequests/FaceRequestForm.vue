@@ -160,7 +160,6 @@
         }
       },
       getFaceRequestDetails(faceRequestData) {
-        console.log('face request data in parent: ', faceRequestData);
         this.credentials = faceRequestData;
       },
     },

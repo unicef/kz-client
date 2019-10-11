@@ -29,8 +29,6 @@ const actions = {
       commit('setTransactionsListData', transactionsListData);
       return transactionsListData;
     } catch (err) {
-      /* eslint-disable */
-      console.log(err);
       return err.response;
       }
     },

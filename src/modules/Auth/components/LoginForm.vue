@@ -92,7 +92,6 @@
 </template>
 
 <script>
-//    import store from '@/store';
   import VueRecaptcha from 'vue-recaptcha';
   import CaptchaError from '@/shared/components/CaptchaError';
 

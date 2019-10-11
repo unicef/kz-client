@@ -55,8 +55,6 @@
 <style lang="scss" scoped>
 .footer {
     border-top: 1px solid #03a9f4;
-    // position: absolute;
-    // bottom: 0;
     width: 100%;
 }
 </style>

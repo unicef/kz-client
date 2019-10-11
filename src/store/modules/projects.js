@@ -468,8 +468,6 @@ const actions = {
       commit('setProjectsListData', projectsListData);
       return projectsListData;
     } catch (err) {
-      /* eslint-disable */
-      console.log(err);
       return err.response;
     }
   },
@@ -672,7 +670,6 @@ const actions = {
 
       return data;
     } catch (error) {
-      console.log(error);
       return error.response;
     }
   },

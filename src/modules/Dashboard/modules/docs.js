@@ -61,17 +61,8 @@ const actions = {
       const { page } = data.data;
       commit('setDocument', page);
 
-      // if (!data.page) {
-      //   commit('toggleErrorAlert', true);
-      //   commit('setDocument', {});
-      //   return;
-      // }
-      // commit('setDocument', data.page);
-      // commit('setCurrentPage', page);
       return data;
     } catch (err) {
-      // commit('toggleErrorAlert', true);
-      // commit('setDocument', '');
       const { data } = err.response;
       return data;
     }

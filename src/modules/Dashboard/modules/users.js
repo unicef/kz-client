@@ -90,8 +90,6 @@ const actions = {
       commit('setPartnersListData', partnersListData);
       return partnersListData;
     } catch (err) {
-      /* eslint-disable */
-      console.log(err);
       return err.response;
     }
   },
@@ -106,8 +104,6 @@ const actions = {
       commit('setPartnerInfo', partnerInfoData.data);
       return partnerInfoData;
     } catch (err) {
-      /* eslint-disable */
-      console.log(err);
       return err.response;
     }
   },
