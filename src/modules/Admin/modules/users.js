@@ -186,7 +186,6 @@ const actions = {
     }
   },
   async changeAdminRole({ commit }, adminRoleCredentials) {
-    console.log(adminRoleCredentials);
     try {
       const token = localStorage.getItem('token') || '';
       const lang = localStorage.getItem('language') || '';
