@@ -41,6 +41,9 @@
           <v-layout row v-if="credentials.programme.id">
             <v-flex xs12>{{ credentials.programme.code }} - {{ credentials.programme.title }}</v-flex>
           </v-layout>
+          <v-layout row v-if="!credentials.programme.id">
+            <v-flex xs12>{{$t('common.fields.selectProjectProgramme')}}</v-flex>
+          </v-layout>
         </v-flex>
         <v-flex sm2>
           <v-btn
