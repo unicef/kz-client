@@ -162,7 +162,7 @@
         let docIndex;
         if (this.credentials.files.length) {
           this.credentials.files.forEach((item, index) => {
-            if (item.title && item.title === 'Partner Declaration Profile and due Diligence Verification Form') {
+            if (item.title && !item.id && item.title === 'Partner Declaration Profile and due Diligence Verification Form') {
               docIndex = index;
             }
           });
