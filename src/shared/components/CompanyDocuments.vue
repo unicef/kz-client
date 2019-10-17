@@ -29,7 +29,7 @@
     </v-flex>
     <v-flex xs12>
       <v-layout justify-end wrap>
-        <v-flex xs12 v-for="(row, index) in docsInputRows" :key="index">
+        <v-flex xs12 v-if="credentials.files.length" v-for="(row, index) in docsInputRows" :key="index">
           <v-layout wrap>
             <v-flex xs12 sm6 :class="{ 'pr-4': $vuetify.breakpoint.smAndUp }">
               <v-text-field
@@ -100,7 +100,9 @@
     },
     watch: {
       companyDocumentsData() {
-        this.clearCompanyDocuments();
+        if (this.companyDocumentsData.length) {
+          this.clearAnexg();
+        }
         this.addRowForAnexgUploading();
       },
     },
@@ -155,6 +157,21 @@
       clearCompanyDocuments() {
         this.credentials.files = [];
         this.docsInputRows = 0;
+      },
+      clearAnexg() {
+        let docIndex;
+        if (this.credentials.files.length) {
+          this.credentials.files.forEach((item, index) => {
+            if (item.title && item.title === 'Partner Declaration Profile and due Diligence Verification Form') {
+              docIndex = index;
+            }
+          });
+        }
+
+        if (docIndex !== undefined) {
+          this.credentials.files.splice(docIndex, 1);
+          this.docsInputRows--;
+        }
       },
       addRowForAnexgUploading() {
         // add a required load doc row if Anexg not loaded (for client side)
@@ -249,8 +266,8 @@
           loading: false,
           fileError: '',
         };
-        this.docsInputRows++;
         this.credentials.files.push(fileObj);
+        this.docsInputRows++;
       },
       validateData() {
         let isDataValid = true;
