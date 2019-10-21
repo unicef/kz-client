@@ -11,6 +11,7 @@
       data() {
         return {
           idleTimer: null,
+          idleStartDate: null,
         };
       },
       created() {
@@ -46,16 +47,31 @@
           if (!this.isAuthenticated) {
             return;
           }
+
+          if (this.isAuthenticated && !this.idleStartDate) {
+            this.idleStartDate = new Date().getTime();
+          }
+          if ((new Date().getTime() - this.idleStartDate) >  15 * 60 * 1000) {
+            this.logOutUser();
+            clearTimeout(this.idleTimer);
+            this.idleStartDate = null;
+          }
+          // update timer
+          this.idleStartDate = new Date().getTime();
           clearTimeout(this.idleTimer);
           this.idleTimer = setTimeout(() => {
             // Log out the user on 15 minutes of inactivity
-            this.$store.dispatch('auth/auth/logOut');
-            if (this.isAdminPath) {
-              this.$router.push('/auth/login-admin');
-            } else {
-              this.$router.push('/auth/login');
-            }
+            this.logOutUser();
+            this.idleStartDate = null;
           }, 15 * 60 * 1000);
+        },
+        logOutUser() {
+          this.$store.dispatch('auth/auth/logOut');
+          if (this.isAdminPath) {
+            this.$router.push('/auth/login-admin');
+          } else {
+            this.$router.push('/auth/login');
+          }
         },
       },
   };
