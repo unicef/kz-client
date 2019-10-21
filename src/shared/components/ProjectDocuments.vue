@@ -29,7 +29,7 @@
     </v-flex>
     <v-flex xs12>
       <v-layout justify-end wrap>
-        <v-flex xs12 v-for="(row, index) in docsInputRows" :key="index">
+        <v-flex xs12 v-if="credentials.files.length" v-for="(row, index) in docsInputRows" :key="index">
           <v-layout wrap>
             <v-flex xs12 sm6 :class="{ 'pr-4': $vuetify.breakpoint.smAndUp }">
               <v-text-field
@@ -54,7 +54,7 @@
                 class="my-0"
                 flat
                 icon
-                v-if="credentials.files[index] && credentials.files[index].id"
+                v-if="credentials.files[index] && credentials.files[index].id && !credentials.files[index].loading"
                 @click="deleteTempDocument(index)"
               >
                 <svgicon class="svg-icon" width="10" height="10" color="red" name="close"/>
@@ -202,7 +202,12 @@
         const btnRef = `loadDocBtn${index}`;
         const docInput = `docInput${index}`;
         const that = this;
-        const file = $event.target.files[0] || $event.dataTransfer.files[0];
+
+        if ($event.target.files.length === 0) {
+          return;
+        }
+
+        const file = $event.target.files[0];
 
         this.credentials.files[index].loading = true;
         this.$refs[btnRef][0].$el.innerText = '';
