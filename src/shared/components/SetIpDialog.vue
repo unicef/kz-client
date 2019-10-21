@@ -52,11 +52,6 @@
               />
             </v-form>
 
-            <!-- confirm IP -->
-            <!-- <v-layout row v-show="step===4">
-              Are you sure?
-            </v-layout> -->
-
             <!-- Alert -->
             <v-layout row v-if="errorAlert.state">
               <v-flex sm12>
