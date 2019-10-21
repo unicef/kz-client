@@ -102,7 +102,12 @@
         const btnRef = `loadIpDocBtn${index}`;
         const docIpInput = `docIpInput${index}`;
         const that = this;
-        const file = $event.target.files[0] || $event.dataTransfer.files[0];
+
+        if ($event.target.files.length === 0) {
+          return;
+        }
+
+        const file = $event.target.files[0];
 
         this.files[index].loading = true;
         this.$refs[btnRef][0].$el.innerText = '';
